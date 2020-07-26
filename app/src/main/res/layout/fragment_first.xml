@@ -6,6 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".FirstFragment">
 
+    <Spinner
+        android:id="@+id/cameraList"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="353dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginBottom="354dp"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textview_first"
         android:layout_width="wrap_content"
@@ -25,4 +40,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview_first" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

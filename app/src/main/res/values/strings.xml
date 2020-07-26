@@ -7,6 +7,6 @@
     <string name="add_new">Add new</string>
     <string name="save_user_camera">Save</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_first_fragment">Cameraview here</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

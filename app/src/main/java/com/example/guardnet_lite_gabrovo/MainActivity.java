@@ -1,17 +1,22 @@
 package com.example.guardnet_lite_gabrovo;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.preference.PreferenceManager;
 import android.view.View;
-
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import Camera.PublicCameras;
+import Camera.PublicCamerasEnum;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,22 +27,62 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+
+     //   Spinner dropdown = findViewById(R.id.cameraList);
+      //  String[]Cameras = savedInstanceState.getStringArray(String.valueOf(R.id.cameraList));
+
+//        if (savedInstanceState != null) {
+//
+//
+//        } else {
+//            // This is the case when you are openning this Activity for the for the first time
+////            PublicCameras Cameras = new PublicCameras();
+////            // Cameras.
+////            Spinner dropdown = findViewById(R.id.cameraList); // values
+////            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Cameras.GetNamesEn());
+////            dropdown.setAdapter(adapter);
+//        }
+
+        // MY_PREFS_NAME - a static String variable like:
+//public static final String MY_PREFS_NAME = "MyPrefsFile";
+        // load default values first time
+//        PreferenceManager.setDefaultValues(this, R.xml.default_config, false);
+//        verifySettings();
+    }
+    private void verifySettings() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+//        if (TextUtils.isEmpty(prefs.getString(SettingsActivity.PREF_IPCAM_URL, ""))) {
+//            buttonDefault.setEnabled(false);
+//        }
+//
+//        // TODO disabled
+//        buttonNative.setEnabled(false);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
+        PublicCameras Cameras = new PublicCameras();
+        // Cameras.
+        Spinner dropdown = findViewById(R.id.cameraList); // values
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Cameras.GetNamesEn());
+        dropdown.setAdapter(adapter);
+//        dropdown.setSelection(1);
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -53,4 +98,17 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+//    @Override
+//    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        PublicCameras Cameras = new PublicCameras();
+//        outState.putStringArray( "cameraList",Cameras.GetNamesEn());//chnage this with you're object name
+//    }
+//    @Override
+//    public void onSaveInstanceState(Bundle savedInstanceState) {
+//        PublicCameras Cameras = new PublicCameras();
+//        savedInstanceState.putStringArray(String.valueOf(R.id.cameraList), Cameras.GetNamesEn());
+//        super.onSaveInstanceState(savedInstanceState);
+//    }
 }
