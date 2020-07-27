@@ -30,22 +30,22 @@ public class PublicCameras {
             "Център",
     };
 
-    private static final String[] NAMES_EN = {
-            "Radecka",
-            "Bus Station",
-            "Balkan",
-            "DHS",
-            "The wheel",
-            "St.Karadja",
-            "Bryanska",
-            "LIDL",
-            "Shavara",
-            "Center",
-    };
+//    private static final String[] NAMES_EN = {
+//            "Radecka",
+//            "Bus Station",
+//            "Balkan",
+//            "DHS",
+//            "The wheel",
+//            "St.Karadja",
+//            "Bryanska",
+//            "LIDL",
+//            "Shavara",
+//            "Center",
+//    };
 
-    public String[] GetNamesEn(){
-        return NAMES_EN;
-    }
+  //  public String[] GetNamesEn(){
+  //      return NAMES_EN;
+ //   }
 
 
 }

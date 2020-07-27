@@ -9,4 +9,18 @@
 
     <string name="hello_first_fragment">Cameraview here</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+
+    <string-array name="PublicCameras">
+        <item>Radecka</item>
+        <item>Bus Station</item>
+        <item>Balkan</item>
+        <item>DHS</item>
+        <item>The wheel</item>
+        <item>St.Karadja</item>
+        <item>Bryanska</item>
+        <item>LIDL</item>
+        <item>Shavara</item>
+        <item>Center</item>
+    </string-array>
 </resources>

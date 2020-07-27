@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.os.Bundle;
@@ -59,6 +60,27 @@ public class FirstFragment extends Fragment {
         super.onCreate(savedInstanceState);
         super.onViewCreated(view, savedInstanceState);
 
+        Spinner dropdown = view.findViewById(R.id.cameraList);;//= dropdown.findViewById(); // values
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.PublicCameras, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dropdown.setAdapter(adapter);
+
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                // TODO Auto-generated method stub
+                PublicCameras Cameras = new PublicCameras();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+                PublicCameras Cameras = new PublicCameras();
+            }
+        });
 
 //        SharedPreferences.Editor editor = this.getContext().getSharedPreferences(MY_PREFS_NAME, this.getContext().MODE_PRIVATE).edit();
 //        editor.putString("name", "Elena");
@@ -77,9 +99,9 @@ public class FirstFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        PublicCameras Cameras = new PublicCameras();
-        String key = String.valueOf(R.id.cameraList);
-        savedInstanceState.putStringArray(key, Cameras.GetNamesEn());
+      //  PublicCameras Cameras = new PublicCameras();
+      //  String key = String.valueOf(R.id.cameraList);
+   //     savedInstanceState.putStringArray(key, Cameras.GetNamesEn());
         super.onSaveInstanceState(savedInstanceState);
     }
 //    @Override
