@@ -31,62 +31,47 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import Camera.PublicCameras;
+import Settings.Settings;
 
 
 public class FirstFragment extends Fragment {
-
+    Settings settings;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
 
-        if (savedInstanceState != null) {
-            String[]Cameras = savedInstanceState.getStringArray(String.valueOf(R.id.cameraList));
-        } else {
-
-//         //    This is the case when you are openning this Activity for the for the first time
-//            PublicCameras Cameras = new PublicCameras();
-//            // Cameras.
-//        //    Spinner dropdown = findViewById(R.id.cameraList); // values
-//            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Cameras.GetNamesEn());
-//            dropdown.setAdapter(adapter);
-        }
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.onViewCreated(view, savedInstanceState);
-
-        Spinner dropdown = view.findViewById(R.id.cameraList);;//= dropdown.findViewById(); // values
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.PublicCameras, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dropdown.setAdapter(adapter);
-
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3) {
-                // TODO Auto-generated method stub
-                PublicCameras Cameras = new PublicCameras();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-                PublicCameras Cameras = new PublicCameras();
-            }
-        });
-
-//        SharedPreferences.Editor editor = this.getContext().getSharedPreferences(MY_PREFS_NAME, this.getContext().MODE_PRIVATE).edit();
-//        editor.putString("name", "Elena");
-//        editor.putInt("idName", 12);
-//        editor.apply();
-
+       // settings = new Settings(getActivity());
+        settings = new Settings(getContext());
+        InitCameraDropdownList(view);
+//        Spinner dropdown = view.findViewById(R.id.cameraList);;//= dropdown.findViewById(); // values
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+//                R.array.PublicCameras, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        dropdown.setAdapter(adapter);
+//
+//        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//
+//            @Override
+//            public void onItemSelected(AdapterView<?> arg0, View arg1,
+//                                       int arg2, long arg3) {
+//                // TODO Auto-generated method stub
+//                PublicCameras Cameras = new PublicCameras();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> arg0) {
+//                // TODO Auto-generated method stub
+//                PublicCameras Cameras = new PublicCameras();
+//            }
+//        });
 
         view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,18 +82,33 @@ public class FirstFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-      //  PublicCameras Cameras = new PublicCameras();
-      //  String key = String.valueOf(R.id.cameraList);
-   //     savedInstanceState.putStringArray(key, Cameras.GetNamesEn());
-        super.onSaveInstanceState(savedInstanceState);
+    void InitCameraDropdownList(@NonNull View view)
+    {
+        Spinner dropdown = view.findViewById(R.id.cameraList);;//= dropdown.findViewById(); // values
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.PublicCameras, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dropdown.setAdapter(adapter);
+        dropdown.setSelection(settings.RestoreCameraValue());
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                // TODO Auto-generated method stub
+                settings.SaveCameraValue(arg2);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+                PublicCameras Cameras = new PublicCameras();
+            }
+        });
+
     }
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        PublicCameras Cameras = new PublicCameras();
-//        outState.putStringArray( R.id.cameraList,Cameras.GetNamesEn());//chnage this with you're object name
-//    }
+
+
 
 }
