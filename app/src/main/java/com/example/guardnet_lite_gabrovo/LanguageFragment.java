@@ -30,30 +30,17 @@ public class LanguageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         settings = new Settings(getContext());
-        InitCameraDropdownList(view);
-//        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                NavHostFragment.findNavController(LanguageFragment.this)
-//                        .navigate(R.id.action_AddFragment_to_ViewFragment);
-//            }
-//        });
-
-
-
-
+        InitLanguagesDropdownList(view);
     }
 
-
-
-    void InitCameraDropdownList(@NonNull View view)
+    void InitLanguagesDropdownList(@NonNull View view)
     {
-        Spinner dropdown = view.findViewById(R.id.languages);;//= dropdown.findViewById(); // values
+        Spinner dropdown = view.findViewById(R.id.languages);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.Languages, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dropdown.setAdapter(adapter);
-        dropdown.setSelection(settings.RestoreCameraValue());
+      adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    dropdown.setAdapter(adapter);
+        dropdown.setSelection(0);
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override

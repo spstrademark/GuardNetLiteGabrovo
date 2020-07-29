@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -48,7 +49,7 @@ public class ViewFragment extends Fragment {
 
     void InitCameraDropdownList(@NonNull View view)
     {
-        Spinner dropdown = view.findViewById(R.id.cameraList);;//= dropdown.findViewById(); // values
+        Spinner dropdown = view.findViewById(R.id.cameraList);//= dropdown.findViewById(); // values
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.PublicCameras, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

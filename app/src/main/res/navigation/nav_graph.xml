@@ -31,23 +31,18 @@
         android:label="SettingsFragment"
         tools:layout="@layout/settings_fragment">
         <action
-            android:id="@+id/action_SettingsFragment_to_languageFragment"
+            android:id="@+id/action_SettingsFragment_to_LanguageFragment"
             app:destination="@id/LanguageFragment" />
-        <action
-            android:id="@+id/action_SettingsFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
-        <action
-            android:id="@+id/action_SettingsFragment_to_galleryFragment"
-            app:destination="@id/galleryFragment" />
-        <action
-            android:id="@+id/action_SettingsFragment_to_cameraListFragment"
-            app:destination="@id/cameraListFragment" />
     </fragment>
     <fragment
         android:id="@+id/LanguageFragment"
         android:name="com.example.guardnet_lite_gabrovo.LanguageFragment"
         android:label="LanguageFragment"
-        tools:layout="@layout/language_fragment"/>
+        tools:layout="@layout/language_fragment">
+        <action
+            android:id="@+id/action_LanguageFragment_to_SettingsFragment"
+            app:destination="@id/SettingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.example.guardnet_lite_gabrovo.NotificationFragment"

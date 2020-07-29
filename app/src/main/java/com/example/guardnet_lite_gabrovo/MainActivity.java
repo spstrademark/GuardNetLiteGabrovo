@@ -10,6 +10,10 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -23,8 +27,21 @@ public class MainActivity extends AppCompatActivity {
 
       //  setContentView(R.layout.view_fragment);
         Toolbar toolbar = findViewById(R.id.toolbar);
-
+     //   startActivity(new Intent(YourCurrentActivity.this, YourNewActivity.class));
         setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener()){
+//
+//        }
+       // getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        Configuration conf = getResources().getConfiguration();
 //        conf.locale = new Locale("fr"); //french language locale
 //        DisplayMetrics metrics = new DisplayMetrics();
@@ -54,7 +71,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
+    public void OpenSettings(MenuItem item) {
+        // does something very interesting
+        Fragment currentFragment = getVisibleFragment();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
