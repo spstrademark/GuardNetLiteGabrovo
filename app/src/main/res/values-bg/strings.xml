@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Настройки</string>
+
+    <string name="add_new">Добави</string>
+    <string name="save_user_camera">Запази настройките</string>
+
+    <string-array name="PublicCameras">
+        <item>Радецка</item>
+        <item>Автогара</item>
+        <item>Балкан</item>
+        <item>ДХС</item>
+        <item>Колелото</item>
+        <item>Ст.Караджа</item>
+        <item>Брянска</item>
+        <item>Лидл</item>
+        <item>Шавара</item>
+        <item>Център</item>
+    </string-array>
+
+</resources>

@@ -17,18 +17,18 @@ public class PublicCameras {
         "http://rtsp.me/embed/85S8e2ht/",
     };
 
-    private static final String[] NAMES_BG = {
-            "Радецка",
-            "Автогара",
-            "Балкан",
-            "ДХС",
-            "Колелото",
-            "Ст.Караджа",
-            "Брянска",
-            "Лидл",
-            "Шавара",
-            "Център",
-    };
+//    private static final String[] NAMES_BG = {
+//            "Радецка",
+//            "Автогара",
+//            "Балкан",
+//            "ДХС",
+//            "Колелото",
+//            "Ст.Караджа",
+//            "Брянска",
+//            "Лидл",
+//            "Шавара",
+//            "Център",
+//    };
 
 //    private static final String[] NAMES_EN = {
 //            "Radecka",

@@ -1,7 +1,6 @@
 package com.example.guardnet_lite_gabrovo;
 
 //import android.content.SharedPreferences;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,26 +14,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.View;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import Camera.PublicCameras;
 import Settings.Settings;
 
 
-public class FirstFragment extends Fragment {
+public class ViewFragment extends Fragment {
     Settings settings;
     @Override
     public View onCreateView(
@@ -42,7 +27,7 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        return inflater.inflate(R.layout.fragment_first, container, false);
+        return inflater.inflate(R.layout.view_fragment, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -76,8 +61,8 @@ public class FirstFragment extends Fragment {
         view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                NavHostFragment.findNavController(ViewFragment.this)
+                        .navigate(R.id.action_ViewFragment_to_AddFragment);
             }
         });
     }
@@ -95,9 +80,7 @@ public class FirstFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
-                // TODO Auto-generated method stub
                 settings.SaveCameraValue(arg2);
-
             }
 
             @Override
