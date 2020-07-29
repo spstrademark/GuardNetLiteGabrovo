@@ -5,6 +5,11 @@
     <string name="add_new">Добави</string>
     <string name="save_user_camera">Запази настройките</string>
 
+    <string-array name="Languages">
+        <item>Английски</item>
+        <item>Български</item>
+    </string-array>
+
     <string-array name="PublicCameras">
         <item>Радецка</item>
         <item>Автогара</item>

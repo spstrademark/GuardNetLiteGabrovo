@@ -22,8 +22,8 @@ public class Notifications {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void createNotification(String Notification_title,String content, Context context) {
         final int NOTIFY_ID = 0; // ID of notification
-        String id = context.getString(R.string.app_name); // default_channel_id
-        String title = context.getString(R.string.action_settings); // Default Channel
+        String id = String.valueOf(NOTIFY_ID);
+        String title = context.getString(R.string.app_name);
 
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

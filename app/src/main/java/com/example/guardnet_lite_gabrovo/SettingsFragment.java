@@ -28,18 +28,30 @@ public class SettingsFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.add_fragment, container, false);
+        return inflater.inflate(R.layout.settings_fragment, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(SettingsFragment.this)
-                        .navigate(R.id.action_AddFragment_to_ViewFragment);
-            }
-        });
+
+//        view.findViewById(R.id.language).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                NavHostFragment.findNavController(SettingsFragment.this)
+//                        .navigate(R.id.action_AddFragment_to_ViewFragment);
+//            }
+//        });
+
+//        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                NavHostFragment.findNavController(SettingsFragment.this)
+//                        .navigate(R.id.action_AddFragment_to_ViewFragment);
+//            }
+//        });
     }
+
+
 }
