@@ -17,9 +17,14 @@
 
     <Button
         android:id="@+id/button_second"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#009688"
+        android:lineSpacingExtra="8sp"
         android:text="@string/save_user_camera"
+        android:textColor="#FFFFFF"
+        android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
