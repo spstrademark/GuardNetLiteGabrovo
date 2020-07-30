@@ -1,4 +1,4 @@
-package com.example.guardnet_lite_gabrovo;
+package Fragments;
 
 //import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import com.example.guardnet_lite_gabrovo.R;
 
 import Camera.PublicCameras;
 import Settings.Settings;
@@ -48,7 +50,7 @@ public class ViewFragment extends Fragment {
 
     void InitCameraDropdownList(@NonNull View view)
     {
-        Spinner dropdown = view.findViewById(R.id.cameraList);;//= dropdown.findViewById(); // values
+        Spinner dropdown = view.findViewById(R.id.cameraList);//= dropdown.findViewById(); // values
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.PublicCameras, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -7,60 +7,61 @@
 
     <fragment
         android:id="@+id/ViewFragment"
-        android:name="com.example.guardnet_lite_gabrovo.ViewFragment"
+        android:name="Fragments.ViewFragment"
         android:label="@string/view_fragment_label"
         tools:layout="@layout/view_fragment">
 
         <action
             android:id="@+id/action_ViewFragment_to_AddFragment"
             app:destination="@id/AddFragment" />
+        <action
+            android:id="@+id/action_ViewFragment_to_SettingsFragment"
+            app:destination="@id/SettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/AddFragment"
-        android:name="com.example.guardnet_lite_gabrovo.AddFragment"
+        android:name="Fragments.AddFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/add_fragment">
 
         <action
             android:id="@+id/action_AddFragment_to_ViewFragment"
             app:destination="@id/ViewFragment" />
+        <action
+            android:id="@+id/action_AddFragment_to_SettingsFragment"
+            app:destination="@id/SettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/SettingsFragment"
-        android:name="com.example.guardnet_lite_gabrovo.SettingsFragment"
+        android:name="Fragments.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/settings_fragment">
         <action
-            android:id="@+id/action_SettingsFragment_to_languageFragment"
+            android:id="@+id/action_SettingsFragment_to_LanguageFragment"
             app:destination="@id/LanguageFragment" />
-        <action
-            android:id="@+id/action_SettingsFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
-        <action
-            android:id="@+id/action_SettingsFragment_to_galleryFragment"
-            app:destination="@id/galleryFragment" />
-        <action
-            android:id="@+id/action_SettingsFragment_to_cameraListFragment"
-            app:destination="@id/cameraListFragment" />
     </fragment>
     <fragment
         android:id="@+id/LanguageFragment"
-        android:name="com.example.guardnet_lite_gabrovo.LanguageFragment"
+        android:name="Fragments.LanguageFragment"
         android:label="LanguageFragment"
-        tools:layout="@layout/language_fragment"/>
+        tools:layout="@layout/language_fragment">
+        <action
+            android:id="@+id/action_LanguageFragment_to_SettingsFragment"
+            app:destination="@id/SettingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/notificationFragment"
-        android:name="com.example.guardnet_lite_gabrovo.NotificationFragment"
+        android:name="Fragments.NotificationFragment"
         android:label="NotificationFragment"
         tools:layout="@layout/notification_fragment"/>
     <fragment
         android:id="@+id/galleryFragment"
-        android:name="com.example.guardnet_lite_gabrovo.GalleryFragment"
+        android:name="Fragments.GalleryFragment"
         android:label="GalleryFragment"
         tools:layout="@layout/gallery_fragment"/>
     <fragment
         android:id="@+id/cameraListFragment"
-        android:name="com.example.guardnet_lite_gabrovo.CameraListFragment"
+        android:name="Fragments.CameraListFragment"
         android:label="CameraListFragment"
         tools:layout="@layout/camera_list_fragment"/>
 

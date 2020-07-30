@@ -10,21 +10,40 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import Fragments.ViewFragment;
+import Settings.Settings;
 
+public class MainActivity extends AppCompatActivity {
+    Settings settings;
+    int activeID = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        MainAcivityInit();
 
       //  setContentView(R.layout.view_fragment);
         Toolbar toolbar = findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener()){
+//
+//        }
+       // getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        Configuration conf = getResources().getConfiguration();
 //        conf.locale = new Locale("fr"); //french language locale
 //        DisplayMetrics metrics = new DisplayMetrics();
@@ -54,7 +73,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
+//    public void OpenSettings(MenuItem item) {
+//        // does something very interesting
+//        Fragment currentFragment = getVisibleFragment();
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -64,16 +86,28 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment currentFragment = getVisibleFragment();
         int id = item.getItemId();
+        if(id!=activeID){
+            activeID = id;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.buttonSettings) {
 
-            return true;
+                NavHostFragment.findNavController(currentFragment)
+                        .navigate(R.id.action_ViewFragment_to_SettingsFragment);
+                return true;
+            }
+
+        }else{
+            super.onBackPressed();
+            activeID = 0;
         }
+
 
 
       return super.onOptionsItemSelected(item);
     }
+
+
 
     private Fragment getVisibleFragment() {
         FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
@@ -85,5 +119,11 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    private void MainAcivityInit()
+    {
+        this.setTitle("");
+        settings = new Settings(this);
+        settings.InitAppFolder(getResources().getString(R.string.app_name));
+    }
 
 }

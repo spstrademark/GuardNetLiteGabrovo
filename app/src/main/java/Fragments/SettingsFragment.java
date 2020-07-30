@@ -1,4 +1,4 @@
-package com.example.guardnet_lite_gabrovo;
+package Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.guardnet_lite_gabrovo.R;
 
 //import androidx.preference.PreferenceFragmentCompat;
 //
@@ -34,24 +36,20 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.onViewCreated(view, savedInstanceState);
+        FragmentInit();
+        view.findViewById(R.id.language).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(SettingsFragment.this)
+                        .navigate(R.id.action_SettingsFragment_to_LanguageFragment);
+            }
+        });
 
-
-//        view.findViewById(R.id.language).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                NavHostFragment.findNavController(SettingsFragment.this)
-//                        .navigate(R.id.action_AddFragment_to_ViewFragment);
-//            }
-//        });
-
-//        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                NavHostFragment.findNavController(SettingsFragment.this)
-//                        .navigate(R.id.action_AddFragment_to_ViewFragment);
-//            }
-//        });
     }
 
+    public void FragmentInit()
+    {
+        getActivity().setTitle(R.string.Settings);
+    }
 
 }

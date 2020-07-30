@@ -2,15 +2,20 @@ package Settings;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Environment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
+import java.io.File;
 import java.util.Locale;
 
 import Camera.PublicCamerasEnum;
 
 public class Settings {
-
+    String folder = "";
     final String Settings       = "Settings";
     final String FirstTime      = "FirstTime";
     final String SelectedCam    = "SelectedCamera";
@@ -19,6 +24,9 @@ public class Settings {
     SharedPreferences GetPrefs;
     Context context;
     public Settings(Context context) {
+
+
+       // final String APPLICATION_NAME =  context.getApplicationInfo().packageName;//context.getResources().getString(.app_name);
         this.context = context;
         this.GetPrefs = context.getSharedPreferences(Settings, context.MODE_PRIVATE);//.edit();
         this.SetPrefs = GetPrefs.edit();
@@ -35,6 +43,18 @@ public class Settings {
     public void Init(Context context)
     {
 
+    }
+
+    public void InitAppFolder(String AppName)
+    {
+        this.folder = AppName;
+        final File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), AppName);
+
+        if (!folder.exists()) {
+            boolean rv =         folder.mkdir();    //f.mkdir();
+        } else {
+
+        }
     }
 
     public void SaveLanguage()
