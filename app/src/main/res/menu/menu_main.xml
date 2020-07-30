@@ -2,25 +2,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/buttonGallery"
-        android:title="Gallery"
-        app:showAsAction="always"
-        android:orderInCategory="1"
-        android:top="10dp"
         android:bottom="10dp"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:orderInCategory="1"
         android:right="10dp"
-        />
+        android:title="Gallery"
+        android:top="10dp"
+        app:showAsAction="always" />
     <item
         android:id="@+id/button2"
-        android:title="2"
-        app:showAsAction="always"
+        android:icon="@drawable/ic_launcher_foreground"
         android:orderInCategory="2"
-        />
+        android:title="2"
+        app:showAsAction="always" />
     <item
         android:id="@+id/button3"
-        android:title="3"
-        app:showAsAction="always"
+        android:icon="@drawable/ic_launcher_foreground"
         android:orderInCategory="3"
-        />
+        android:title="3"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/folder"
@@ -51,13 +51,12 @@
         app:showAsAction="always" />
 
 
-
     <item
         android:id="@+id/buttonSettings"
+        android:icon="@android:drawable/stat_notify_error"
         android:orderInCategory="8"
         android:title="Sett"
-        app:showAsAction="always"
-     />
+        app:showAsAction="always" />
 
 
 </menu>
