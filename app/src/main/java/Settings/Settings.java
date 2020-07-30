@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -57,14 +58,32 @@ public class Settings {
         }
     }
 
-    public void SaveLanguage()
+    public void SaveLanguageValue(int languageIDX)
     {
-        // use activity
-//                Configuration conf = this.context.getResources().getConfiguration();
-//        conf.locale = new Locale("fr"); //french language locale
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        ((Activity)this.context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//        Resources resources = new Resources(getAssets(), metrics, conf);
+
+      String lan =  LanguagesEnum.values()[languageIDX].toString().toLowerCase();
+
+        Resources res = context.getResources();
+// Change locale settings in the app.
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale(lan)); // API 17+ only.
+// Use conf.locale = new Locale(...) if targeting lower versions
+        res.updateConfiguration(conf, dm);
+        SetPrefs.putInt(Language,languageIDX);
+        SetPrefs.apply();
+    }
+
+    public int RestoreLanguage()
+    {
+        int lang = GetPrefs.getInt(Language, LanguagesEnum.EN.ordinal());
+        String lan =  LanguagesEnum.values()[lang].toString().toLowerCase();
+        Resources res = context.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale(lan)); // API 17+ only.
+        res.updateConfiguration(conf, dm);
+        return lang;
     }
 
     public void SaveCameraValue(int idx)

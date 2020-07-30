@@ -11,11 +11,16 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.guardnet_lite_gabrovo.R;
+
+import java.util.Arrays;
+import java.util.List;
 
 import Camera.PublicCameras;
 import Settings.Settings;
@@ -23,6 +28,8 @@ import Settings.Settings;
 
 public class ViewFragment extends Fragment {
     Settings settings;
+    int selected = 0;
+    WebView Viewer;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -33,12 +40,14 @@ public class ViewFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-     //   super.onCreate(savedInstanceState);
+        settings = new Settings(getContext());
+        settings.RestoreLanguage();
         super.onViewCreated(view, savedInstanceState);
        // settings = new Settings(getActivity());
-        settings = new Settings(getContext());
-        InitCameraDropdownList(view);
 
+        InitCameraDropdownList(view);
+        InitViewer(view);
+        ViewerStart(selected);
         view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,24 +64,48 @@ public class ViewFragment extends Fragment {
                 R.array.PublicCameras, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropdown.setAdapter(adapter);
-        dropdown.setSelection(settings.RestoreCameraValue());
+        selected = settings.RestoreCameraValue();
+        dropdown.setSelection(selected);
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
                 settings.SaveCameraValue(arg2);
+                ViewerStart(arg2);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-                PublicCameras Cameras = new PublicCameras();
+
             }
         });
 
     }
 
+    void InitViewer(@NonNull View view)
+    {
+        Viewer = (WebView) view.findViewById( R.id.viewer );
+        WebSettings webSettings = Viewer.getSettings();
 
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setAllowContentAccess(true);
+        webSettings.setAppCacheEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setUseWideViewPort(true);
+
+    }
+
+    void ViewerStart( int camera)
+    {
+        String playVideo= String.format("<iframe type=\"text/html\" width=\"400\" height=\"400\" src=\"%s\" >", GetCameraURL(camera));
+        Viewer.loadData(playVideo, "text/html", "utf-8");
+    }
+
+    public String GetCameraURL(int idx)
+    {
+        List<String> CamerasURL = Arrays.asList(getResources().getStringArray(R.array.PublicCamerasEmbed));
+        return CamerasURL.get(idx);
+    }
 
 }

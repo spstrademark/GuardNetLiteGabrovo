@@ -23,13 +23,19 @@ import Settings.Settings;
 public class MainActivity extends AppCompatActivity {
     Settings settings;
     int activeID = 0;
+    int doublePress = 0;
+
+    private static final int MENU_ADD = Menu.FIRST;
+//    private static final int MENU_LIST = MENU.FIRST + 1;
+//    private static final int MENU_REFRESH = MENU.FIRST + 2;
+//    private static final int MENU_LOGIN = MENU.FIRST + 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MainAcivityInit();
 
-      //  setContentView(R.layout.view_fragment);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -78,30 +84,55 @@ public class MainActivity extends AppCompatActivity {
 //        Fragment currentFragment = getVisibleFragment();
 //    }
 
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        menu.clear();
+//
+//
+//       // menu.add(0, MENU_ADD, Menu.NONE, R.string.Settings).setIcon(R.drawable.ic_launcher_background);
+//
+//        return super.onPrepareOptionsMenu(menu);
+//    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+    //    invalidateOptionsMenu();
 
         Fragment currentFragment = getVisibleFragment();
+        String tag = (String)currentFragment.getTag();
+        if(currentFragment !=null)
+        {
+
+        }
+     //   boolean tag = currentFragment.();
         int id = item.getItemId();
-        if(id!=activeID){
-            activeID = id;
-
-            //noinspection SimplifiableIfStatement
+//      //  if(id!=activeID){
+//            activeID = id;
+//
+//            if(doublePress > 0){
+//                doublePress--;
+//                super.onBackPressed();
+//            }
+//            //noinspection SimplifiableIfStatement
             if (id == R.id.buttonSettings) {
-
+                doublePress++;
+           //     SetMenuItemsVisibility(View.INVISIBLE);
                 NavHostFragment.findNavController(currentFragment)
                         .navigate(R.id.action_ViewFragment_to_SettingsFragment);
                 return true;
             }
 
-        }else{
-            super.onBackPressed();
-            activeID = 0;
-        }
 
+//        }else{
+//            super.onBackPressed();
+//            SetMenuItemsVisibility(View.VISIBLE);
+//            activeID = 0;
+//
+//        }
+//
 
 
       return super.onOptionsItemSelected(item);
@@ -125,5 +156,6 @@ public class MainActivity extends AppCompatActivity {
         settings = new Settings(this);
         settings.InitAppFolder(getResources().getString(R.string.app_name));
     }
+
 
 }

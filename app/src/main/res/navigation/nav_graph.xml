@@ -50,17 +50,17 @@
             app:destination="@id/SettingsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/notificationFragment"
+        android:id="@+id/NotificationFragment"
         android:name="Fragments.NotificationFragment"
         android:label="NotificationFragment"
         tools:layout="@layout/notification_fragment"/>
     <fragment
-        android:id="@+id/galleryFragment"
+        android:id="@+id/GalleryFragment"
         android:name="Fragments.GalleryFragment"
         android:label="GalleryFragment"
         tools:layout="@layout/gallery_fragment"/>
     <fragment
-        android:id="@+id/cameraListFragment"
+        android:id="@+id/CameraListFragment"
         android:name="Fragments.CameraListFragment"
         android:label="CameraListFragment"
         tools:layout="@layout/camera_list_fragment"/>

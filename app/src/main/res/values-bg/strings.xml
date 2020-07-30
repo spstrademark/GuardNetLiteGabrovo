@@ -10,6 +10,7 @@
         <item>Български</item>
     </string-array>
 
+    <string name="CamViewer">Изглед от камера</string>
     <string-array name="PublicCameras">
         <item>Радецка</item>
         <item>Автогара</item>
@@ -24,6 +25,8 @@
     </string-array>
 
     <string name="Settings">Настройки</string>
+    <string name="Notifications">Известия</string>
+    <string name="Gallery">Галерия</string>
     <string name="Language">Език</string>
 
 </resources>

@@ -20,6 +20,8 @@ import Settings.Settings;
 
 public class LanguageFragment extends Fragment {
     Settings settings;
+    int currentLan = 0;
+    boolean init = false;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -30,8 +32,9 @@ public class LanguageFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         settings = new Settings(getContext());
+        currentLan =  settings.RestoreLanguage();
+        super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle(R.string.Language);
         InitLanguagesDropdownList(view);
     }
@@ -41,15 +44,24 @@ public class LanguageFragment extends Fragment {
         Spinner dropdown = view.findViewById(R.id.languages);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.Languages, android.R.layout.simple_spinner_item);
-      adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    dropdown.setAdapter(adapter);
-        dropdown.setSelection(0);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dropdown.setAdapter(adapter);
+        dropdown.setSelection(currentLan);
+
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
-          //      settings.SaveCameraValue(arg2);
+                if(init==false){
+                    init = true;
+                    return;
+                }
+                if(currentLan!=arg2){
+                    settings.SaveLanguageValue(arg2);
+                    getActivity().recreate();
+                }
+
             }
 
             @Override

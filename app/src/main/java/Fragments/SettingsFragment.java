@@ -34,7 +34,7 @@ public class SettingsFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+     //   super.onCreate(savedInstanceState);
         super.onViewCreated(view, savedInstanceState);
         FragmentInit();
         view.findViewById(R.id.language).setOnClickListener(new View.OnClickListener() {

@@ -27,7 +27,6 @@ public class NotificationFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        //   super.onCreate(savedInstanceState);
         super.onViewCreated(view, savedInstanceState);
         // settings = new Settings(getActivity());
         settings = new Settings(getContext());
