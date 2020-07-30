@@ -1,4 +1,4 @@
-package com.example.guardnet_lite_gabrovo;
+package Fragments;
 
 //import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -15,6 +14,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import com.example.guardnet_lite_gabrovo.R;
 
 import Camera.PublicCameras;
 import Settings.Settings;

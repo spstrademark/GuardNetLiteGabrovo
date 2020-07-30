@@ -1,15 +1,15 @@
-package com.example.guardnet_lite_gabrovo;
+package Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.guardnet_lite_gabrovo.R;
 
 //import androidx.preference.PreferenceFragmentCompat;
 //
@@ -36,7 +36,7 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.onViewCreated(view, savedInstanceState);
-
+        FragmentInit();
         view.findViewById(R.id.language).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,6 +45,11 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+    }
+
+    public void FragmentInit()
+    {
+        getActivity().setTitle(R.string.Settings);
     }
 
 }

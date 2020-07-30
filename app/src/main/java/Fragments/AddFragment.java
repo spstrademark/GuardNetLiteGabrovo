@@ -1,4 +1,4 @@
-package com.example.guardnet_lite_gabrovo;
+package Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.guardnet_lite_gabrovo.R;
 
 public class AddFragment extends Fragment {
 

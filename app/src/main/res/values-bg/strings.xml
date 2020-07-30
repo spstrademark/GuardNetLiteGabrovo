@@ -23,4 +23,7 @@
         <item>Център</item>
     </string-array>
 
+    <string name="Settings">Настройки</string>
+    <string name="Language">Език</string>
+
 </resources>

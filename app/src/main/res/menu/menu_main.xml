@@ -1,13 +1,63 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.guardnet_lite_gabrovo.MainActivity">
-<!--    <item-->
-<!--        android:id="@+id/action_settings"-->
-<!--        android:orderInCategory="100"-->
-<!--        app:showAsAction="never" />-->
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
-        android:onClick="OpenSettings"
+        android:id="@+id/buttonGallery"
+        android:title="Gallery"
+        app:showAsAction="always"
+        android:orderInCategory="1"
+        android:top="10dp"
+        android:bottom="10dp"
+        android:right="10dp"
         />
+    <item
+        android:id="@+id/button2"
+        android:title="2"
+        app:showAsAction="always"
+        android:orderInCategory="2"
+        />
+    <item
+        android:id="@+id/button3"
+        android:title="3"
+        app:showAsAction="always"
+        android:orderInCategory="3"
+        />
+
+    <item
+        android:id="@+id/folder"
+        android:orderInCategory="4"
+        android:title=""
+        android:visible="false"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/file"
+        android:enabled="false"
+        android:orderInCategory="5"
+        android:title=""
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/eye"
+        android:enabled="false"
+        android:orderInCategory="6"
+        android:title=""
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/print"
+        android:enabled="false"
+        android:orderInCategory="7"
+        android:title=""
+        app:showAsAction="always" />
+
+
+
+    <item
+        android:id="@+id/buttonSettings"
+        android:orderInCategory="8"
+        android:title="Sett"
+        app:showAsAction="always"
+     />
+
+
 </menu>

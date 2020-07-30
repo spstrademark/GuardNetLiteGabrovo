@@ -1,4 +1,4 @@
-package com.example.guardnet_lite_gabrovo;
+package Fragments;
 
 
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.guardnet_lite_gabrovo.R;
 
 import Camera.PublicCameras;
 import Settings.Settings;
@@ -30,6 +32,7 @@ public class LanguageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         settings = new Settings(getContext());
+        getActivity().setTitle(R.string.Language);
         InitLanguagesDropdownList(view);
     }
 
