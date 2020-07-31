@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
     int activeID = 0;
     int doublePress = 0;
 
-    private static final int MENU_ADD = Menu.FIRST;
-//    private static final int MENU_LIST = MENU.FIRST + 1;
-//    private static final int MENU_REFRESH = MENU.FIRST + 2;
+    private static final int DUMMY1 = Menu.FIRST;
+    private static final int DUMMY2 = DUMMY1 + 1;
+    private static final int RETURN = DUMMY2 + 1;
 //    private static final int MENU_LOGIN = MENU.FIRST + 3;
 
     @Override
@@ -88,15 +88,22 @@ public class MainActivity extends AppCompatActivity {
 //        Fragment currentFragment = getVisibleFragment();
 //    }
 
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        menu.clear();
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+       // menu.clear();
+
+
+        //and to remove a element just remove it with id
+//        menu.removeItem(R.id.gallery);
+//        menu.removeItem(R.id.calendar);
+//        menu.removeItem(R.id.clock);
 //
-//
-//       // menu.add(0, MENU_ADD, Menu.NONE, R.string.Settings).setIcon(R.drawable.ic_launcher_background);
-//
-//        return super.onPrepareOptionsMenu(menu);
-//    }
+//       menu.add(1, DUMMY1,1, "R.string.").setIcon(R.drawable.ic_add_24px);
+////        menu.add(0, DUMMY1, Menu.ITEM, "R.string.").setIcon(R.drawable.ic_launcher_background);
+////        menu.add(1, DUMMY2, Menu.NONE, "R.string.").setIcon(R.drawable.ic_more_vert_24px);
+//        menu.add(9, RETURN, Menu.NONE, "R.string.").setIcon(R.drawable.ic_add_24px);
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

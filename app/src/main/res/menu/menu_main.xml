@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/buttonGallery"
+        android:id="@+id/gallery"
         android:bottom="10dp"
         android:icon="@drawable/ic_photo_library_24px"
         android:orderInCategory="1"
@@ -10,47 +10,47 @@
         android:top="10dp"
         app:showAsAction="always" />
     <item
-        android:id="@+id/button2"
+        android:id="@+id/calendar"
         android:icon="@drawable/ic_insert_invitation_24px"
         android:orderInCategory="2"
         android:title="2"
         app:showAsAction="always" />
     <item
-        android:id="@+id/button3"
+        android:id="@+id/clock"
         android:icon="@drawable/ic_schedule_24px"
         android:orderInCategory="3"
         android:title="3"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/folder"
+        android:id="@+id/dummy1"
         android:orderInCategory="4"
         android:title=""
         android:visible="false"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/file"
+        android:id="@+id/dummy2"
         android:enabled="false"
         android:orderInCategory="5"
         android:title=""
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/eye"
+        android:id="@+id/dummy3"
         android:enabled="false"
         android:orderInCategory="6"
         android:title=""
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/print"
+        android:id="@+id/dummy4"
         android:enabled="false"
         android:orderInCategory="7"
         android:title=""
         app:showAsAction="always" />
     <item
-        android:id="@+id/print9"
+        android:id="@+id/dummy5"
         android:enabled="false"
         android:orderInCategory="8"
         android:title=""

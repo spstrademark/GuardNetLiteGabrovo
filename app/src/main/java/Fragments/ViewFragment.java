@@ -21,6 +21,7 @@ import com.example.guardnet_lite_gabrovo.R;
 
 import java.util.Arrays;
 import java.util.List;
+
 import Settings.Settings;
 
 
@@ -84,6 +85,8 @@ public class ViewFragment extends Fragment {
     void InitViewer(@NonNull View view)
     {
         Viewer = (WebView) view.findViewById( R.id.viewer );
+        Viewer.setVerticalScrollBarEnabled(false);
+        Viewer.setHorizontalScrollBarEnabled(false);
         WebSettings webSettings = Viewer.getSettings();
 
         webSettings.setJavaScriptEnabled(true);
@@ -98,6 +101,7 @@ public class ViewFragment extends Fragment {
     {
         String playVideo= String.format("<iframe type=\"text/html\" width=\"400\" height=\"400\" src=\"%s\" >", GetCameraURL(camera));
         Viewer.loadData(playVideo, "text/html", "utf-8");
+
     }
 
     public String GetCameraURL(int idx)
