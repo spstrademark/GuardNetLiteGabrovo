@@ -30,8 +30,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center|end"
         android:layout_margin="@dimen/fab_margin"
-        android:background="@color/colorAccent"
-        android:foreground="@drawable/ic_launcher_foreground"
+        android:background="@color/colorBackground"
+        android:foreground="@drawable/ic_add_24px"
+        android:scrollbarTrackHorizontal="@drawable/ic_add_24px"
+        android:scrollbarTrackVertical="@drawable/ic_add_24px"
+        android:tint="#FFFFFF"
         app:backgroundTint="@color/colorAccent"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:rippleColor="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_add_24px" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
