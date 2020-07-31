@@ -21,8 +21,6 @@ import com.example.guardnet_lite_gabrovo.R;
 
 import java.util.Arrays;
 import java.util.List;
-
-import Camera.PublicCameras;
 import Settings.Settings;
 
 

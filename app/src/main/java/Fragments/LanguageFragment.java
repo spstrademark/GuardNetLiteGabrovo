@@ -15,7 +15,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.guardnet_lite_gabrovo.R;
 
-import Camera.PublicCameras;
 import Settings.Settings;
 
 public class LanguageFragment extends Fragment {
