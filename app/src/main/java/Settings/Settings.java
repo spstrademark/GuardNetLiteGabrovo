@@ -53,6 +53,7 @@ public class Settings {
 
         if (!folder.exists()) {
             boolean rv =         folder.mkdir();    //f.mkdir();
+            Log.d("tst","tst");
         } else {
 
         }
