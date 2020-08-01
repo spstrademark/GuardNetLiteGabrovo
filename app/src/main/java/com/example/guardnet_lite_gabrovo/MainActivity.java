@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         //and to remove a element just remove it with id
 //        menu.removeItem(R.id.gallery);
-//        menu.removeItem(R.id.calendar);
+//        menu.removeItem(R.id.calendar_fragment);
 //        menu.removeItem(R.id.clock);
 //
 //       menu.add(1, DUMMY1,1, "R.string.").setIcon(R.drawable.ic_add_24px);
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.gallery:
                     NavHostFragment.findNavController(currentFragment)
-                            .navigate(R.id.action_ViewFragment_to_galleryFragment);
+                            .navigate(R.id.action_ViewFragment_to_GalleryFragment);
                     return true;
                 case R.id.calendar:
                     NavHostFragment.findNavController(currentFragment)

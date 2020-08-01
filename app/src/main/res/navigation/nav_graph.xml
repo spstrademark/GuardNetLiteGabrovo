@@ -18,11 +18,11 @@
             android:id="@+id/action_ViewFragment_to_SettingsFragment"
             app:destination="@id/SettingsFragment" />
         <action
-            android:id="@+id/action_ViewFragment_to_galleryFragment"
-            app:destination="@id/galleryFragment" />
-        <action
             android:id="@+id/action_ViewFragment_to_calendarFragment"
-            app:destination="@id/calendarFragment" />
+            app:destination="@id/CalendarFragment" />
+        <action
+            android:id="@+id/action_ViewFragment_to_GalleryFragment"
+            app:destination="@id/GalleryFragment" />
     </fragment>
     <fragment
         android:id="@+id/AddFragment"
@@ -66,13 +66,27 @@
         android:label="CameraListFragment"
         tools:layout="@layout/camera_list_fragment"/>
     <fragment
-        android:id="@+id/galleryFragment"
+        android:id="@+id/GalleryFragment"
         android:name="Fragments.GalleryFragment"
         android:label="GalleryFragment"
         tools:layout="@layout/gallery_fragment"/>
     <fragment
-        android:id="@+id/calendarFragment"
+        android:id="@+id/CalendarFragment"
         android:name="Fragments.CalendarFragment"
-        android:label="CalendarFragment" />
+        android:label="CalendarFragment"
+        tools:layout="@layout/calendar_fragment">
+        <action
+            android:id="@+id/action_CalendarFragment_to_ClockFragment"
+            app:destination="@id/ClockFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ClockFragment"
+        android:name="Fragments.ClockFragment"
+        android:label="ClockFragment"
+        tools:layout="@layout/clock_fragment">
+        <action
+            android:id="@+id/action_ClockFragment_to_ViewFragment"
+            app:destination="@id/ViewFragment" />
+    </fragment>
 
 </navigation>
