@@ -17,6 +17,12 @@
         <action
             android:id="@+id/action_ViewFragment_to_SettingsFragment"
             app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_ViewFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_ViewFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment" />
     </fragment>
     <fragment
         android:id="@+id/AddFragment"
@@ -55,14 +61,18 @@
         android:label="NotificationFragment"
         tools:layout="@layout/notification_fragment"/>
     <fragment
-        android:id="@+id/GalleryFragment"
-        android:name="Fragments.GalleryFragment"
-        android:label="GalleryFragment"
-        tools:layout="@layout/gallery_fragment"/>
-    <fragment
         android:id="@+id/CameraListFragment"
         android:name="Fragments.CameraListFragment"
         android:label="CameraListFragment"
         tools:layout="@layout/camera_list_fragment"/>
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="Fragments.GalleryFragment"
+        android:label="GalleryFragment"
+        tools:layout="@layout/gallery_fragment"/>
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="Fragments.CalendarFragment"
+        android:label="CalendarFragment" />
 
 </navigation>

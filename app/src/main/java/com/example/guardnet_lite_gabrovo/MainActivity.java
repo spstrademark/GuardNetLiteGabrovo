@@ -128,13 +128,41 @@ public class MainActivity extends AppCompatActivity {
 //                super.onBackPressed();
 //            }
 //            //noinspection SimplifiableIfStatement
-            if (id == R.id.buttonSettings) {
-                doublePress++;
-           //     SetMenuItemsVisibility(View.INVISIBLE);
-                NavHostFragment.findNavController(currentFragment)
-                        .navigate(R.id.action_ViewFragment_to_SettingsFragment);
-                return true;
+
+
+            switch(id)
+            {
+                case R.id.buttonSettings:
+                    if(doublePress==0){
+                        doublePress++;
+                        NavHostFragment.findNavController(currentFragment)
+                                .navigate(R.id.action_ViewFragment_to_SettingsFragment);
+                    }else{
+                        doublePress = 0;
+                        super.onBackPressed();
+                    }
+                    return true;
+                case R.id.gallery:
+                    NavHostFragment.findNavController(currentFragment)
+                            .navigate(R.id.action_ViewFragment_to_galleryFragment);
+                    return true;
+                case R.id.calendar:
+                    NavHostFragment.findNavController(currentFragment)
+                            .navigate(R.id.action_ViewFragment_to_calendarFragment);
+                    return true;
+                default: return super.onOptionsItemSelected(item);
+
+
+
             }
+
+//            if (id == R.id.buttonSettings) {
+//                doublePress++;
+//           //     SetMenuItemsVisibility(View.INVISIBLE);
+//                NavHostFragment.findNavController(currentFragment)
+//                        .navigate(R.id.action_ViewFragment_to_SettingsFragment);
+//                return true;
+//            }
 
 
 //        }else{
@@ -146,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 //
 
 
-      return super.onOptionsItemSelected(item);
+  //    return super.onOptionsItemSelected(item);
     }
 
 
