@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,6 +20,7 @@ import Settings.Settings;
 
 public class NotificationFragment extends Fragment {
     Settings settings;
+    int selected = 0;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -27,18 +31,41 @@ public class NotificationFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        // settings = new Settings(getActivity());
         settings = new Settings(getContext());
-      //  InitCameraDropdownList(view);
+        super.onViewCreated(view, savedInstanceState);
+        InitCameraDropdownList(view);
+//        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                NavHostFragment.findNavController(NotificationFragment.this)
+//                        .navigate(R.id.action_ViewFragment_to_AddFragment);
+//            }
+//        });
+    }
 
-        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
+    void InitCameraDropdownList(@NonNull View view)
+    {
+        Spinner dropdown = view.findViewById(R.id.notificationIntervals);//= dropdown.findViewById(); // values
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.NotificationTrigger, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dropdown.setAdapter(adapter);
+        selected = settings.GetNotificationsEventTrigger();
+        dropdown.setSelection(selected);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(NotificationFragment.this)
-                        .navigate(R.id.action_ViewFragment_to_AddFragment);
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                settings.SetNotificationsEventTrigger(arg2);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
             }
         });
+
     }
 
 }

@@ -1,7 +1,10 @@
 package Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +40,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
         viewHolder.img.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"Image",Toast.LENGTH_SHORT).show();
+//                Intent intent= new Intent(context,activity);
+//                intent.putExtra("image_url",current.flagimage);
+//                context.startActivity(intent);
+              //  Toast.makeText(context,"Image",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -57,5 +63,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
             img = (ImageView) view.findViewById(R.id.galleryIMG);
         }
     }
+
+
 
 }

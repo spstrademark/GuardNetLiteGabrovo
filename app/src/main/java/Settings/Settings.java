@@ -1,10 +1,8 @@
 package Settings;
-import android.app.Activity;
+import com.example.guardnet_lite_gabrovo.R;
+
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Environment;
 import android.util.DisplayMetrics;
@@ -14,6 +12,8 @@ import java.io.File;
 import java.util.Locale;
 
 import Camera.PublicCamerasEnum;
+import Language.LanguagesEnum;
+import Notifications.NotificationsTriggerEnum;
 
 public class Settings {
     String folder = "";
@@ -21,6 +21,9 @@ public class Settings {
     final String FirstTime      = "FirstTime";
     final String SelectedCam    = "SelectedCamera";
     final String Language       = "SelectedLanguage";
+    final String GalleryView    = "SelectedView";
+
+    final String NotificationTrigger    = "SelectedNotificationTrigger";
     SharedPreferences.Editor SetPrefs;
     SharedPreferences GetPrefs;
     Context context;
@@ -59,11 +62,9 @@ public class Settings {
         }
     }
 
-    public void SaveLanguageValue(int languageIDX)
+    public android.content.res.Configuration SaveLanguageValue(int languageIDX)
     {
-
-      String lan =  LanguagesEnum.values()[languageIDX].toString().toLowerCase();
-
+        String lan =  LanguagesEnum.values()[languageIDX].toString().toLowerCase();
         Resources res = context.getResources();
 // Change locale settings in the app.
         DisplayMetrics dm = res.getDisplayMetrics();
@@ -71,8 +72,10 @@ public class Settings {
         conf.setLocale(new Locale(lan)); // API 17+ only.
 // Use conf.locale = new Locale(...) if targeting lower versions
         res.updateConfiguration(conf, dm);
+
         SetPrefs.putInt(Language,languageIDX);
         SetPrefs.apply();
+        return conf;
     }
 
     public int RestoreLanguage()
@@ -96,6 +99,29 @@ public class Settings {
     public int RestoreCameraValue()
     {
         return GetPrefs.getInt(SelectedCam, PublicCamerasEnum.RADECKA.ordinal());
+    }
+
+    public void SaveGalleryView(int idx)
+    {
+        SetPrefs.putInt(GalleryView,idx);
+        SetPrefs.apply();
+    }
+
+    public int GetGalleryView()
+    {
+        int default_grid = Integer.parseInt(context.getResources().getString(R.string.default_gallery_view));
+        return GetPrefs.getInt(GalleryView, default_grid);
+    }
+
+    public void SetNotificationsEventTrigger(int idx)
+    {
+        SetPrefs.putInt(NotificationTrigger,idx);
+        SetPrefs.apply();
+    }
+
+    public int GetNotificationsEventTrigger()
+    {
+        return GetPrefs.getInt(NotificationTrigger, NotificationsTriggerEnum.SECONDS_5.ordinal());
     }
 
 }

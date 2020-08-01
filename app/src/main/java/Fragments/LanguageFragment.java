@@ -1,6 +1,7 @@
 package Fragments;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,10 @@ public class LanguageFragment extends Fragment {
                 }
                 if(currentLan!=arg2){
                     settings.SaveLanguageValue(arg2);
-                    getActivity().recreate();
+                  //  onConfigurationChanged(settings.SaveLanguageValue(arg2));
+                    getView().requestLayout();
+             //       getActivity().recreate();
+               //     setContentView(R.layout.newdesign);
                 }
 
             }
@@ -71,5 +75,13 @@ public class LanguageFragment extends Fragment {
         });
 
     }
+
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig)
+//    {
+//
+//        super.onConfigurationChanged(newConfig);
+//
+//    }
 
 }

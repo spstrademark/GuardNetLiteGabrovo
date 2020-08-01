@@ -1,21 +1,13 @@
 <resources>
+
+    <!-- *** SYSTEM *** -->
     <string name="app_name" translatable="false">GuardNet-Lite-Gabrovo</string>
-<!--    <string name="action_settings">Settings</string>-->
-    <!-- Strings used for fragments for navigation -->
-    <string name="view_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="add_new">Add new</string>
-    <string name="save_user_camera">Save</string>
+    <string name="default_notification_email" translatable="false">priemna@mvr.bg</string>
+    <string name="default_gallery_view" translatable="false">3</string>
+    <string name="URL" translatable="false">URL</string>
+    <string name="DefaultURL" translatable="false">http://192.168.0.100:8080</string>
 
-    <string name="hello_first_fragment">Cameraview here</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
-    <string-array name="Languages">
-        <item>English</item>
-        <item>Bulgarian</item>
-    </string-array>
-
-    <string name="CamViewer">Camera Viewer</string>
     <string-array name="PublicCamerasEmbed">
         <item>http://rtsp.me/embed/883assBN/</item>
         <item>http://rtsp.me/embed/fQrt2T8E/</item>
@@ -28,7 +20,12 @@
         <item>http://rtsp.me/embed/EbraNShY/</item>
         <item>http://rtsp.me/embed/85S8e2ht/</item>
     </string-array>
+    <!-- ^^^ SYSTEM ^^^ -->
 
+    <!-- *** VIEW *** -->
+    <string name="add_new">Add</string>
+    <string name="save_user_camera">Save</string>
+    <string name="CamViewer">Camera Viewer</string>
     <string-array name="PublicCameras">
         <item>Radecka</item>
         <item>Bus Station</item>
@@ -41,26 +38,53 @@
         <item>Shavara</item>
         <item>Center</item>
     </string-array>
+    <!-- ^^^ VIEW ^^^ -->
 
+    <!-- *** ADD NEW *** -->
+    <string name="AddNew">Add new camera</string>
+    <string name="DisplayName" >Display Name</string>
+    <string name="AddNewName" >My store</string>
+    <string name="Auth" >AUTHENTICATION</string>
+    <string name="Username" >User name</string>
+    <string name="name" >John Doe</string>
+    <string name="Password" >Password</string>
+    <string name="ShowPass" >Show Password</string>
+    <!-- ^^^ ADD NEW ^^^ -->
+
+    <!-- *** SETTINGS MENU *** -->
     <string name="Settings">Settings</string>
     <string name="Notifications">Notifications</string>
     <string name="Gallery">Gallery</string>
     <string name="Language">Language</string>
+    <!-- ^^^ SETTINGS MENU ^^^ -->
 
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <!-- *** NOTIFICATIONS SETTINGS *** -->
+    <string name="NotificationsSend">SEND NOTIFICATIONS</string>
+    <string name="NotificationsShow">SHOW NOTIFICATIONS</string>
+    <string name="AddEmail">Add email</string>
+    <string name="Email2nd">second@email.com</string>
+    <string name="Email3rd">third@email.com</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
+    <string-array name="NotificationTrigger">
+        <item>5 seconds</item>
+        <item>10 seconds</item>
+        <item>15 seconds</item>
+        <item>20 seconds</item>
+        <item>25 seconds</item>
+        <item>30 seconds</item>
+    </string-array>
+    <!-- ^^^ NOTIFICATIONS SETTINGS ^^^ -->
 
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- *** GALLERY *** -->
+    <string name="GalleryEmpty">Gallery is empty</string>
+    <!-- ^^^ GALLERY ^^^ -->
+
+    <!-- *** LANGUAGE SETTINGS *** -->
+    <string-array name="Languages">
+        <item>English</item>
+        <item>Bulgarian</item>
+    </string-array>
+    <!-- ^^^ LANGUAGE SETTINGS ^^^ -->
 
 
 </resources>

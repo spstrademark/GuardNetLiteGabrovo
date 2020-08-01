@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,16 +23,29 @@ public class CalendarFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        //   super.onCreate(savedInstanceState);
         super.onViewCreated(view, savedInstanceState);
         FragmentInit();
-        view.findViewById(R.id.language).setOnClickListener(new View.OnClickListener() {
+
+        CalendarView calendarView=(CalendarView) view.findViewById(R.id.calendarView);
+
+        calendarView.setMinDate(System.currentTimeMillis() - 1000); // disable past dates
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
             @Override
-            public void onClick(View view) {
+            public void onSelectedDayChange(CalendarView view, int year, int month,
+                                            int dayOfMonth) {
                 NavHostFragment.findNavController(CalendarFragment.this)
-                        .navigate(R.id.action_SettingsFragment_to_LanguageFragment);
+                        .navigate(R.id.action_CalendarFragment_to_ClockFragment);
             }
         });
+
+//        view.findViewById(R.id.language).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                NavHostFragment.findNavController(CalendarFragment.this)
+//                        .navigate(R.id.action_SettingsFragment_to_LanguageFragment);
+//            }
+//        });
 
     }
 

@@ -8,7 +8,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.preference.PreferenceFragmentCompat;
 
 
 import android.webkit.WebSettings;
@@ -24,6 +28,9 @@ import java.util.List;
 
 import Settings.Settings;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 public class ViewFragment extends Fragment {
     Settings settings;
@@ -43,6 +50,11 @@ public class ViewFragment extends Fragment {
         settings.RestoreLanguage();
         super.onViewCreated(view, savedInstanceState);
        // settings = new Settings(getActivity());
+
+
+//        getFragmentManager().beginTransaction()
+//                .replace(R.id.MainFrameLayout,fragmentA,"YOUR_TARGET_FRAGMENT_TAG")
+//                .addToBackStack("YOUR_SOURCE_FRAGMENT_TAG").commit();
 
         InitCameraDropdownList(view);
         InitViewer(view);

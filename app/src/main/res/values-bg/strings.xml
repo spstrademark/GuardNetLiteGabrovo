@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_settings">Настройки</string>
+<!--    <string name="action_settings">Настройки</string>-->
 
     <string name="add_new">Добави</string>
     <string name="save_user_camera">Запази настройките</string>
 
-    <string-array name="Languages">
-        <item>Английски</item>
-        <item>Български</item>
-    </string-array>
-
+    <!-- *** VIEW *** -->
     <string name="CamViewer">Изглед от камера</string>
     <string-array name="PublicCameras">
         <item>Радецка</item>
@@ -23,10 +19,52 @@
         <item>Шавара</item>
         <item>Център</item>
     </string-array>
+    <!-- ^^^ VIEW ^^^ -->
 
+    <!-- *** ADD NEW *** -->
+    <string name="AddNew">Добави нова камера</string>
+    <string name="DisplayName" >Display Name</string>
+    <string name="AddNewName" >My store</string>
+    <string name="Auth" >АВТЕНТИФИКАЦИЯ</string>
+    <string name="Username" >Потребителско име</string>
+    <string name="name" >John Doe</string>
+    <string name="Password" >Парола</string>
+    <string name="ShowPass" >Покажи парола</string>
+    <!-- ^^^ ADD NEW ^^^ -->
+
+    <!-- *** SETTINGS MENU *** -->
     <string name="Settings">Настройки</string>
     <string name="Notifications">Известия</string>
     <string name="Gallery">Галерия</string>
     <string name="Language">Език</string>
+    <!-- ^^^ SETTINGS MENU ^^^ -->
+
+    <!-- *** NOTIFICATIONS SETTINGS *** -->
+    <string name="NotificationsSend">ПОКАЖИ ИЗВЕСТИЯ</string>
+    <string name="NotificationsShow">ИЗПРАТИ ИЗВЕСТИЯ</string>
+    <string name="AddEmail">Добави емайл</string>
+    <string name="Email2nd">втори@емайл.ком</string>
+    <string name="Email3rd">трети@емайл.ком</string>
+
+    <string-array name="NotificationTrigger">
+        <item>5 секунди</item>
+        <item>10 секунди</item>
+        <item>15 секунди</item>
+        <item>20 секунди</item>
+        <item>25 секунди</item>
+        <item>30 секунди</item>
+    </string-array>
+    <!-- ^^^ NOTIFICATIONS SETTINGS ^^^ -->
+
+    <!-- *** GALLERY *** -->
+    <string name="GalleryEmpty">Галерията е празна</string>
+    <!-- ^^^ GALLERY ^^^ -->
+
+    <!-- *** LANGUAGE SETTINGS *** -->
+    <string-array name="Languages">
+        <item>Английски</item>
+        <item>Български</item>
+    </string-array>
+    <!-- ^^^ LANGUAGE SETTINGS ^^^ -->
 
 </resources>

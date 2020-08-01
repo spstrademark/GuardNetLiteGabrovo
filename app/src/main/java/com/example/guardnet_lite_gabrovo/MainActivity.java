@@ -2,6 +2,7 @@ package com.example.guardnet_lite_gabrovo;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -75,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        // refresh your views here
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
@@ -142,17 +149,20 @@ public class MainActivity extends AppCompatActivity {
                         super.onBackPressed();
                     }
                     return true;
-                case R.id.gallery:
+                case R.id.quick_gallery:
                     NavHostFragment.findNavController(currentFragment)
                             .navigate(R.id.action_ViewFragment_to_GalleryFragment);
                     return true;
-                case R.id.calendar:
+                case R.id.quick_calendar:
                     NavHostFragment.findNavController(currentFragment)
                             .navigate(R.id.action_ViewFragment_to_calendarFragment);
                     return true;
+                case R.id.quick_notification:
+                    NavHostFragment.findNavController(currentFragment)
+                            .navigate(R.id.action_ViewFragment_to_NotificationFragment);
+                    return true;
+
                 default: return super.onOptionsItemSelected(item);
-
-
 
             }
 
@@ -204,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
         settings = new Settings(this);
         settings.InitAppFolder(getResources().getString(R.string.app_name));
     }
+
 
 
 }

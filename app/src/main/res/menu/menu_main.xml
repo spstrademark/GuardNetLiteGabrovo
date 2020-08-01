@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/gallery"
+        android:id="@+id/quick_gallery"
         android:bottom="10dp"
         android:icon="@drawable/ic_photo_library_24px"
         android:orderInCategory="1"
@@ -10,13 +10,13 @@
         android:top="10dp"
         app:showAsAction="always" />
     <item
-        android:id="@+id/calendar"
+        android:id="@+id/quick_calendar"
         android:icon="@drawable/ic_insert_invitation_24px"
         android:orderInCategory="2"
         android:title="2"
         app:showAsAction="always" />
     <item
-        android:id="@+id/clock"
+        android:id="@+id/quick_notification"
         android:icon="@drawable/ic_schedule_24px"
         android:orderInCategory="3"
         android:title="3"
