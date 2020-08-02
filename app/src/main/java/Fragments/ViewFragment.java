@@ -1,7 +1,11 @@
 package Fragments;
 
 //import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +18,16 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.guardnet_lite_gabrovo.R;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -104,7 +112,50 @@ public class ViewFragment extends Fragment {
         String playVideo= String.format("<iframe type=\"text/html\" width=\"400\" height=\"400\" src=\"%s\" >", GetCameraURL(camera));
         Viewer.loadData(playVideo, "text/html", "utf-8");
 
+        Viewer.setWebViewClient(new WebViewClient() {
+// IN A NEW THREAT !
+//            public void onPageFinished(WebView view, String url) {
+//                // do your stuff here
+//                Viewer.measure(View.MeasureSpec.makeMeasureSpec(
+//                        View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+//                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+//                Viewer.layout(0, 0, Viewer.getMeasuredWidth(),
+//                        Viewer.getMeasuredHeight());
+//                Viewer.setDrawingCacheEnabled(true);
+//                Viewer.buildDrawingCache();
+//                Bitmap bm = Bitmap.createBitmap(Viewer.getMeasuredWidth(),
+//                        Viewer.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+//
+//                Canvas bigcanvas = new Canvas(bm);
+//                Paint paint = new Paint();
+//                int iHeight = bm.getHeight();
+//                bigcanvas.drawBitmap(bm, 0, iHeight, paint);
+//                Viewer.draw(bigcanvas);
+//                System.out.println("1111111111111111111111="
+//                        + bigcanvas.getWidth());
+//                System.out.println("22222222222222222222222="
+//                        + bigcanvas.getHeight());
+//
+//                if (bm != null) {
+//                    try {
+//                        String path = Environment.getExternalStorageDirectory()
+//                                .toString();
+//                        OutputStream fOut = null;
+//                        File file = new File(path, "/aaaa.png");
+//                        fOut = new FileOutputStream(file);
+//
+//                        bm.compress(Bitmap.CompressFormat.PNG, 50, fOut);
+//                        fOut.flush();
+//                        fOut.close();
+//                        bm.recycle();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+        });
     }
+
 
     public String GetCameraURL(int idx)
     {

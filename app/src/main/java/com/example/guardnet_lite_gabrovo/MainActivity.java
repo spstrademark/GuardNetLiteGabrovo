@@ -3,6 +3,7 @@ package com.example.guardnet_lite_gabrovo;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,19 +16,23 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
+import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
-
+import android.os.Handler;
 import Common.FragmentsEnum;
 import Common.Settings;
 
 public class MainActivity extends AppCompatActivity {
     Settings settings;
-
+    private Handler handler = new Handler();
 //    private static final int DUMMY1 = Menu.FIRST;
 //    private static final int DUMMY2 = DUMMY1 + 1;
 //    private static final int RETURN = DUMMY2 + 1;
@@ -37,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MainAcivityInit();
-
+        handler.post(AIThread);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +76,20 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
     }
+
+
+
+    // Define the code block to be executed
+    private Runnable AIThread = new Runnable() {
+        @Override
+        public void run() {
+            // Insert custom code here
+           // TODO AI
+            // Repeat every 2 seconds
+            handler.postDelayed(AIThread, 2000);
+        }
+    };
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -215,6 +234,23 @@ public class MainActivity extends AppCompatActivity {
         settings.RestoreLanguage();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 
 

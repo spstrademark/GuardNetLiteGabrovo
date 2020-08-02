@@ -58,12 +58,15 @@ public class GalleryFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view.getContext(),settings.GetGalleryView());
         recyclerView.setLayoutManager(layoutManager);
         ArrayList<GalleryList> galleryLists = prepareData();
-        if(galleryLists!=null){
+        if(galleryLists!=null && galleryLists.size()>0){
             view.findViewById(R.id.EmptyGallery).setVisibility(View.INVISIBLE);
             GalleryAdapter adapter = new GalleryAdapter(view.getContext(), galleryLists);
             recyclerView.setHasFixedSize(false);
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setAdapter(adapter);
+        }else{
+            view.findViewById(R.id.GridView).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.ListView).setVisibility(View.INVISIBLE);
         }
 
     }
