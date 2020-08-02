@@ -9,8 +9,10 @@
         android:id="@+id/calendarView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="250dp" />
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="196dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
         android:id="@+id/dtMonitrongEnabled"
