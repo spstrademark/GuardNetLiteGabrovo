@@ -1,4 +1,4 @@
-package Fragments;
+package GalleryTools;
 
 public class GalleryList {
 

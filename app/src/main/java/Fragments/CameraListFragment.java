@@ -11,7 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.guardnet_lite_gabrovo.R;
 
-import Settings.Settings;
+import Common.Settings;
 
 public class CameraListFragment extends Fragment {
     Settings settings;
@@ -28,7 +28,7 @@ public class CameraListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         super.onViewCreated(view, savedInstanceState);
         // settings = new Settings(getActivity());
-        settings = new Settings(getContext());
+        settings = new Settings(getContext(),2);
         //  InitCameraDropdownList(view);
 
         view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {

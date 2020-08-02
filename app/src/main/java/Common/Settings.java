@@ -1,4 +1,4 @@
-package Settings;
+package Common;
 import com.example.guardnet_lite_gabrovo.R;
 
 import android.content.Context;
@@ -12,12 +12,12 @@ import java.io.File;
 import java.util.Locale;
 
 import Camera.PublicCamerasEnum;
-import Language.LanguagesEnum;
 import Notifications.NotificationsTriggerEnum;
 
 public class Settings {
     String folder = "";
-    final String Settings       = "Settings";
+    final String LastView       = "LastView";
+    final String Settings       = "Common";
     final String FirstTime      = "FirstTime";
     final String SelectedCam    = "SelectedCamera";
     final String Language       = "SelectedLanguage";
@@ -27,11 +27,13 @@ public class Settings {
     SharedPreferences.Editor SetPrefs;
     SharedPreferences GetPrefs;
     Context context;
-    public Settings(Context context) {
+    int activeView;
+    public Settings(Context context,int activeView) {
 
 
        // final String APPLICATION_NAME =  context.getApplicationInfo().packageName;//context.getResources().getString(.app_name);
         this.context = context;
+        this.activeView = activeView;
         this.GetPrefs = context.getSharedPreferences(Settings, context.MODE_PRIVATE);//.edit();
         this.SetPrefs = GetPrefs.edit();
 
@@ -43,10 +45,13 @@ public class Settings {
 
         }
 
-    }
-    public void Init(Context context)
-    {
+        SetPrefs.putInt(LastView,activeView);
+        SetPrefs.apply();
 
+    }
+    public int GetView()
+    {
+        return GetPrefs.getInt(LastView,  FragmentsEnum.MAIN_ACTIVITY.ordinal());
     }
 
     public void InitAppFolder(String AppName)

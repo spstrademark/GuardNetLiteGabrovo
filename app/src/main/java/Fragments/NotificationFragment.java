@@ -10,11 +10,11 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.guardnet_lite_gabrovo.R;
 
-import Settings.Settings;
+import Common.FragmentsEnum;
+import Common.Settings;
 
 
 
@@ -31,7 +31,7 @@ public class NotificationFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        settings = new Settings(getContext());
+        settings = new Settings(getContext(), FragmentsEnum.NOTIFICATIONS.ordinal());
         super.onViewCreated(view, savedInstanceState);
         InitCameraDropdownList(view);
 //        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
@@ -45,7 +45,7 @@ public class NotificationFragment extends Fragment {
 
     void InitCameraDropdownList(@NonNull View view)
     {
-        Spinner dropdown = view.findViewById(R.id.notificationIntervals);//= dropdown.findViewById(); // values
+        Spinner dropdown = view.findViewById(R.id.notificationIntervals);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.NotificationTrigger, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

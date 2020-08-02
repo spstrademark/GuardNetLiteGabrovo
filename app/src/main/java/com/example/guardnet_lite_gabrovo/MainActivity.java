@@ -22,18 +22,15 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-import Fragments.ViewFragment;
-import Settings.Settings;
+import Common.FragmentsEnum;
+import Common.Settings;
 
 public class MainActivity extends AppCompatActivity {
     Settings settings;
-    int activeID = 0;
-    int doublePress = 0;
 
-    private static final int DUMMY1 = Menu.FIRST;
-    private static final int DUMMY2 = DUMMY1 + 1;
-    private static final int RETURN = DUMMY2 + 1;
-//    private static final int MENU_LOGIN = MENU.FIRST + 3;
+//    private static final int DUMMY1 = Menu.FIRST;
+//    private static final int DUMMY2 = DUMMY1 + 1;
+//    private static final int RETURN = DUMMY2 + 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         MainAcivityInit();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
 //        toolbar.setNavigationOnClickListener(new View.OnClickListener()){
 //
 //        }
@@ -120,71 +117,73 @@ public class MainActivity extends AppCompatActivity {
     //    invalidateOptionsMenu();
 
         Fragment currentFragment = getVisibleFragment();
-        String tag = (String)currentFragment.getTag();
-        if(currentFragment !=null)
+        int view =  settings.GetView();
+
+        switch(item.getItemId())
         {
-
-        }
-     //   boolean tag = currentFragment.();
-        int id = item.getItemId();
-//      //  if(id!=activeID){
-//            activeID = id;
-//
-//            if(doublePress > 0){
-//                doublePress--;
-//                super.onBackPressed();
-//            }
-//            //noinspection SimplifiableIfStatement
-
-
-            switch(id)
-            {
                 case R.id.buttonSettings:
-                    if(doublePress==0){
-                        doublePress++;
+                    if(view==FragmentsEnum.VIEW.ordinal()){
                         NavHostFragment.findNavController(currentFragment)
                                 .navigate(R.id.action_ViewFragment_to_SettingsFragment);
-                    }else{
-                        doublePress = 0;
-                        super.onBackPressed();
                     }
+                    if(view==FragmentsEnum.GALLERY.ordinal()){
+                        NavHostFragment.findNavController(currentFragment)
+                                .navigate(R.id.action_GalleryFragment_to_SettingsFragment);
+                    }
+                    if(view==FragmentsEnum.CALENDAR.ordinal()){
+                        NavHostFragment.findNavController(currentFragment)
+                                .navigate(R.id.action_CalendarFragment_to_SettingsFragment);
+                    }
+
                     return true;
-                case R.id.quick_gallery:
+            case R.id.quick_gallery:
+                if(view==FragmentsEnum.VIEW.ordinal()) {
                     NavHostFragment.findNavController(currentFragment)
                             .navigate(R.id.action_ViewFragment_to_GalleryFragment);
-                    return true;
-                case R.id.quick_calendar:
+
+                }else if(view==FragmentsEnum.CALENDAR.ordinal()){
+                    NavHostFragment.findNavController(currentFragment)
+                            .navigate(R.id.action_CalendarFragment_to_GalleryFragment);
+                }
+                else if(view==FragmentsEnum.NOTIFICATIONS.ordinal()){
+                    NavHostFragment.findNavController(currentFragment)
+                            .navigate(R.id.action_NotificationFragment_to_GalleryFragment);
+                }
+                else if(view==FragmentsEnum.SETTINGS.ordinal()){
+                    NavHostFragment.findNavController(currentFragment)
+                            .navigate(R.id.action_SettingsFragment_to_GalleryFragment);
+                }
+                return true;
+            case R.id.quick_calendar:
+                if(view==FragmentsEnum.VIEW.ordinal()) {
                     NavHostFragment.findNavController(currentFragment)
                             .navigate(R.id.action_ViewFragment_to_calendarFragment);
-                    return true;
-                case R.id.quick_notification:
+                }else if(view==FragmentsEnum.GALLERY.ordinal()){
+                    NavHostFragment.findNavController(currentFragment)
+                            .navigate(R.id.action_GalleryFragment_to_CalendarFragment);
+                }else if(view==FragmentsEnum.NOTIFICATIONS.ordinal()){
+                    NavHostFragment.findNavController(currentFragment)
+                            .navigate(R.id.action_NotificationFragment_to_CalendarFragment);
+                }
+
+                return true;
+            case R.id.quick_notification:
+                if(view==FragmentsEnum.VIEW.ordinal()) {
                     NavHostFragment.findNavController(currentFragment)
                             .navigate(R.id.action_ViewFragment_to_NotificationFragment);
-                    return true;
+                }else if(view==FragmentsEnum.GALLERY.ordinal()){
+                    NavHostFragment.findNavController(currentFragment)
+                            .navigate(R.id.action_GalleryFragment_to_NotificationFragment);
+                }else if(view==FragmentsEnum.CALENDAR.ordinal()){
+                    NavHostFragment.findNavController(currentFragment)
+                            .navigate(R.id.action_CalendarFragment_to_NotificationFragment);
+                }
+                return true;
 
-                default: return super.onOptionsItemSelected(item);
+            default: return super.onOptionsItemSelected(item);
 
-            }
+        }
 
-//            if (id == R.id.buttonSettings) {
-//                doublePress++;
-//           //     SetMenuItemsVisibility(View.INVISIBLE);
-//                NavHostFragment.findNavController(currentFragment)
-//                        .navigate(R.id.action_ViewFragment_to_SettingsFragment);
-//                return true;
-//            }
-
-
-//        }else{
-//            super.onBackPressed();
-//            SetMenuItemsVisibility(View.VISIBLE);
-//            activeID = 0;
-//
-//        }
-//
-
-
-  //    return super.onOptionsItemSelected(item);
     }
 
 
@@ -211,8 +210,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         this.setTitle("");
-        settings = new Settings(this);
+        settings = new Settings(this, FragmentsEnum.MAIN_ACTIVITY.ordinal());
         settings.InitAppFolder(getResources().getString(R.string.app_name));
+        settings.RestoreLanguage();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
 

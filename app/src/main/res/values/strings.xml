@@ -75,6 +75,10 @@
     </string-array>
     <!-- ^^^ NOTIFICATIONS SETTINGS ^^^ -->
 
+    <!-- *** CALENDAR *** -->
+    <string name="CalendarEnableDateTimeMonitoring">MONITORING BY DATE AND TIME</string>
+    <!-- ^^^ CALENDAR ^^^ -->
+
     <!-- *** GALLERY *** -->
     <string name="GalleryEmpty">Gallery is empty</string>
     <!-- ^^^ GALLERY ^^^ -->

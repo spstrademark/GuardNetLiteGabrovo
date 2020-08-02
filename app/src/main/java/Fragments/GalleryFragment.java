@@ -3,7 +3,6 @@ package Fragments;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,7 +17,10 @@ import com.example.guardnet_lite_gabrovo.R;
 import java.io.File;
 import java.util.ArrayList;
 
-import Settings.Settings;
+import Common.FragmentsEnum;
+import Common.Settings;
+import GalleryTools.GalleryAdapter;
+import GalleryTools.GalleryList;
 
 public class GalleryFragment extends Fragment {
     Settings settings;
@@ -37,7 +39,7 @@ public class GalleryFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        settings = new Settings(getContext());
+        settings = new Settings(getContext(), FragmentsEnum.GALLERY.ordinal());
         super.onViewCreated(view, savedInstanceState);
         InitRecycleView(view);
         ButtonEvents(view);
@@ -109,8 +111,8 @@ public class GalleryFragment extends Fragment {
         view.findViewById(R.id.gallery_return).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(GalleryFragment.this)
-                        .navigate(R.id.action_GalleryFragment_to_ViewFragment);
+//                NavHostFragment.findNavController(GalleryFragment.this)
+//                        .navigate(R.id.action_GalleryFragment_to_ViewFragment);
             }
         });
     }

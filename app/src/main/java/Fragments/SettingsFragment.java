@@ -11,6 +11,9 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.guardnet_lite_gabrovo.R;
 
+import Common.FragmentsEnum;
+import Common.Settings;
+
 //import androidx.preference.PreferenceFragmentCompat;
 //
 //public class SettingsFragment extends PreferenceFragmentCompat {
@@ -23,7 +26,7 @@ import com.example.guardnet_lite_gabrovo.R;
 
 
 public class SettingsFragment extends Fragment {
-
+    Settings settings;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -35,6 +38,7 @@ public class SettingsFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
      //   super.onCreate(savedInstanceState);
+        settings = new Settings(getContext(), FragmentsEnum.SETTINGS.ordinal());
         super.onViewCreated(view, savedInstanceState);
         FragmentInit();
         view.findViewById(R.id.language).setOnClickListener(new View.OnClickListener() {

@@ -18,8 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guardnet_lite_gabrovo.R;
 
+import Common.FragmentsEnum;
+import Common.Settings;
+
 public class AddFragment extends Fragment {
     View myView;
+    Settings settings;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -30,6 +34,7 @@ public class AddFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        settings = new Settings(getContext(), FragmentsEnum.ADD.ordinal());
         super.onViewCreated(view, savedInstanceState);
         myView = view;
         ButtonEvents(view);

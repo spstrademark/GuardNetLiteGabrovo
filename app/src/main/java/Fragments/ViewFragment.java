@@ -8,11 +8,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.preference.PreferenceFragmentCompat;
 
 
 import android.webkit.WebSettings;
@@ -26,11 +23,8 @@ import com.example.guardnet_lite_gabrovo.R;
 import java.util.Arrays;
 import java.util.List;
 
-import Settings.Settings;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
+import Common.FragmentsEnum;
+import Common.Settings;
 
 public class ViewFragment extends Fragment {
     Settings settings;
@@ -46,15 +40,11 @@ public class ViewFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        settings = new Settings(getContext());
-        settings.RestoreLanguage();
+        settings = new Settings(getContext(), FragmentsEnum.VIEW.ordinal());
+       // settings.RestoreLanguage();
         super.onViewCreated(view, savedInstanceState);
        // settings = new Settings(getActivity());
 
-
-//        getFragmentManager().beginTransaction()
-//                .replace(R.id.MainFrameLayout,fragmentA,"YOUR_TARGET_FRAGMENT_TAG")
-//                .addToBackStack("YOUR_SOURCE_FRAGMENT_TAG").commit();
 
         InitCameraDropdownList(view);
         InitViewer(view);

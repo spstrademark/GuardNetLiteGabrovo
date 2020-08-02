@@ -56,6 +56,10 @@
     </string-array>
     <!-- ^^^ NOTIFICATIONS SETTINGS ^^^ -->
 
+    <!-- *** CALENDAR *** -->
+    <string name="CalendarEnableDateTimeMonitoring">МОНИТОРИРАНЕ ПО ДАТА И ЧАС</string>
+    <!-- ^^^ CALENDAR ^^^ -->
+
     <!-- *** GALLERY *** -->
     <string name="GalleryEmpty">Галерията е празна</string>
     <!-- ^^^ GALLERY ^^^ -->

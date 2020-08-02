@@ -1,4 +1,4 @@
-package Language;
+package Common;
 
 public enum LanguagesEnum {
     EN,
