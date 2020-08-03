@@ -6,16 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
 
 import Common.FragmentsEnum;
@@ -65,11 +63,14 @@ public class AddFragment extends Fragment {
             }
         });
 
-        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.addDevice).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(AddFragment.this)
-                        .navigate(R.id.action_AddFragment_to_ViewFragment);
+            myView.setVisibility(View.INVISIBLE);
+            MainActivity activity = (MainActivity) getActivity();
+            activity.ToggleFrontLayerVisibility(View.VISIBLE);
+             NavHostFragment.findNavController(AddFragment.this)
+                       .navigate(R.id.action_AddFragment_to_GalleryFragment);
             }
         });
     }

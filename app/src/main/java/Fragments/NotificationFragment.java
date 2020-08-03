@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
 
 import Common.FragmentsEnum;
@@ -33,6 +34,9 @@ public class NotificationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         settings = new Settings(getContext(), FragmentsEnum.NOTIFICATIONS.ordinal());
         super.onViewCreated(view, savedInstanceState);
+     //   view.setVisibility(View.GONE);
+        MainActivity activity = (MainActivity) getActivity();
+        activity.SetActiveView(NotificationFragment.this);
         InitCameraDropdownList(view);
 //        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
 //            @Override

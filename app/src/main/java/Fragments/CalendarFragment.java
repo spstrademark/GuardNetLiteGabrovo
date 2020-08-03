@@ -23,12 +23,14 @@ public class CalendarFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.calendar_fragment, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         settings = new Settings(getContext(), FragmentsEnum.CALENDAR.ordinal());
         super.onViewCreated(view, savedInstanceState);
+    //    view.setVisibility(View.GONE);
         FragmentInit();
 
         CalendarView calendarView=(CalendarView) view.findViewById(R.id.calendarView);

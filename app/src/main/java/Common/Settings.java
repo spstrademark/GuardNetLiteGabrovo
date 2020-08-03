@@ -17,6 +17,7 @@ import Notifications.NotificationsTriggerEnum;
 public class Settings {
     String folder = "";
     final String LastView       = "LastView";
+    final String SecondLastView = "SecondLastView";
     final String Settings       = "Common";
     final String FirstTime      = "FirstTime";
     final String SelectedCam    = "SelectedCamera";
@@ -28,6 +29,8 @@ public class Settings {
     SharedPreferences GetPrefs;
     Context context;
     int activeView;
+
+
     public Settings(Context context,int activeView) {
 
 
@@ -45,7 +48,11 @@ public class Settings {
 
         }
 
+
         SetPrefs.putInt(LastView,activeView);
+
+
+
         SetPrefs.apply();
 
     }
@@ -67,7 +74,7 @@ public class Settings {
         }
     }
 
-    public android.content.res.Configuration SaveLanguageValue(int languageIDX)
+    public android.content.res.Configuration SetLanguage(int languageIDX)
     {
         String lan =  LanguagesEnum.values()[languageIDX].toString().toLowerCase();
         Resources res = context.getResources();
@@ -83,7 +90,7 @@ public class Settings {
         return conf;
     }
 
-    public int RestoreLanguage()
+    public int GetLanguage()
     {
         int lang = GetPrefs.getInt(Language, LanguagesEnum.EN.ordinal());
         String lan =  LanguagesEnum.values()[lang].toString().toLowerCase();
@@ -95,18 +102,18 @@ public class Settings {
         return lang;
     }
 
-    public void SaveCameraValue(int idx)
+    public void SetCamera(int idx)
     {
         SetPrefs.putInt(SelectedCam,idx);
         SetPrefs.apply();
     }
 
-    public int RestoreCameraValue()
+    public int GetCamera()
     {
         return GetPrefs.getInt(SelectedCam, PublicCamerasEnum.RADECKA.ordinal());
     }
 
-    public void SaveGalleryView(int idx)
+    public void SetGalleryView(int idx)
     {
         SetPrefs.putInt(GalleryView,idx);
         SetPrefs.apply();

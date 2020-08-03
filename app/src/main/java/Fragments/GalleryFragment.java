@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
 
 import java.io.File;
@@ -41,6 +42,9 @@ public class GalleryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         settings = new Settings(getContext(), FragmentsEnum.GALLERY.ordinal());
         super.onViewCreated(view, savedInstanceState);
+        view.setVisibility(View.GONE);
+        MainActivity activity = (MainActivity) getActivity();
+        activity.SetActiveView(GalleryFragment.this);
         InitRecycleView(view);
         ButtonEvents(view);
     }
@@ -98,7 +102,7 @@ public class GalleryFragment extends Fragment {
             public void onClick(View view) {
                 RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view.getContext(),GRID);
                 recyclerView.setLayoutManager(layoutManager);
-                settings.SaveGalleryView(GRID);
+                settings.SetGalleryView(GRID);
             }
         });
 
@@ -107,17 +111,12 @@ public class GalleryFragment extends Fragment {
             public void onClick(View view) {
                 RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view.getContext(),LIST);
                 recyclerView.setLayoutManager(layoutManager);
-                settings.SaveGalleryView(LIST);
+                settings.SetGalleryView(LIST);
             }
         });
 
-        view.findViewById(R.id.gallery_return).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                NavHostFragment.findNavController(GalleryFragment.this)
-//                        .navigate(R.id.action_GalleryFragment_to_ViewFragment);
-            }
-        });
+
     }
+
 
 }

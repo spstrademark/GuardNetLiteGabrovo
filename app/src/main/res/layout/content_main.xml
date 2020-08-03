@@ -16,4 +16,17 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
+
+    <com.evolve.backdroplibrary.BackdropContainer
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/backdropcontainer"
+        app:duration="500">
+
+        <include layout="@layout/backlayer"/>
+        <include layout="@layout/frontlayer"/>
+
+
+    </com.evolve.backdroplibrary.BackdropContainer>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
 
 import Common.FragmentsEnum;
@@ -32,9 +33,11 @@ public class LanguageFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         settings = new Settings(getContext(), FragmentsEnum.LANGUAGE.ordinal());
-        currentLan =  settings.RestoreLanguage();
+        currentLan =  settings.GetLanguage();
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle(R.string.Language);
+        MainActivity activity = (MainActivity) getActivity();
+        activity.SetActiveView(LanguageFragment.this);
+        activity.setTitle(R.string.Language);
         InitLanguagesDropdownList(view);
     }
 
@@ -57,7 +60,7 @@ public class LanguageFragment extends Fragment {
                     return;
                 }
                 if(currentLan!=arg2){
-                    settings.SaveLanguageValue(arg2);
+                    settings.SetLanguage(arg2);
                   //  onConfigurationChanged(settings.SaveLanguageValue(arg2));
                     getView().requestLayout();
              //       getActivity().recreate();

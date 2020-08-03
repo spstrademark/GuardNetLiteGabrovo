@@ -21,7 +21,7 @@ public class CameraListFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        return inflater.inflate(R.layout.view_fragment, container, false);
+        return inflater.inflate(R.layout.settings_fragment, container, false); // TODO CAMERA LIST
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -31,13 +31,6 @@ public class CameraListFragment extends Fragment {
         settings = new Settings(getContext(),2);
         //  InitCameraDropdownList(view);
 
-        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(CameraListFragment.this)
-                        .navigate(R.id.action_ViewFragment_to_AddFragment);
-            }
-        });
     }
 
 }

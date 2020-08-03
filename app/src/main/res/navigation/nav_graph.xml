@@ -3,30 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/ViewFragment">
+    app:startDestination="@id/GalleryFragment">
 
-    <fragment
-        android:id="@+id/ViewFragment"
-        android:name="Fragments.ViewFragment"
-        android:label="@string/CamViewer"
-        tools:layout="@layout/view_fragment">
-
-        <action
-            android:id="@+id/action_ViewFragment_to_AddFragment"
-            app:destination="@id/AddFragment" />
-        <action
-            android:id="@+id/action_ViewFragment_to_SettingsFragment"
-            app:destination="@id/SettingsFragment" />
-        <action
-            android:id="@+id/action_ViewFragment_to_calendarFragment"
-            app:destination="@id/CalendarFragment" />
-        <action
-            android:id="@+id/action_ViewFragment_to_GalleryFragment"
-            app:destination="@id/GalleryFragment" />
-        <action
-            android:id="@+id/action_ViewFragment_to_NotificationFragment"
-            app:destination="@id/NotificationFragment" />
-    </fragment>
     <fragment
         android:id="@+id/AddFragment"
         android:name="Fragments.AddFragment"
@@ -34,11 +12,17 @@
         tools:layout="@layout/add_fragment">
 
         <action
-            android:id="@+id/action_AddFragment_to_ViewFragment"
-            app:destination="@id/ViewFragment" />
-        <action
             android:id="@+id/action_AddFragment_to_SettingsFragment"
             app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_AddFragment_to_GalleryFragment"
+            app:destination="@id/GalleryFragment" />
+        <action
+            android:id="@+id/action_AddFragment_to_CalendarFragment"
+            app:destination="@id/CalendarFragment" />
+        <action
+            android:id="@+id/action_AddFragment_to_NotificationFragment"
+            app:destination="@id/NotificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/SettingsFragment"
@@ -51,6 +35,9 @@
         <action
             android:id="@+id/action_SettingsFragment_to_GalleryFragment"
             app:destination="@id/GalleryFragment" />
+        <action
+            android:id="@+id/action_SettingsFragment_to_NotificationFragment"
+            app:destination="@id/NotificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/LanguageFragment"
@@ -72,6 +59,12 @@
         <action
             android:id="@+id/action_NotificationFragment_to_CalendarFragment"
             app:destination="@id/CalendarFragment" />
+        <action
+            android:id="@+id/action_NotificationFragment_to_SettingsFragment"
+            app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_NotificationFragment_to_AddFragment"
+            app:destination="@id/AddFragment" />
     </fragment>
     <fragment
         android:id="@+id/CameraListFragment"
@@ -84,17 +77,22 @@
         android:label="GalleryFragment"
         tools:layout="@layout/gallery_fragment">
         <action
-            android:id="@+id/action_GalleryFragment_to_ViewFragment"
-            app:destination="@id/ViewFragment" />
-        <action
             android:id="@+id/action_GalleryFragment_to_CalendarFragment"
-            app:destination="@id/CalendarFragment" />
+            app:destination="@id/CalendarFragment"
+
+        app:enterAnim="@anim/enter_from_right"
+        app:exitAnim="@anim/exit_to_left"
+            />
         <action
             android:id="@+id/action_GalleryFragment_to_NotificationFragment"
             app:destination="@id/NotificationFragment" />
         <action
             android:id="@+id/action_GalleryFragment_to_SettingsFragment"
             app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_GalleryFragment_to_AddFragment"
+            app:destination="@id/AddFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/CalendarFragment"
@@ -106,22 +104,25 @@
             app:destination="@id/ClockFragment" />
         <action
             android:id="@+id/action_CalendarFragment_to_GalleryFragment"
-            app:destination="@id/GalleryFragment" />
+            app:destination="@id/GalleryFragment"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            />
         <action
             android:id="@+id/action_CalendarFragment_to_NotificationFragment"
             app:destination="@id/NotificationFragment" />
         <action
             android:id="@+id/action_CalendarFragment_to_SettingsFragment"
             app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_CalendarFragment_to_AddFragment"
+            app:destination="@id/AddFragment" />
     </fragment>
     <fragment
         android:id="@+id/ClockFragment"
         android:name="Fragments.ClockFragment"
         android:label="ClockFragment"
         tools:layout="@layout/clock_fragment">
-        <action
-            android:id="@+id/action_ClockFragment_to_ViewFragment"
-            app:destination="@id/ViewFragment" />
         <action
             android:id="@+id/action_ClockFragment_to_CalendarFragment"
             app:destination="@id/CalendarFragment" />

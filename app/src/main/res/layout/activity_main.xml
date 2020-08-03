@@ -16,7 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorBackground"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -24,18 +26,4 @@
         android:id="@+id/include"
         layout="@layout/content_main" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="74dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:background="@color/colorBackground"
-        android:foreground="@drawable/ic_add_24px"
-        android:scrollbarTrackHorizontal="@drawable/ic_add_24px"
-        android:scrollbarTrackVertical="@drawable/ic_add_24px"
-        android:tint="#FFFFFF"
-        app:backgroundTint="@color/colorAccent"
-        app:rippleColor="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_add_24px" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
