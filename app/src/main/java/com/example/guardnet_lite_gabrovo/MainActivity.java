@@ -631,7 +631,7 @@ public class MainActivity extends AppCompatActivity {
         Spinner dropdown = findViewById(R.id.cameraList);//= dropdown.findViewById(); // values
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.PublicCameras, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropdown.setAdapter(adapter);
         selected = settings.GetCamera();
         dropdown.setSelection(selected);
@@ -641,7 +641,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    ((TextView) arg0.getChildAt(0)).setTextColor(getColor(R.color.colorAccent));
+                    ((TextView) arg0.getChildAt(0)).setTextColor(getColor(R.color.colorText));
                 }
                 settings.SetCamera(arg2);
                 ViewerStart(arg2);
