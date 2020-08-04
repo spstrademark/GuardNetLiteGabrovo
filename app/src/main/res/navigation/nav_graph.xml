@@ -55,10 +55,14 @@
         tools:layout="@layout/notification_fragment">
         <action
             android:id="@+id/action_NotificationFragment_to_GalleryFragment"
-            app:destination="@id/GalleryFragment" />
+            app:destination="@id/GalleryFragment"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"/>
         <action
             android:id="@+id/action_NotificationFragment_to_CalendarFragment"
-            app:destination="@id/CalendarFragment" />
+            app:destination="@id/CalendarFragment"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"/>
         <action
             android:id="@+id/action_NotificationFragment_to_SettingsFragment"
             app:destination="@id/SettingsFragment" />
@@ -79,13 +83,13 @@
         <action
             android:id="@+id/action_GalleryFragment_to_CalendarFragment"
             app:destination="@id/CalendarFragment"
-
-        app:enterAnim="@anim/enter_from_right"
-        app:exitAnim="@anim/exit_to_left"
-            />
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"/>
         <action
             android:id="@+id/action_GalleryFragment_to_NotificationFragment"
-            app:destination="@id/NotificationFragment" />
+            app:destination="@id/NotificationFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"/>
         <action
             android:id="@+id/action_GalleryFragment_to_SettingsFragment"
             app:destination="@id/SettingsFragment" />
@@ -110,7 +114,9 @@
             />
         <action
             android:id="@+id/action_CalendarFragment_to_NotificationFragment"
-            app:destination="@id/NotificationFragment" />
+            app:destination="@id/NotificationFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"/>
         <action
             android:id="@+id/action_CalendarFragment_to_SettingsFragment"
             app:destination="@id/SettingsFragment" />

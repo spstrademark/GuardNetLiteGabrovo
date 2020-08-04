@@ -371,6 +371,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
 //        findViewById(R.id.addDevice).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -408,7 +410,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_settings_24px);// set drawable icon // FIX AND REMOVE FROM HERE
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+
+      //  ab.setDisplayHomeAsUpEnabled(true);
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         return true;
@@ -446,6 +454,9 @@ public class MainActivity extends AppCompatActivity {
 
         switch(item.getItemId())
         {
+            case android.R.id.home:
+                int i = 0;
+                break;
             case R.id.buttonSettings:
 
                 if(view==FragmentsEnum.VIEW.ordinal()){
@@ -656,15 +667,25 @@ public class MainActivity extends AppCompatActivity {
     void ViewerStart( int camera)
     {
         String webContent =    "<!DOCTYPE html>" +
-                    "<html> " +
-                    "<head> " +
-                    "<meta charset=\\\"UTF-8\\\"><meta name=\\\"viewport\\\" content=\\\"target-densitydpi=high-dpi\\\" /> " +
-                    "<meta name=\\\"viewport\\\" content=\\\"width=device-width, initial-scale=1\\\"> <link rel=\\\"stylesheet\\\" " +
-                    "media=\\\"screen and (-webkit-device-pixel-ratio:1.5)\\\" href=\\\"hdpi.css\\\" />" +
-                    "</head> " +
-                    "<body style=\\\"background:black;margin:0 0 0 0; padding:0 0 0 0;\\\">" +
-                    "<iframe type=type=\"text/html\" width=\"400\" height=\"400\" src=\"%s\" ></iframe>" +
-                    "</body></html>";
+                "<html> " +
+                "<head> " +
+                "<meta charset=\\\"UTF-8\\\"><meta name=\\\"viewport\\\" content=\\\"target-densitydpi=high-dpi\\\" /> " +
+                "<meta name=\\\"viewport\\\" content=\\\"width=device-width, initial-scale=1\\\"> <link rel=\\\"stylesheet\\\" " +
+                "media=\\\"screen and (-webkit-device-pixel-ratio:1.5)\\\" href=\\\"hdpi.css\\\" />" +
+                "</head> " +
+                "<body onload=\"ClickFrame()\" style=\\\"background:black;margin:0 0 0 0; padding:0 0 0 0;\\\">" +
+                "<iframe id=\"view\" type=type=\"text/html\" width=\"400\" height=\"400\" src=\"%s\" ></iframe>" +
+                "<script type=\"text/javascript\">" +
+                "function ClickFrame(){" +
+                "setTimeout(function(){ document.getElementById('view').click(); }, 3000);" +
+          //      "document.getElementById('view').click();" +
+                "}" +
+                "</script>" +
+                "</body" +
+                "></html>";
+
+
+
         String playVideo= String.format(webContent, GetCameraURL(camera));
         Viewer.loadData(playVideo, "text/html", "utf-8");
 
