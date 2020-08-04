@@ -276,8 +276,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.opengl.Visibility;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -313,6 +315,7 @@ import java.util.Arrays;
 import java.util.List;
 import android.os.Handler;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import Common.FragmentsEnum;
 import Common.Settings;
@@ -628,7 +631,7 @@ public class MainActivity extends AppCompatActivity {
         Spinner dropdown = findViewById(R.id.cameraList);//= dropdown.findViewById(); // values
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.PublicCameras, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.spinner_item);
         dropdown.setAdapter(adapter);
         selected = settings.GetCamera();
         dropdown.setSelection(selected);
@@ -637,6 +640,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    ((TextView) arg0.getChildAt(0)).setTextColor(getColor(R.color.colorAccent));
+                }
                 settings.SetCamera(arg2);
                 ViewerStart(arg2);
             }
@@ -645,6 +651,7 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> arg0) {
 
             }
+
         });
 
     }

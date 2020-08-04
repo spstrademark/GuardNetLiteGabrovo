@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     android:focusableInTouchMode="true"
     tools:context="Fragments.AddFragment">
 
@@ -14,6 +15,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="410dp"
         android:text="@string/Password"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,6 +41,7 @@
         android:hint="@string/DefaultURL"
         android:imeOptions="actionSend"
         android:inputType="text"
+        android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,6 +54,7 @@
         android:hint="@string/AddNewName"
         android:imeOptions="actionSend"
         android:inputType="text"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,6 +83,7 @@
         android:layout_marginStart="33dp"
         android:layout_marginTop="44dp"
         android:text="@string/URL"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,6 +94,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="142dp"
         android:text="@string/DisplayName"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,6 +105,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="251dp"
         android:text="@string/Auth"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

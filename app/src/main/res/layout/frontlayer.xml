@@ -12,6 +12,7 @@
         android:layout_marginStart="33dp"
         android:layout_marginTop="452dp"
         android:layout_marginEnd="33dp"
+        android:background="#FFFFFF"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +52,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="16dp"
         android:text="@string/CamViewer"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,8 +62,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="296dp"
         android:layout_marginTop="11dp"
-        android:text="Button"
+        android:background="@color/cardview_light_background"
         android:visibility="invisible"
+        app:backgroundTint="@color/colorAccent"
+        app:icon="@drawable/ic_expand_more_24px"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
