@@ -277,6 +277,7 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.opengl.Visibility;
 import android.os.Build;
@@ -292,11 +293,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.os.SystemClock;
 import android.text.method.PasswordTransformationMethod;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
@@ -419,7 +424,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-      //  ab.setDisplayHomeAsUpEnabled(true);
+        //  ab.setDisplayHomeAsUpEnabled(true);
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         return true;
@@ -451,8 +456,8 @@ public class MainActivity extends AppCompatActivity {
         //    invalidateOptionsMenu();
         boolean navigation_set = false;
         boolean valid_nav = false;
-    //    Fragment currentFragment = getVisibleFragment();
-       // String tag = currentFragment.getTag();
+        //    Fragment currentFragment = getVisibleFragment();
+        // String tag = currentFragment.getTag();
         int view =  settings.GetView();
 
         switch(item.getItemId())
@@ -626,15 +631,21 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
+
+
     void InitCameraDropdownList()
     {
+
         Spinner dropdown = findViewById(R.id.cameraList);//= dropdown.findViewById(); // values
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.PublicCameras, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         dropdown.setAdapter(adapter);
+
         selected = settings.GetCamera();
         dropdown.setSelection(selected);
+
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -656,11 +667,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     void InitViewer()
     {
         Viewer = (WebView) findViewById( R.id.viewer );
-        Viewer.setVerticalScrollBarEnabled(false);
-        Viewer.setHorizontalScrollBarEnabled(false);
         WebSettings webSettings = Viewer.getSettings();
 
         webSettings.setJavaScriptEnabled(true);
@@ -668,9 +678,40 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setAppCacheEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setUseWideViewPort(true);
+        Viewer.setHorizontalScrollBarEnabled(false);
+        Viewer.setVerticalScrollBarEnabled(false);
+        Viewer.setOnTouchListener(new View.OnTouchListener() {
 
+            public boolean onTouch(View v, MotionEvent event) {
+                return (event.getAction() == MotionEvent.ACTION_MOVE);
+            }
+        });
     }
+    private void simulateClick(float x, float y) {
+        long downTime = SystemClock.uptimeMillis();
+        long eventTime = SystemClock.uptimeMillis();
+        MotionEvent.PointerProperties[] properties = new MotionEvent.PointerProperties[1];
+        MotionEvent.PointerProperties pp1 = new MotionEvent.PointerProperties();
+        pp1.id = 0;
+        pp1.toolType = MotionEvent.TOOL_TYPE_FINGER;
+        properties[0] = pp1;
+        MotionEvent.PointerCoords[] pointerCoords = new MotionEvent.PointerCoords[1];
+        MotionEvent.PointerCoords pc1 = new MotionEvent.PointerCoords();
+        pc1.x = x;
+        pc1.y = y;
+        pc1.pressure = 1;
+        pc1.size = 1;
+        pointerCoords[0] = pc1;
+        MotionEvent motionEvent = MotionEvent.obtain(downTime, eventTime,
+                MotionEvent.ACTION_DOWN, 1, properties,
+                pointerCoords, 0,  0, 1, 1, 0, 0, 0, 0 );
+        dispatchTouchEvent(motionEvent);
 
+        motionEvent = MotionEvent.obtain(downTime, eventTime,
+                MotionEvent.ACTION_UP, 1, properties,
+                pointerCoords, 0,  0, 1, 1, 0, 0, 0, 0 );
+        dispatchTouchEvent(motionEvent);
+    }
     void ViewerStart( int camera)
     {
         String webContent =    "<!DOCTYPE html>" +
@@ -680,12 +721,12 @@ public class MainActivity extends AppCompatActivity {
                 "<meta name=\\\"viewport\\\" content=\\\"width=device-width, initial-scale=1\\\"> <link rel=\\\"stylesheet\\\" " +
                 "media=\\\"screen and (-webkit-device-pixel-ratio:1.5)\\\" href=\\\"hdpi.css\\\" />" +
                 "</head> " +
-                "<body onload=\"ClickFrame()\" style=\\\"background:black;margin:0 0 0 0; padding:0 0 0 0;\\\">" +
-                "<iframe id=\"view\" type=type=\"text/html\" width=\"400\" height=\"400\" src=\"%s\" ></iframe>" +
+                "<body onload=\"ClickFrame()\" style=\"background:black;margin:0 0 0 0; padding:0 0 0 0;width:450px;height:254;\">" +
+                "<iframe id=\"view\" type=type=\"text/html\" width=\"450\" height=\"254\" src=\"%s\" ></iframe>" +
                 "<script type=\"text/javascript\">" +
                 "function ClickFrame(){" +
                 "setTimeout(function(){ document.getElementById('view').click(); }, 3000);" +
-          //      "document.getElementById('view').click();" +
+                //      "document.getElementById('view').click();" +
                 "}" +
                 "</script>" +
                 "</body" +
@@ -695,6 +736,7 @@ public class MainActivity extends AppCompatActivity {
 
         String playVideo= String.format(webContent, GetCameraURL(camera));
         Viewer.loadData(playVideo, "text/html", "utf-8");
+
 
 //        Viewer.setWebViewClient(new WebViewClient() {
 //// IN A NEW THREAT !
@@ -803,8 +845,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void SetActiveView(@NonNull  Fragment frag)
     {
-         this.Activefragment = frag;
-      //  ActiveView = view;
+        this.Activefragment = frag;
+        //  ActiveView = view;
     }
 
     @Override
