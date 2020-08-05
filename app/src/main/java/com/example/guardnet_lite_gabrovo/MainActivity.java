@@ -809,7 +809,7 @@ public class MainActivity extends AppCompatActivity {
     public void ToggleFrontLayerVisibility(int visibility)
     {
         Viewer.setVisibility(visibility);
-        findViewById(R.id.cameraViwer).setVisibility(visibility);
+        findViewById(R.id.cameraViewer).setVisibility(visibility);
         findViewById(R.id.cameraList).setVisibility(visibility);
         findViewById(R.id.button_add).setVisibility(visibility);
     }

@@ -1,37 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_add"
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="532dp"
-        app:backgroundTint="@color/colorAccent"
-        app:cornerRadius="28dp"
-        app:icon="@drawable/ic_add_24px"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        app:iconTint="#FFFFFF"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <WebView
-        android:id="@+id/viewer"
-        android:layout_width="385dp"
-        android:layout_height="226dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="194dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        android:id="@+id/cameraViwer"
+        android:id="@+id/cameraViewer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
@@ -43,27 +17,57 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/hideBD_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="296dp"
-        android:layout_marginTop="11dp"
-        android:background="@color/cardview_light_background"
-        android:visibility="invisible"
-        app:backgroundTint="@color/colorAccent"
-        app:icon="@drawable/ic_expand_more_24px"
+    <WebView
+        android:id="@+id/viewer"
+        android:layout_width="0dp"
+        android:layout_height="226dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cameraViewer" />
+
+    <View
+        android:id="@+id/hideBD_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/ic_expand_more_24px"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/cameraList"
         android:layout_width="381dp"
         android:layout_height="46dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="459dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewer"
         app:ms_dropdown_height="wrap_content"
         app:ms_dropdown_max_height="150dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_add"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="50dp"
+        app:backgroundTint="@color/colorAccent"
+        app:cornerRadius="28dp"
+        app:icon="@drawable/ic_add_24px"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconTint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
