@@ -38,6 +38,8 @@
         <item>Shavara</item>
         <item>Center</item>
     </string-array>
+
+
     <!-- ^^^ VIEW ^^^ -->
 
     <!-- *** ADD NEW *** -->
@@ -90,5 +92,6 @@
     </string-array>
     <!-- ^^^ LANGUAGE SETTINGS ^^^ -->
 
-
+    <string name="CamAdded">Add</string>
+    <!-- ^^^ USER MESSAGES ^^^ -->
 </resources>

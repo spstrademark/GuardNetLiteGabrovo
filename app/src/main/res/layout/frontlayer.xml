@@ -5,21 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Spinner
-        android:id="@+id/cameraList"
-        android:layout_width="364dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="452dp"
-        android:layout_marginEnd="33dp"
-        android:background="@color/colorBackground"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.105"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_add"
         style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
@@ -71,4 +56,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/cameraList"
+        android:layout_width="381dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="459dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:ms_dropdown_height="wrap_content"
+        app:ms_dropdown_max_height="150dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

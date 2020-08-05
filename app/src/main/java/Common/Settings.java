@@ -15,9 +15,14 @@ import Camera.PublicCamerasEnum;
 import Notifications.NotificationsTriggerEnum;
 
 public class Settings {
+
+    private static String FIELD_SEPARATOR    = "&";
+    private static String ITEM_SEPARATOR     = ";";
+
+    private static String ITEM_URL     = ";";
+
     String folder = "";
     final String LastView       = "LastView";
-    final String SecondLastView = "SecondLastView";
     final String Settings       = "Common";
     final String FirstTime      = "FirstTime";
     final String SelectedCam    = "SelectedCamera";
@@ -25,6 +30,10 @@ public class Settings {
     final String GalleryView    = "SelectedView";
 
     final String NotificationTrigger    = "SelectedNotificationTrigger";
+
+
+
+
     SharedPreferences.Editor SetPrefs;
     SharedPreferences GetPrefs;
     Context context;
@@ -48,14 +57,11 @@ public class Settings {
 
         }
 
-
         SetPrefs.putInt(LastView,activeView);
-
-
-
         SetPrefs.apply();
 
     }
+
     public int GetView()
     {
         return GetPrefs.getInt(LastView,  FragmentsEnum.MAIN_ACTIVITY.ordinal());
@@ -134,6 +140,16 @@ public class Settings {
     public int GetNotificationsEventTrigger()
     {
         return GetPrefs.getInt(NotificationTrigger, NotificationsTriggerEnum.SECONDS_5.ordinal());
+    }
+
+    public String GetFieldSeparator()
+    {
+        return FIELD_SEPARATOR;
+    }
+
+    public String GetItemSeparator()
+    {
+        return ITEM_SEPARATOR;
     }
 
 }

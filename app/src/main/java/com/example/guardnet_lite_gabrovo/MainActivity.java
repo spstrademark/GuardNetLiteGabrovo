@@ -315,6 +315,7 @@ import android.widget.EditText;
 import com.evolve.backdroplibrary.BackdropContainer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.Arrays;
 import java.util.List;
@@ -614,6 +615,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         this.setTitle("");
+
         settings = new Settings(this, FragmentsEnum.MAIN_ACTIVITY.ordinal());
         settings.InitAppFolder(getResources().getString(R.string.app_name));
         settings.GetLanguage();
@@ -635,38 +637,31 @@ public class MainActivity extends AppCompatActivity {
 
     void InitCameraDropdownList()
     {
-
-        Spinner dropdown = findViewById(R.id.cameraList);//= dropdown.findViewById(); // values
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.PublicCameras, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        dropdown.setAdapter(adapter);
-
+        MaterialSpinner dropdown = findViewById(R.id.cameraList);//= dropdown.findViewById(); // values
+        List<String> Cameras = Arrays.asList(getResources().getStringArray(R.array.PublicCameras));
+        dropdown.setItems(Cameras);
         selected = settings.GetCamera();
-        dropdown.setSelection(selected);
+        dropdown.setSelectedIndex(selected);
 
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        dropdown.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    ((TextView) arg0.getChildAt(0)).setTextColor(getColor(R.color.colorText));
-                }
-                settings.SetCamera(arg2);
-                ViewerStart(arg2);
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                settings.SetCamera(position);
+                ViewerStart(position);
+          //      Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-
-            }
-
+//            @Override public void onNothingSelected(MaterialSpinner spinner) {
+//                Snackbar.make(spinner, "Nothing selected", Snackbar.LENGTH_LONG).show();
+//            }
         });
+        dropdown.setOnNothingSelectedListener(new MaterialSpinner.OnNothingSelectedListener() {
 
+            @Override public void onNothingSelected(MaterialSpinner spinner) {
+       //         Snackbar.make(spinner, "Nothing selected", Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
-
 
     void InitViewer()
     {
@@ -687,31 +682,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void simulateClick(float x, float y) {
-        long downTime = SystemClock.uptimeMillis();
-        long eventTime = SystemClock.uptimeMillis();
-        MotionEvent.PointerProperties[] properties = new MotionEvent.PointerProperties[1];
-        MotionEvent.PointerProperties pp1 = new MotionEvent.PointerProperties();
-        pp1.id = 0;
-        pp1.toolType = MotionEvent.TOOL_TYPE_FINGER;
-        properties[0] = pp1;
-        MotionEvent.PointerCoords[] pointerCoords = new MotionEvent.PointerCoords[1];
-        MotionEvent.PointerCoords pc1 = new MotionEvent.PointerCoords();
-        pc1.x = x;
-        pc1.y = y;
-        pc1.pressure = 1;
-        pc1.size = 1;
-        pointerCoords[0] = pc1;
-        MotionEvent motionEvent = MotionEvent.obtain(downTime, eventTime,
-                MotionEvent.ACTION_DOWN, 1, properties,
-                pointerCoords, 0,  0, 1, 1, 0, 0, 0, 0 );
-        dispatchTouchEvent(motionEvent);
 
-        motionEvent = MotionEvent.obtain(downTime, eventTime,
-                MotionEvent.ACTION_UP, 1, properties,
-                pointerCoords, 0,  0, 1, 1, 0, 0, 0, 0 );
-        dispatchTouchEvent(motionEvent);
-    }
     void ViewerStart( int camera)
     {
         String webContent =    "<!DOCTYPE html>" +
