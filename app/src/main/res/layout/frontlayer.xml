@@ -62,8 +62,20 @@
         android:layout_height="46dp"
         android:layout_marginStart="14dp"
         android:layout_marginTop="459dp"
+        android:entries="@array/PublicCameras"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:ms_dropdown_height="wrap_content"
         app:ms_dropdown_max_height="150dp" />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="246dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="82dp"
+        android:layout_marginTop="112dp"
+        android:entries="@array/PublicCameras"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:ms_dropdown_max_height="150dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

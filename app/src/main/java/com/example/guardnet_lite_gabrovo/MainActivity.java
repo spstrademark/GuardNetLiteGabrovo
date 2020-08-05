@@ -273,60 +273,40 @@
 package com.example.guardnet_lite_gabrovo;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.opengl.Visibility;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.os.SystemClock;
-import android.text.method.PasswordTransformationMethod;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.evolve.backdroplibrary.BackdropContainer;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.Arrays;
 import java.util.List;
 import android.os.Handler;
-import android.widget.Spinner;
-import android.widget.TextView;
 
+import Device.DeviceHandler;
 import Common.FragmentsEnum;
 import Common.Settings;
-import Fragments.CalendarFragment;
-import Fragments.GalleryFragment;
 
 public class MainActivity extends AppCompatActivity {
     Settings settings;
@@ -350,6 +330,8 @@ public class MainActivity extends AppCompatActivity {
         ViewerStart(selected);
         handler.post(AIThread);
 
+        DeviceHandler device = new DeviceHandler();
+        device.Add("url","name",true,"username","password",settings);
 
         findViewById(R.id.hideBD_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -818,6 +800,11 @@ public class MainActivity extends AppCompatActivity {
     {
         this.Activefragment = frag;
         //  ActiveView = view;
+    }
+
+    public void UpdateLanguage(int current_fragment)
+    {
+        setContentView(current_fragment);
     }
 
     @Override

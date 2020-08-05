@@ -15,8 +15,10 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
+import com.google.android.material.snackbar.Snackbar;
 
-import AddTools.Credentials;
+
+import Device.DeviceHandler;
 import Common.FragmentsEnum;
 import Common.Settings;
 
@@ -69,6 +71,7 @@ public class AddFragment extends Fragment {
             public void onClick(View view) {
             //    String content = EditText.getText().toString();
             AddNew();
+                Snackbar.make(myView, R.string.ItemAddOк, Snackbar.LENGTH_LONG).show();
             myView.setVisibility(View.INVISIBLE);
             MainActivity activity = (MainActivity) getActivity();
             activity.ToggleFrontLayerVisibility(View.VISIBLE);
@@ -102,8 +105,9 @@ public class AddFragment extends Fragment {
             password    =   text.getText().toString().trim();
 //        }
 
-        Credentials credentials = new Credentials();
-        return credentials.Add(url,name,auth_check,username,password,settings);
+      //  Device device = new Device();
+        DeviceHandler device = new DeviceHandler();
+        return device.Add(url,name,auth_check,username,password,settings);
     }
 
 }

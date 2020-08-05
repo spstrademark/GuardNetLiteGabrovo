@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -26,6 +27,9 @@ public class LanguageFragment extends Fragment {
     Settings settings;
     int currentLan = 0;
     boolean init = false;
+    MainActivity activity;
+    View thisView;
+    MaterialSpinner dropdown;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -39,55 +43,25 @@ public class LanguageFragment extends Fragment {
         settings = new Settings(getContext(), FragmentsEnum.LANGUAGE.ordinal());
         currentLan =  settings.GetLanguage();
         super.onViewCreated(view, savedInstanceState);
-        MainActivity activity = (MainActivity) getActivity();
+        thisView = view;
+        activity = (MainActivity) getActivity();
         activity.SetActiveView(LanguageFragment.this);
         activity.setTitle(R.string.Language);
         InitLanguagesDropdownList(view);
     }
 
-    void InitLanguagesDropdownList(@NonNull View view)
+    private MaterialSpinner LanguageSpinnerFill(@NonNull View view)
     {
-//        Spinner dropdown = view.findViewById(R.id.languages);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-//                R.array.Languages, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        dropdown.setAdapter(adapter);
-//        dropdown.setSelection(currentLan);
-//
-//        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//
-//            @Override
-//            public void onItemSelected(AdapterView<?> arg0, View arg1,
-//                                       int arg2, long arg3) {
-//                if(init==false){
-//                    init = true;
-//                    return;
-//                }
-//                if(currentLan!=arg2){
-//                    settings.SetLanguage(arg2);
-//                  //  onConfigurationChanged(settings.SaveLanguageValue(arg2));
-//                    getView().requestLayout();
-//             //       getActivity().recreate();
-//               //     setContentView(R.layout.newdesign);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> arg0) {
-//                // TODO Auto-generated method stub
-//      //          PublicCameras Cameras = new PublicCameras();
-//            }
-//        });
-
-
-
-
-
-
         MaterialSpinner dropdown = view.findViewById(R.id.languages);//= dropdown.findViewById(); // values
         List<String> Languages = Arrays.asList(getResources().getStringArray(R.array.Languages));
         dropdown.setItems(Languages);
+        return dropdown;
+    }
+
+    void InitLanguagesDropdownList(@NonNull View view)
+    {
+
+        dropdown = LanguageSpinnerFill(view);
         dropdown.setSelectedIndex(currentLan);
 
         dropdown.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
@@ -100,7 +74,16 @@ public class LanguageFragment extends Fragment {
             //    if(currentLan!=position)
                 {
                     settings.SetLanguage(position);
-                    getActivity().recreate();
+//                   dropdown.setSelectedIndex(0);
+                    activity.UpdateLanguage(R.layout.language_fragment);
+//            //        notifyDataSetChanged
+//                    dropdown = LanguageSpinnerFill(view);
+                   dropdown.setSelectedIndex(position);
+
+              //      myView.setContentView(R.layout.activity_main);
+
+                  //  this.setContentView(R.layout.main);
+                  //  getActivity().recreate();
                 }
 
                 //      Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
@@ -117,18 +100,6 @@ public class LanguageFragment extends Fragment {
             }
         });
 
-
-
-
-
     }
-
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig)
-//    {
-//
-//        super.onConfigurationChanged(newConfig);
-//
-//    }
 
 }

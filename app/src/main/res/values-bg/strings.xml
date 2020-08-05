@@ -71,4 +71,10 @@
     </string-array>
     <!-- ^^^ LANGUAGE SETTINGS ^^^ -->
 
+    <!-- *** MESSAGES *** -->
+    <string name="ItemAddOк">Нова камера е добавена успешно!</string>
+    <string name="ItemAddError">Полетата не може да съдържат ";"</string>
+    <string name="MaxLimit">Достигнат е лимита от камери!</string>
+    <!-- ^^^ MESSAGES ^^^ -->
+
 </resources>

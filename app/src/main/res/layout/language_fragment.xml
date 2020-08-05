@@ -14,6 +14,7 @@
         android:layout_marginTop="179dp"
         android:layout_marginEnd="35dp"
         android:layout_marginBottom="519dp"
+        android:entries="@array/Languages"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -34,6 +35,16 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="239dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="329dp"
+        android:entries="@array/Languages"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

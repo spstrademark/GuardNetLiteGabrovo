@@ -2,6 +2,7 @@
 
     <!-- *** SYSTEM *** -->
     <string name="app_name" translatable="false">GuardNet-Lite-Gabrovo</string>
+    <string name="MaxDevices" translatable="false">10</string>
     <string name="default_notification_email" translatable="false">priemna@mvr.bg</string>
     <string name="default_gallery_view" translatable="false">3</string>
     <string name="URL" translatable="false">URL</string>
@@ -92,6 +93,9 @@
     </string-array>
     <!-- ^^^ LANGUAGE SETTINGS ^^^ -->
 
-    <string name="CamAdded">Add</string>
-    <!-- ^^^ USER MESSAGES ^^^ -->
+    <!-- *** MESSAGES *** -->
+    <string name="ItemAddOк">New camera has been added successfully!</string>
+    <string name="ItemAddError">Fields cannot contain ";"</string>
+    <string name="MaxLimit">Camera limit reached!</string>
+    <!-- ^^^ MESSAGES ^^^ -->
 </resources>
