@@ -44,13 +44,13 @@
 
     <!-- *** ADD NEW *** -->
     <string name="AddNew">Add new camera</string>
-    <string name="DisplayName" >Display Name</string>
-    <string name="AddNewName" >My store</string>
-    <string name="Auth" >AUTHENTICATION</string>
-    <string name="Username" >User name</string>
-    <string name="name" >John Doe</string>
-    <string name="Password" >Password</string>
-    <string name="ShowPass" >Show Password</string>
+    <string name="DisplayName">Display Name</string>
+    <string name="AddNewName">My store</string>
+    <string name="Auth">AUTHENTICATION</string>
+    <string name="Username">User name</string>
+    <string name="name">John Doe</string>
+    <string name="Password">Password</string>
+    <string name="ShowPass">Show Password</string>
     <!-- ^^^ ADD NEW ^^^ -->
 
     <!-- *** SETTINGS MENU *** -->
@@ -93,5 +93,14 @@
     <!-- ^^^ LANGUAGE SETTINGS ^^^ -->
 
     <string name="CamAdded">Add</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <!-- ^^^ USER MESSAGES ^^^ -->
 </resources>
