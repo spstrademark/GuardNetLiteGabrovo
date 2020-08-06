@@ -33,6 +33,10 @@ public class DeviceHandler {
     public DevicePushResultTypes Add(@NonNull String URL, @NonNull String DisplayName, boolean auth, String Username, String Password, Settings settings) {
         this.settings = settings;
 
+        if(TextUtils.isEmpty(URL)){
+            return DevicePushResultTypes.FIELD_IS_EMPTY;
+        }
+
         if(!ValidField(URL))            return DevicePushResultTypes.INVALID_CHARACTER;
         if(!ValidField(DisplayName))    return  DevicePushResultTypes.INVALID_CHARACTER;
 
@@ -208,6 +212,32 @@ public class DeviceHandler {
 
 
         return myDevices;
+    }
+
+    public List<String> GetAllDeviceNames()
+    {
+        List<String> Names = new ArrayList<String>();
+        Gson g = new Gson();
+        String all = settings.GetPreferences().getString(settings.GetDeviceKey(),null);
+
+        if(all!= null) {
+            String[] devices = all.split(ITEM_SEPARATOR);
+
+            for(int i =0; i < devices.length;i++)
+            {
+                Device device = g.fromJson(devices[i], Device.class);
+                String url = device.GetURL();
+                String name = device.GetName();
+                if(name != null && name.length() > 0)
+                    Names.add(name);
+                else{
+                    Names.add(url);
+                }
+            }
+        }
+
+
+        return Names;
     }
 
 

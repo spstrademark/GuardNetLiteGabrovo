@@ -82,6 +82,11 @@
     <string name="CalendarEnableDateTimeMonitoring">MONITORING BY DATE AND TIME</string>
     <!-- ^^^ CALENDAR ^^^ -->
 
+    <!-- *** CLOCK *** -->
+    <string name="From">From</string>
+    <string name="To">To</string>
+    <!-- ^^^ CLOCK ^^^ -->
+
     <!-- *** GALLERY *** -->
     <string name="GalleryEmpty">Gallery is empty</string>
     <!-- ^^^ GALLERY ^^^ -->

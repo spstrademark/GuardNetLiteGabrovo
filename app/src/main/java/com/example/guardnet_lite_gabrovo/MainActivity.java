@@ -331,10 +331,10 @@ public class MainActivity extends AppCompatActivity {
         InitViewer();
         ViewerStart(selected);
         handler.post(AIThread);
-
-//        DeviceHandler device = new DeviceHandler();
+      //  settings = new Settings(this, FragmentsEnum.ADD.ordinal());
+ //      DeviceHandler device = new DeviceHandler();
 //        device.Add("url","name",true,"username","password",settings);
-
+  //      List<String> tst =     device.GetAllDeviceNames();
         findViewById(R.id.hideBD_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

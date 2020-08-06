@@ -60,6 +60,11 @@
     <string name="CalendarEnableDateTimeMonitoring">МОНИТОРИРАНЕ ПО ДАТА И ЧАС</string>
     <!-- ^^^ CALENDAR ^^^ -->
 
+    <!-- *** CLOCK *** -->
+    <string name="From">От</string>
+    <string name="To">До</string>
+    <!-- ^^^ CLOCK ^^^ -->
+
     <!-- *** GALLERY *** -->
     <string name="GalleryEmpty">Галерията е празна</string>
     <!-- ^^^ GALLERY ^^^ -->
