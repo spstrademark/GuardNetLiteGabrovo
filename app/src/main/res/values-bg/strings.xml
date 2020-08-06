@@ -73,8 +73,9 @@
 
     <!-- *** MESSAGES *** -->
     <string name="ItemAddOк">Нова камера е добавена успешно!</string>
-    <string name="ItemAddError">Полетата не може да съдържат ";"</string>
-    <string name="MaxLimit">Достигнат е лимита от камери!</string>
+    <string name="ItemInvalidField">Полетата не може да съдържат ";"</string>
+    <string name="ItemFieldEmpty">Полето не може да бъде празно !</string>
+    <string name="ItemMaxLimit">Достигнат е лимита от камери!</string>
     <!-- ^^^ MESSAGES ^^^ -->
 
 </resources>

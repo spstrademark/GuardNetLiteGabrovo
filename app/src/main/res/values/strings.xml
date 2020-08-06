@@ -94,8 +94,9 @@
     <!-- ^^^ LANGUAGE SETTINGS ^^^ -->
 
     <!-- *** MESSAGES *** -->
-    <string name="ItemAddOк">New camera has been added successfully!</string>
-    <string name="ItemAddError">Fields cannot contain ";"</string>
-    <string name="MaxLimit">Camera limit reached!</string>
+    <string name="ItemAddOк">New camera has been added successfully !</string>
+    <string name="ItemInvalidField">Fields cannot contain ";" !</string>
+    <string name="ItemFieldEmpty">Field cannot be empty !</string>
+    <string name="ItemMaxLimit">Camera limit reached !</string>
     <!-- ^^^ MESSAGES ^^^ -->
 </resources>

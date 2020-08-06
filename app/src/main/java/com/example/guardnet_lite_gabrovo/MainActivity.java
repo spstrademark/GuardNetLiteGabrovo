@@ -295,6 +295,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import com.evolve.backdroplibrary.BackdropContainer;
@@ -303,6 +304,7 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.util.Arrays;
 import java.util.List;
 import android.os.Handler;
+import android.widget.Spinner;
 
 import Device.DeviceHandler;
 import Common.FragmentsEnum;
@@ -330,8 +332,8 @@ public class MainActivity extends AppCompatActivity {
         ViewerStart(selected);
         handler.post(AIThread);
 
-        DeviceHandler device = new DeviceHandler();
-        device.Add("url","name",true,"username","password",settings);
+//        DeviceHandler device = new DeviceHandler();
+//        device.Add("url","name",true,"username","password",settings);
 
         findViewById(R.id.hideBD_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -619,6 +621,14 @@ public class MainActivity extends AppCompatActivity {
 
     void InitCameraDropdownList()
     {
+        Spinner testspin = findViewById(R.id.spinner2);//= dropdown.findViewById(); // values
+       // ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, R.array.PublicCameras);
+        List<String> CamerasURL = Arrays.asList(getResources().getStringArray(R.array.PublicCameras));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item,CamerasURL);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        testspin.setAdapter(adapter);
+
         MaterialSpinner dropdown = findViewById(R.id.cameraList);//= dropdown.findViewById(); // values
         List<String> Cameras = Arrays.asList(getResources().getStringArray(R.array.PublicCameras));
         dropdown.setItems(Cameras);
