@@ -2,6 +2,9 @@ package com.example.guardnet_lite_gabrovo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +12,15 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.Arrays;
@@ -23,10 +28,11 @@ import java.util.List;
 
 public class CameraFrontFragment extends Fragment {
 
-    private Toolbar toolbar;
     private WebView webView;
     private MaterialSpinner dropdown;
     private FloatingActionButton addCameraButton;
+    private ImageView hideBackdropButton;
+    private View rootLayout;
 
     @Override
     public View onCreateView(
@@ -35,13 +41,15 @@ public class CameraFrontFragment extends Fragment {
     ) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_camera_front, container, false);
+        rootLayout = view.findViewById(R.id.frameLayout);
         webView = view.findViewById(R.id.frontLayerWebView);
         dropdown = view.findViewById(R.id.cameraListSpinner);
-        toolbar = view.findViewById(R.id.app_bar);
+        Toolbar toolbar = view.findViewById(R.id.app_bar);
         addCameraButton = view.findViewById(R.id.button_add);
+        hideBackdropButton = view.findViewById(R.id.hideBackdropButton);
 
         // Set up the tool bar
-        setUpToolbar(view);
+        setUpBackdropButton(view);
         setupCameraSpinner();
         initWebView();
         viewerStart(1);
@@ -49,13 +57,8 @@ public class CameraFrontFragment extends Fragment {
         return view;
     }
 
-    private void setUpToolbar(View view) {
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            activity.setSupportActionBar(toolbar);
-        }
-
-        toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
+    private void setUpBackdropButton(View view) {
+        hideBackdropButton.setOnClickListener(new NavigationIconClickListener(
                 getContext(),
                 view.findViewById(R.id.front_layer),
                 new AccelerateDecelerateInterpolator(),
@@ -128,30 +131,29 @@ public class CameraFrontFragment extends Fragment {
     }
 
     // TODO
-   /* private void setupFAB() {
+    private void setupFAB() {
         addCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int view = settings.GetView();
-
-                if (view == FragmentsEnum.GALLERY.ordinal()) {
-                    NavHostFragment.findNavController(Activefragment)
-                            .navigate(R.id.action_GalleryFragment_to_AddFragment);
-                } else if (view == FragmentsEnum.CALENDAR.ordinal()) {
-                    NavHostFragment.findNavController(Activefragment)
-                            .navigate(R.id.action_CalendarFragment_to_AddFragment);
-                } else if (view == FragmentsEnum.NOTIFICATIONS.ordinal()) {
-                    NavHostFragment.findNavController(Activefragment)
-                            .navigate(R.id.action_NotificationFragment_to_AddFragment);
-                }
-                ToggleFrontLayerVisibility(View.INVISIBLE);
-
+                Snackbar.make(rootLayout, "Settings", Snackbar.LENGTH_SHORT).show();
             }
         });
-    }*/
+    }
 
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_main, menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settingsFragment:
+                Toast.makeText(getContext(), "Settings", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

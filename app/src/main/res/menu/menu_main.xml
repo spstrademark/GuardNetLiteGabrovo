@@ -1,70 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <item
-        android:id="@+id/quick_gallery"
-        android:bottom="10dp"
-        android:icon="@drawable/ic_photo_library_24px"
-        android:orderInCategory="3"
-        android:right="10dp"
-        android:title="Gallery"
-        android:top="10dp"
-        app:showAsAction="always"
-        android:layout_gravity="left"/>
-    <item
-        android:id="@+id/quick_calendar"
-        android:icon="@drawable/ic_insert_invitation_24px"
-        android:orderInCategory="4"
-        android:title="2"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/quick_notification"
-        android:icon="@drawable/ic_schedule_24px"
-        android:orderInCategory="5"
-        android:title="3"
-        app:showAsAction="always" />
-
-<!--    <item-->
-<!--        android:id="@+id/dummy1"-->
-<!--        android:orderInCategory="4"-->
-<!--        android:title=""-->
-<!--        android:visible="false"-->
-<!--        app:showAsAction="always" />-->
-
-<!--    <item-->
-<!--        android:id="@+id/dummy2"-->
-<!--        android:enabled="false"-->
-<!--        android:orderInCategory="5"-->
-<!--        android:title=""-->
-<!--        app:showAsAction="always" />-->
-
-<!--    <item-->
-<!--        android:id="@+id/dummy3"-->
-<!--        android:enabled="false"-->
-<!--        android:orderInCategory="6"-->
-<!--        android:title=""-->
-<!--        app:showAsAction="always" />-->
-
-<!--    <item-->
-<!--        android:id="@+id/dummy4"-->
-<!--        android:enabled="false"-->
-<!--        android:orderInCategory="7"-->
-<!--        android:title=""-->
-<!--        app:showAsAction="always" />-->
-<!--    <item-->
-<!--        android:id="@+id/dummy5"-->
-<!--        android:enabled="false"-->
-<!--        android:orderInCategory="8"-->
-<!--        android:title=""-->
-<!--        app:showAsAction="always" />-->
-
-    <item
-        android:id="@+id/buttonSettings"
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_more_vert_24px"
-        android:orderInCategory="9"
-        android:title="Sett"
-        app:showAsAction="always" />
-
-
+        android:title="Settings"
+        app:showAsAction="ifRoom" />
 </menu>

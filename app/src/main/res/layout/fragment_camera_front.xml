@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CameraFrontFragment">
@@ -12,8 +13,8 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="100dp"
-        android:paddingBottom="100dp">
+        android:paddingTop="106dp"
+        android:paddingBottom="24dp">
 
         <include layout="@layout/backdrop_layout" />
 
@@ -33,16 +34,54 @@
             android:paddingLeft="12dp"
             android:paddingEnd="12dp"
             android:paddingRight="12dp"
+            android:visibility="visible"
             app:contentInsetStart="0dp"
-            app:navigationIcon="@drawable/ic_schedule_24px"
-            app:title=" " />
+            app:menu="@menu/menu_main"
+            app:title="@string/app_name"
+            app:titleMarginStart="12dp"
+            app:titleTextColor="@color/colorText" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground"
+            app:elevation="0dp"
+            app:tabGravity="center"
+            app:tabIconTint="@color/colorText"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorFullWidth="true"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="scrollable"
+            app:tabPaddingEnd="18dp"
+            app:tabPaddingStart="18dp"
+            app:tabRippleColor="@color/colorText"
+            app:tabSelectedTextColor="@color/colorAccent">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ic_photo_library_24px" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ic_insert_invitation_24px" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ic_schedule_24px" />
+
+        </com.google.android.material.tabs.TabLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/front_layer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="0dp"
         android:background="@drawable/round_corner_background"
         android:elevation="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -51,4 +90,4 @@
 
     </androidx.core.widget.NestedScrollView>
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
