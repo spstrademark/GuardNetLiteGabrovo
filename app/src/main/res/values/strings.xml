@@ -45,13 +45,13 @@
 
     <!-- *** ADD NEW *** -->
     <string name="AddNew">Add new camera</string>
-    <string name="DisplayName" >Display Name</string>
-    <string name="AddNewName" >My store</string>
-    <string name="Auth" >AUTHENTICATION</string>
-    <string name="Username" >User name</string>
-    <string name="name" >John Doe</string>
-    <string name="Password" >Password</string>
-    <string name="ShowPass" >Show Password</string>
+    <string name="DisplayName">Display Name</string>
+    <string name="AddNewName">My store</string>
+    <string name="Auth">AUTHENTICATION</string>
+    <string name="Username">User name</string>
+    <string name="name">John Doe</string>
+    <string name="Password">Password</string>
+    <string name="ShowPass">Show Password</string>
     <!-- ^^^ ADD NEW ^^^ -->
 
     <!-- *** SETTINGS MENU *** -->
@@ -104,4 +104,10 @@
     <string name="ItemFieldEmpty">Field cannot be empty !</string>
     <string name="ItemMaxLimit">Camera limit reached !</string>
     <!-- ^^^ MESSAGES ^^^ -->
+    <string name="CamAdded">Add</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="camera_front_layer">Camera Fragment</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <!-- ^^^ USER MESSAGES ^^^ -->
 </resources>

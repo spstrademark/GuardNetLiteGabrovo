@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--        xmlns:tools="http://schemas.android.com/tools"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        tools:context="Fragments.SettingsFragment">-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,62 +6,42 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/imagegallery"
+        android:id="@+id/imageGalleryRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <Button
-        android:id="@+id/GridView"
-        android:layout_width="200dp"
+        android:id="@+id/gridView"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:text="Grid" />
+        android:text="Grid"
+        app:layout_constraintEnd_toStartOf="@+id/listView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/ListView"
-        android:layout_width="200dp"
+        android:id="@+id/listView"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginStart="211dp"
         android:text="List"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/gridView"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteY="0dp" />
 
     <TextView
         android:id="@+id/EmptyGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="155dp"
-        android:layout_marginTop="365dp"
-        android:layout_marginEnd="156dp"
-        android:layout_marginBottom="347dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/GalleryEmpty"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/gridView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--xmlns:tools="http://schemas.android.com/tools"-->
-<!--android:layout_width="match_parent"-->
-<!--android:layout_height="match_parent"-->
-<!--android:paddingBottom="@dimen/activity_vertical_margin"-->
-<!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
-<!--android:paddingRight="@dimen/activity_horizontal_margin"-->
-<!--android:paddingTop="@dimen/activity_vertical_margin"-->
-<!--tools:context="com.example.rushd.galleryproject.MainActivity">-->
-
-
-<!--&lt;!&ndash;<android.support.v7.widget.RecyclerView&ndash;&gt;-->
-<!--&lt;!&ndash;    android:id="@+id/imagegallery"&ndash;&gt;-->
-<!--&lt;!&ndash;    android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;    android:layout_height="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;    />&ndash;&gt;-->
-
-
-<!--</RelativeLayout>-->

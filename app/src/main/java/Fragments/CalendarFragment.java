@@ -17,6 +17,7 @@ import Common.Settings;
 
 public class CalendarFragment extends Fragment {
     Settings settings;
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -30,12 +31,9 @@ public class CalendarFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         settings = new Settings(getContext(), FragmentsEnum.CALENDAR.ordinal());
         super.onViewCreated(view, savedInstanceState);
-    //    view.setVisibility(View.GONE);
         FragmentInit();
 
-        CalendarView calendarView=(CalendarView) view.findViewById(R.id.calendarView);
-
-
+        CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendarView);
 
 //
 //
@@ -71,8 +69,11 @@ public class CalendarFragment extends Fragment {
 
     }
 
-    public void FragmentInit()
-    {
+    public void FragmentInit() {
         getActivity().setTitle(R.string.Settings);
+    }
+
+    public static Fragment getInstance() {
+        return new CalendarFragment();
     }
 }
