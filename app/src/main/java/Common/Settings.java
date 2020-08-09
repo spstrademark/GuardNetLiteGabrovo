@@ -1,23 +1,17 @@
 package Common;
-import com.example.guardnet_lite_gabrovo.R;
-import com.google.gson.Gson;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Environment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.guardnet_lite_gabrovo.R;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Locale;
 
 import Camera.PublicCamerasEnum;
-import Device.Device;
 import Notifications.NotificationsTriggerEnum;
 
 public class Settings {

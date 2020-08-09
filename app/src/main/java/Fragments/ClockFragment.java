@@ -43,6 +43,9 @@ public class ClockFragment extends Fragment {
         end.setText(time_now);
     }
 
+    public static Fragment getInstance() {
 
+        return new ClockFragment();
+    }
 
 }

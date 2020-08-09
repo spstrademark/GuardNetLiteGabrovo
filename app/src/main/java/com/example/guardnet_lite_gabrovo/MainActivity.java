@@ -445,7 +445,7 @@ public class MainActivity extends AppCompatActivity {
         // String tag = currentFragment.getTag();
         int view =  settings.GetView();
 
-        switch(item.getItemId())
+       /* switch(item.getItemId())
         {
             case android.R.id.home:
                 int i = 0;
@@ -580,7 +580,7 @@ public class MainActivity extends AppCompatActivity {
                 Activefragment.getView().setVisibility(View.INVISIBLE);
             }
 
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
 
@@ -801,7 +801,7 @@ public class MainActivity extends AppCompatActivity {
     public void ToggleFrontLayerVisibility(int visibility)
     {
         Viewer.setVisibility(visibility);
-        findViewById(R.id.cameraViwer).setVisibility(visibility);
+        findViewById(R.id.cameraViewer).setVisibility(visibility);
         findViewById(R.id.cameraList).setVisibility(visibility);
         findViewById(R.id.button_add).setVisibility(visibility);
     }
