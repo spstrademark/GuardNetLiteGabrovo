@@ -7,39 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".CameraFrontFragment">
 
-    <LinearLayout
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         style="@style/Widget.Style.Backdrop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingTop="106dp"
-        android:paddingBottom="24dp">
-
-        <include layout="@layout/backdrop_layout" />
-
-    </LinearLayout>
+        android:layout_marginTop="48dp"/>
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/app_bar"
-            style="@style/Widget.Custom.Toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:paddingStart="12dp"
-            android:paddingLeft="12dp"
-            android:paddingEnd="12dp"
-            android:paddingRight="12dp"
-            android:visibility="visible"
-            app:contentInsetStart="0dp"
-            app:menu="@menu/menu_main"
-            app:title="@string/app_name"
-            app:titleMarginStart="12dp"
-            app:titleTextColor="@color/colorText" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -58,36 +36,12 @@
             app:tabRippleColor="@color/colorText"
             app:tabSelectedTextColor="@color/colorAccent">
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_photo_library_24px" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_insert_invitation_24px" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_schedule_24px" />
-
         </com.google.android.material.tabs.TabLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <include
         android:id="@+id/front_layer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="0dp"
-        android:background="@drawable/round_corner_background"
-        android:elevation="8dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <include layout="@layout/front_layer" />
-
-    </androidx.core.widget.NestedScrollView>
+        layout="@layout/front_layer" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

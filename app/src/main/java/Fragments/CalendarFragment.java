@@ -35,8 +35,6 @@ public class CalendarFragment extends Fragment {
 
         CalendarView calendarView=(CalendarView) view.findViewById(R.id.calendarView);
 
-
-
 //
 //
 //        ArrayList<DateData> dates=new ArrayList<>();
@@ -74,5 +72,10 @@ public class CalendarFragment extends Fragment {
     public void FragmentInit()
     {
         getActivity().setTitle(R.string.Settings);
+    }
+
+    public static Fragment getInstance() {
+        CalendarFragment fragment = new CalendarFragment();
+        return fragment;
     }
 }

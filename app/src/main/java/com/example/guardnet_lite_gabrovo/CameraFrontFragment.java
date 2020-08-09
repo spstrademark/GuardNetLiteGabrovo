@@ -1,5 +1,6 @@
 package com.example.guardnet_lite_gabrovo;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,14 +14,16 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.Arrays;
@@ -32,7 +35,7 @@ public class CameraFrontFragment extends Fragment {
     private MaterialSpinner dropdown;
     private FloatingActionButton addCameraButton;
     private ImageView hideBackdropButton;
-    private View rootLayout;
+    private ViewPager2 viewPager;
 
     @Override
     public View onCreateView(
@@ -41,18 +44,38 @@ public class CameraFrontFragment extends Fragment {
     ) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_camera_front, container, false);
-        rootLayout = view.findViewById(R.id.frameLayout);
+        setHasOptionsMenu(true);
+
         webView = view.findViewById(R.id.frontLayerWebView);
         dropdown = view.findViewById(R.id.cameraListSpinner);
-        Toolbar toolbar = view.findViewById(R.id.app_bar);
         addCameraButton = view.findViewById(R.id.button_add);
         hideBackdropButton = view.findViewById(R.id.hideBackdropButton);
+        viewPager = view.findViewById(R.id.viewPager);
+
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
+        viewPager.setAdapter(viewPagerAdapter);
+        TabLayout tabLayout = view.findViewById(R.id.tabLayout);
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setIcon(R.drawable.ic_photo_library_24px);
+                    break;
+                case 1:
+                    tab.setIcon(R.drawable.ic_insert_invitation_24px);
+                    break;
+                case 2:
+                    tab.setIcon(R.drawable.ic_schedule_24px);
+                    break;
+            }
+
+        }).attach();
 
         // Set up the tool bar
         setUpBackdropButton(view);
         setupCameraSpinner();
         initWebView();
         viewerStart(1);
+        setupFAB();
 
         return view;
     }
@@ -71,20 +94,10 @@ public class CameraFrontFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item, cameraList);
         dropdown.setAdapter(adapter);
 
-        dropdown.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-            @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                viewerStart(position);
-            }
-        });
-        dropdown.setOnNothingSelectedListener(new MaterialSpinner.OnNothingSelectedListener() {
-
-            @Override
-            public void onNothingSelected(MaterialSpinner spinner) {
-            }
-        });
+        dropdown.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item) -> viewerStart(position));
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     void initWebView() {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -94,12 +107,7 @@ public class CameraFrontFragment extends Fragment {
         webSettings.setUseWideViewPort(true);
         webView.setHorizontalScrollBarEnabled(false);
         webView.setVerticalScrollBarEnabled(false);
-        webView.setOnTouchListener(new View.OnTouchListener() {
-
-            public boolean onTouch(View v, MotionEvent event) {
-                return (event.getAction() == MotionEvent.ACTION_MOVE);
-            }
-        });
+        webView.setOnTouchListener((v, event) -> (event.getAction() == MotionEvent.ACTION_MOVE));
     }
 
     private void viewerStart(int position) {
@@ -130,30 +138,23 @@ public class CameraFrontFragment extends Fragment {
         return camerasURL.get(idx);
     }
 
-    // TODO
     private void setupFAB() {
-        addCameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(rootLayout, "Settings", Snackbar.LENGTH_SHORT).show();
-            }
-        });
+        addCameraButton.setOnClickListener(v -> NavHostFragment.findNavController(CameraFrontFragment.this)
+                .navigate(R.id.action_CameraFragment_to_AddFragment));
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.settingsFragment:
-                Toast.makeText(getContext(), "Settings", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.settingsFragment) {
+            NavigationUI.onNavDestinationSelected(item, NavHostFragment.findNavController(this));
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }

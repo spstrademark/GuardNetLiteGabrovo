@@ -32,6 +32,9 @@ public class ClockFragment extends Fragment {
 
     }
 
-
+    public static Fragment getInstance() {
+        ClockFragment fragment = new ClockFragment();
+        return fragment;
+    }
 
 }

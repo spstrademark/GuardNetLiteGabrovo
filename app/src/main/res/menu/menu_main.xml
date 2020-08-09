@@ -6,5 +6,6 @@
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_more_vert_24px"
         android:title="Settings"
+        android:menuCategory="secondary"
         app:showAsAction="ifRoom" />
 </menu>

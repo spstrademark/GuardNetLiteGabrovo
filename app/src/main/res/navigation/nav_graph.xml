@@ -6,7 +6,30 @@
     app:startDestination="@id/cameraFrontFragment">
 
     <fragment
-        android:id="@+id/AddFragment"
+        android:id="@+id/cameraFrontFragment"
+        android:name="com.example.guardnet_lite_gabrovo.CameraFrontFragment"
+        android:label="@string/camera_front_layer"
+        tools:layout="@layout/fragment_camera_front">
+
+         <action
+             android:id="@+id/action_CameraFragment_to_SettingsFragment"
+             app:destination="@id/settingsFragment"
+             app:enterAnim="@anim/enter_from_right"
+             app:exitAnim="@anim/enter_from_left"
+             app:popEnterAnim="@anim/enter_from_left"
+             app:popExitAnim="@anim/enter_from_right"/>
+
+        <action
+            android:id="@+id/action_CameraFragment_to_AddFragment"
+            app:destination="@id/addFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/enter_from_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/enter_from_right"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/addFragment"
         android:name="Fragments.AddFragment"
         android:label="@string/AddNew"
         tools:layout="@layout/add_fragment">
@@ -68,7 +91,7 @@
             app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_NotificationFragment_to_AddFragment"
-            app:destination="@id/AddFragment" />
+            app:destination="@id/addFragment" />
     </fragment>
     <fragment
         android:id="@+id/CameraListFragment"
@@ -95,7 +118,7 @@
             app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_GalleryFragment_to_AddFragment"
-            app:destination="@id/AddFragment" />
+            app:destination="@id/addFragment" />
     </fragment>
     <fragment
         android:id="@+id/CalendarFragment"
@@ -120,7 +143,7 @@
             app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_CalendarFragment_to_AddFragment"
-            app:destination="@id/AddFragment" />
+            app:destination="@id/addFragment" />
     </fragment>
     <fragment
         android:id="@+id/ClockFragment"
@@ -130,16 +153,6 @@
         <action
             android:id="@+id/action_ClockFragment_to_CalendarFragment"
             app:destination="@id/CalendarFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/cameraFrontFragment"
-        android:name="com.example.guardnet_lite_gabrovo.CameraFrontFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_camera_front">
-
-       <!-- <action
-            android:id="@+id/action_CameraFragment_to_SettingsFragment"
-            app:destination="@id/settingsFragment" />-->
     </fragment>
 
 </navigation>
