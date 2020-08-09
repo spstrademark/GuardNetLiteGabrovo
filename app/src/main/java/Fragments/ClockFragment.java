@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.guardnet_lite_gabrovo.R;
+
+import java.sql.Time;
 
 import Common.FragmentsEnum;
 import Common.Settings;
@@ -30,11 +33,19 @@ public class ClockFragment extends Fragment {
         settings = new Settings(getContext(), FragmentsEnum.CLOCK.ordinal());
         super.onViewCreated(view, savedInstanceState);
 
+        long now = System.currentTimeMillis();
+        Time sqlTime = new Time(now);
+        String time_now = sqlTime.toString();
+
+        TextView start = (TextView)view.findViewById(R.id.clockStart);
+        start.setText(time_now);
+        TextView end = (TextView)view.findViewById(R.id.clockEnd);
+        end.setText(time_now);
     }
 
     public static Fragment getInstance() {
-        ClockFragment fragment = new ClockFragment();
-        return fragment;
+
+        return new ClockFragment();
     }
 
 }

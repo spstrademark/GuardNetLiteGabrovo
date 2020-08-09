@@ -23,6 +23,7 @@ public class SettingsFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.settings_fragment, container, false);
     }
 
@@ -31,13 +32,8 @@ public class SettingsFragment extends Fragment {
         settings = new Settings(getContext(), FragmentsEnum.SETTINGS.ordinal());
         super.onViewCreated(view, savedInstanceState);
         FragmentInit();
-        view.findViewById(R.id.language).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(SettingsFragment.this)
-                        .navigate(R.id.action_SettingsFragment_to_LanguageFragment);
-            }
-        });
+        view.findViewById(R.id.language).setOnClickListener(view1 -> NavHostFragment.findNavController(SettingsFragment.this)
+                .navigate(R.id.action_SettingsFragment_to_LanguageFragment));
     }
 
     public void FragmentInit() {

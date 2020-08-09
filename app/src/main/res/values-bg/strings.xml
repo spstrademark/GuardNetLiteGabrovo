@@ -60,6 +60,11 @@
     <string name="CalendarEnableDateTimeMonitoring">МОНИТОРИРАНЕ ПО ДАТА И ЧАС</string>
     <!-- ^^^ CALENDAR ^^^ -->
 
+    <!-- *** CLOCK *** -->
+    <string name="From">От</string>
+    <string name="To">До</string>
+    <!-- ^^^ CLOCK ^^^ -->
+
     <!-- *** GALLERY *** -->
     <string name="GalleryEmpty">Галерията е празна</string>
     <!-- ^^^ GALLERY ^^^ -->
@@ -70,5 +75,12 @@
         <item>Български</item>
     </string-array>
     <!-- ^^^ LANGUAGE SETTINGS ^^^ -->
+
+    <!-- *** MESSAGES *** -->
+    <string name="ItemAddOк">Нова камера е добавена успешно!</string>
+    <string name="ItemInvalidField">Полетата не може да съдържат ";"</string>
+    <string name="ItemFieldEmpty">Полето не може да бъде празно !</string>
+    <string name="ItemMaxLimit">Достигнат е лимита от камери!</string>
+    <!-- ^^^ MESSAGES ^^^ -->
 
 </resources>

@@ -15,14 +15,18 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
+import com.google.android.material.snackbar.Snackbar;
 
-import AddTools.Credentials;
+
+import Device.DeviceHandler;
 import Common.FragmentsEnum;
 import Common.Settings;
+import Device.DevicePushResultTypes;
 
 public class AddFragment extends Fragment {
     View myView;
     Settings settings;
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -39,12 +43,11 @@ public class AddFragment extends Fragment {
         ButtonEvents(view);
     }
 
-    private void ButtonEvents(@NonNull View view)
-    {
+    private void ButtonEvents(@NonNull View view) {
         view.findViewById(R.id.authSwitch).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean checked = ((Switch)v).isChecked();
+                boolean checked = ((Switch) v).isChecked();
                 myView.findViewById(R.id.newUsername).setEnabled(checked);
                 myView.findViewById(R.id.newPassword).setEnabled(checked);
                 myView.findViewById(R.id.showPassBUtton).setEnabled(checked);
@@ -54,11 +57,11 @@ public class AddFragment extends Fragment {
         view.findViewById(R.id.showPassBUtton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean checked = ((CheckBox)v).isChecked();
-                EditText edtPassword = (EditText)myView.findViewById(R.id.newPassword);//new EditText(myView.getContext());
-                if(checked){
+                boolean checked = ((CheckBox) v).isChecked();
+                EditText edtPassword = (EditText) myView.findViewById(R.id.newPassword);//new EditText(myView.getContext());
+                if (checked) {
                     edtPassword.setTransformationMethod(null);
-                }else{
+                } else {
                     edtPassword.setTransformationMethod(new PasswordTransformationMethod());
                 }
             }
@@ -67,43 +70,65 @@ public class AddFragment extends Fragment {
         view.findViewById(R.id.addDevice).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //    String content = EditText.getText().toString();
-            AddNew();
-            myView.setVisibility(View.INVISIBLE);
-            MainActivity activity = (MainActivity) getActivity();
-            activity.ToggleFrontLayerVisibility(View.VISIBLE);
-             NavHostFragment.findNavController(AddFragment.this)
-                       .navigate(R.id.action_AddFragment_to_GalleryFragment);
+                //    String content = EditText.getText().toString();
+                DevicePushResultTypes result = AddNew();
+
+                if (result == DevicePushResultTypes.OK) {
+                    myView.setVisibility(View.INVISIBLE);
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.ToggleFrontLayerVisibility(View.VISIBLE);
+                    NavHostFragment.findNavController(AddFragment.this)
+                            .navigate(R.id.action_AddFragment_to_GalleryFragment);
+                }
+
             }
         });
     }
 
-    private boolean AddNew()
-    {
-        EditText  text;
-        Switch  _switch;
+    private DevicePushResultTypes AddNew() {
+        EditText text;
+        Switch _switch;
         String url = "";
         String name = "";
         String username = "";
         String password = "";
         boolean auth_check = false;
-        text    =   (EditText)myView.findViewById(R.id.userURL);
-        url     =   text.getText().toString().trim();
-        text    =   (EditText)myView.findViewById(R.id.userCamName);
-        name    =   text.getText().toString().trim();
+        text = (EditText) myView.findViewById(R.id.userURL);
+        url = text.getText().toString().trim();
+        text = (EditText) myView.findViewById(R.id.userCamName);
+        name = text.getText().toString().trim();
 
-        _switch =       (Switch)myView.findViewById(R.id.authSwitch);
-        auth_check =    ((Switch)_switch).isChecked();
+        _switch = (Switch) myView.findViewById(R.id.authSwitch);
+        auth_check = ((Switch) _switch).isChecked();
 
-//        if(auth_check){
-            text    =   (EditText)myView.findViewById(R.id.newUsername);
-            username     =   text.getText().toString().trim();
-            text    =   (EditText)myView.findViewById(R.id.newPassword);
-            password    =   text.getText().toString().trim();
-//        }
+        text = (EditText) myView.findViewById(R.id.newUsername);
+        username = text.getText().toString().trim();
+        text = (EditText) myView.findViewById(R.id.newPassword);
+        password = text.getText().toString().trim();
 
-        Credentials credentials = new Credentials();
-        return credentials.Add(url,name,auth_check,username,password,settings);
+
+        DeviceHandler device = new DeviceHandler();
+        DevicePushResultTypes result = device.Add(url, name, auth_check, username, password, settings);
+        PrintAddMessage(result);
+        return result;
+    }
+
+    private void PrintAddMessage(DevicePushResultTypes result) {
+        switch (result) {
+            case OK:
+                Snackbar.make(myView, R.string.ItemAddOк, Snackbar.LENGTH_LONG).show();
+                break;
+            case INVALID_CHARACTER:
+                Snackbar.make(myView, R.string.ItemInvalidField, Snackbar.LENGTH_LONG).show();
+                break;
+            case FIELD_IS_EMPTY:
+                Snackbar.make(myView, R.string.ItemFieldEmpty, Snackbar.LENGTH_LONG).show();
+                break;
+            case MAX_LIMIT:
+                Snackbar.make(myView, R.string.ItemMaxLimit, Snackbar.LENGTH_LONG).show();
+                break;
+        }
+
     }
 
 }

@@ -2,6 +2,7 @@
 
     <!-- *** SYSTEM *** -->
     <string name="app_name" translatable="false">GuardNet-Lite-Gabrovo</string>
+    <string name="MaxDevices" translatable="false">10</string>
     <string name="default_notification_email" translatable="false">priemna@mvr.bg</string>
     <string name="default_gallery_view" translatable="false">3</string>
     <string name="URL" translatable="false">URL</string>
@@ -81,6 +82,11 @@
     <string name="CalendarEnableDateTimeMonitoring">MONITORING BY DATE AND TIME</string>
     <!-- ^^^ CALENDAR ^^^ -->
 
+    <!-- *** CLOCK *** -->
+    <string name="From">From</string>
+    <string name="To">To</string>
+    <!-- ^^^ CLOCK ^^^ -->
+
     <!-- *** GALLERY *** -->
     <string name="GalleryEmpty">Gallery is empty</string>
     <!-- ^^^ GALLERY ^^^ -->
@@ -92,6 +98,12 @@
     </string-array>
     <!-- ^^^ LANGUAGE SETTINGS ^^^ -->
 
+    <!-- *** MESSAGES *** -->
+    <string name="ItemAddOк">New camera has been added successfully !</string>
+    <string name="ItemInvalidField">Fields cannot contain ";" !</string>
+    <string name="ItemFieldEmpty">Field cannot be empty !</string>
+    <string name="ItemMaxLimit">Camera limit reached !</string>
+    <!-- ^^^ MESSAGES ^^^ -->
     <string name="CamAdded">Add</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="camera_front_layer">Camera Fragment</string>

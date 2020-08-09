@@ -111,9 +111,6 @@ public class GalleryFragment extends Fragment {
     }
 
     public static Fragment getInstance() {
-        GalleryFragment fragment = new GalleryFragment();
-        return fragment;
+        return new GalleryFragment();
     }
-
-
 }
