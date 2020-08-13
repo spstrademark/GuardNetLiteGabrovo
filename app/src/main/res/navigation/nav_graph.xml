@@ -11,13 +11,13 @@
         android:label="@string/camera_front_layer"
         tools:layout="@layout/fragment_camera_front">
 
-         <action
-             android:id="@+id/action_CameraFragment_to_SettingsFragment"
-             app:destination="@id/settingsFragment"
-             app:enterAnim="@anim/enter_from_right"
-             app:exitAnim="@anim/enter_from_left"
-             app:popEnterAnim="@anim/enter_from_left"
-             app:popExitAnim="@anim/enter_from_right"/>
+        <action
+            android:id="@+id/action_CameraFragment_to_SettingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/enter_from_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/enter_from_right" />
 
         <action
             android:id="@+id/action_CameraFragment_to_AddFragment"
@@ -25,7 +25,7 @@
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/enter_from_left"
             app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/enter_from_right"/>
+            app:popExitAnim="@anim/enter_from_right" />
     </fragment>
 
     <fragment
@@ -33,6 +33,14 @@
         android:name="Fragments.AddFragment"
         android:label="@string/AddNew"
         tools:layout="@layout/add_fragment">
+
+        <action
+            android:id="@+id/action_AddFragment_to_CameraFragment"
+            app:destination="@+id/cameraFrontFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/enter_from_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/enter_from_right" />
 
         <action
             android:id="@+id/action_AddFragment_to_SettingsFragment"

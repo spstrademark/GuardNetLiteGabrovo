@@ -18,7 +18,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -94,7 +93,7 @@ public class CameraFrontFragment extends Fragment {
         setupCameraSpinner();
         initWebView();
         viewerStart(1);
-        setupFAB();
+        setupAddDeviceButton();
 
         return view;
     }
@@ -204,7 +203,7 @@ public class CameraFrontFragment extends Fragment {
         return this.CamerasURL.get(idx);
     }
 
-    private void setupFAB() {
+    private void setupAddDeviceButton() {
         addCameraButton.setOnClickListener(v -> NavHostFragment.findNavController(CameraFrontFragment.this)
                 .navigate(R.id.action_CameraFragment_to_AddFragment));
     }

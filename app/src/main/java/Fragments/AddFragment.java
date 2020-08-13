@@ -5,6 +5,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -13,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -24,8 +24,15 @@ import Common.Settings;
 import Device.DevicePushResultTypes;
 
 public class AddFragment extends Fragment {
-    View myView;
+
     Settings settings;
+    private EditText newUsername;
+    private EditText newPassword;
+    private CheckBox showPassToggle;
+    private Button addDeviceButton;
+    private EditText cameraUrlEditText, userNameEditText;
+    private Switch authSwitch;
+    private View addFragmentRootLayout;
 
     @Override
     public View onCreateView(
@@ -39,96 +46,82 @@ public class AddFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         settings = new Settings(getContext(), FragmentsEnum.ADD.ordinal());
         super.onViewCreated(view, savedInstanceState);
-        myView = view;
+        addFragmentRootLayout = view.findViewById(R.id.addFragmentRootLayout);
+        newUsername = view.findViewById(R.id.newUsername);
+        newPassword = view.findViewById(R.id.newPassword);
+        newPassword = view.findViewById(R.id.newPassword);
+        addDeviceButton = view.findViewById(R.id.addDevice);
+        cameraUrlEditText = view.findViewById(R.id.userURL);
+        userNameEditText = view.findViewById(R.id.userCamName);
+        authSwitch = view.findViewById(R.id.authSwitch);
+        showPassToggle = view.findViewById(R.id.showPassBUtton);
+
         ButtonEvents(view);
     }
 
     private void ButtonEvents(@NonNull View view) {
-        view.findViewById(R.id.authSwitch).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean checked = ((Switch) v).isChecked();
-                myView.findViewById(R.id.newUsername).setEnabled(checked);
-                myView.findViewById(R.id.newPassword).setEnabled(checked);
-                myView.findViewById(R.id.showPassBUtton).setEnabled(checked);
+        view.findViewById(R.id.authSwitch).setOnClickListener(v -> {
+            boolean checked = ((Switch) v).isChecked();
+            newUsername.setEnabled(checked);
+            newPassword.setEnabled(checked);
+            showPassToggle.setEnabled(checked);
+        });
+
+        showPassToggle.setOnClickListener(v -> {
+            boolean checked = ((CheckBox) v).isChecked();
+            if (checked) {
+                newPassword.setTransformationMethod(null);
+            } else {
+                newPassword.setTransformationMethod(new PasswordTransformationMethod());
             }
         });
 
-        view.findViewById(R.id.showPassBUtton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean checked = ((CheckBox) v).isChecked();
-                EditText edtPassword = (EditText) myView.findViewById(R.id.newPassword);//new EditText(myView.getContext());
-                if (checked) {
-                    edtPassword.setTransformationMethod(null);
-                } else {
-                    edtPassword.setTransformationMethod(new PasswordTransformationMethod());
-                }
-            }
-        });
+        addDeviceButton.setOnClickListener(view1 -> {
+            //    String content = EditText.getText().toString();
+            DevicePushResultTypes result = addNew();
 
-        view.findViewById(R.id.addDevice).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //    String content = EditText.getText().toString();
-                DevicePushResultTypes result = AddNew();
-
-                if (result == DevicePushResultTypes.OK) {
-                    myView.setVisibility(View.INVISIBLE);
-                    MainActivity activity = (MainActivity) getActivity();
-                    activity.ToggleFrontLayerVisibility(View.VISIBLE);
-                    NavHostFragment.findNavController(AddFragment.this)
-                            .navigate(R.id.action_AddFragment_to_GalleryFragment);
-                }
-
+            if (result == DevicePushResultTypes.OK) {
+                NavHostFragment.findNavController(AddFragment.this)
+                        .navigate(R.id.action_AddFragment_to_CameraFragment);
             }
         });
     }
 
-    private DevicePushResultTypes AddNew() {
-        EditText text;
-        Switch _switch;
-        String url = "";
-        String name = "";
-        String username = "";
-        String password = "";
-        boolean auth_check = false;
-        text = (EditText) myView.findViewById(R.id.userURL);
-        url = text.getText().toString().trim();
-        text = (EditText) myView.findViewById(R.id.userCamName);
-        name = text.getText().toString().trim();
+    private DevicePushResultTypes addNew() {
+        String url;
+        String name;
+        String username;
+        String password;
+        boolean isAuthEnabled;
 
-        _switch = (Switch) myView.findViewById(R.id.authSwitch);
-        auth_check = ((Switch) _switch).isChecked();
+        url = cameraUrlEditText.getText().toString().trim();
+        name = userNameEditText.getText().toString().trim();
+        isAuthEnabled = authSwitch.isChecked();
 
-        text = (EditText) myView.findViewById(R.id.newUsername);
-        username = text.getText().toString().trim();
-        text = (EditText) myView.findViewById(R.id.newPassword);
-        password = text.getText().toString().trim();
-
+        username = newUsername.getText().toString().trim();
+        password = newPassword.getText().toString().trim();
 
         DeviceHandler device = new DeviceHandler(settings);
-        DevicePushResultTypes result = device.Add(url, name, auth_check, username, password);
-        PrintAddMessage(result);
+        DevicePushResultTypes result = device.Add(url, name, isAuthEnabled, username, password);
+        printAddMessage(result);
         return result;
     }
 
-    private void PrintAddMessage(DevicePushResultTypes result) {
+    private void printAddMessage(DevicePushResultTypes result) {
         switch (result) {
             case OK:
-                Snackbar.make(myView, R.string.ItemAddOк, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(addFragmentRootLayout, R.string.ItemAddOк, Snackbar.LENGTH_LONG).show();
                 break;
             case INVALID_CHARACTER:
-                Snackbar.make(myView, R.string.ItemInvalidField, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(addFragmentRootLayout, R.string.ItemInvalidField, Snackbar.LENGTH_LONG).show();
                 break;
             case FIELD_IS_EMPTY:
-                Snackbar.make(myView, R.string.ItemFieldEmpty, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(addFragmentRootLayout, R.string.ItemFieldEmpty, Snackbar.LENGTH_LONG).show();
                 break;
             case MAX_LIMIT:
-                Snackbar.make(myView, R.string.ItemMaxLimit, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(addFragmentRootLayout, R.string.ItemMaxLimit, Snackbar.LENGTH_LONG).show();
                 break;
         }
-
     }
 
 }
