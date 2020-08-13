@@ -1,6 +1,8 @@
 package com.example.guardnet_lite_gabrovo;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +18,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -29,14 +34,21 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.util.Arrays;
 import java.util.List;
 
+import Common.FragmentsEnum;
+import Common.Settings;
+import Device.Device;
+import Device.DeviceHandler;
+
 public class CameraFrontFragment extends Fragment {
 
+    private Settings settings;
     private WebView webView;
     private MaterialSpinner dropdown;
     private FloatingActionButton addCameraButton;
     private ImageView hideBackdropButton;
     private ViewPager2 viewPager;
 
+    List<Device> UserDevices;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -45,12 +57,15 @@ public class CameraFrontFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_camera_front, container, false);
         setHasOptionsMenu(true);
-
+        HomeActivityInit();
         webView = view.findViewById(R.id.frontLayerWebView);
         dropdown = view.findViewById(R.id.cameraListSpinner);
         addCameraButton = view.findViewById(R.id.button_add);
         hideBackdropButton = view.findViewById(R.id.hideBackdropButton);
         viewPager = view.findViewById(R.id.viewPager);
+      //  settings = new Settings(getContext(), FragmentsEnum.ADD.ordinal());
+        DeviceHandler devhandler = new DeviceHandler(settings);
+       UserDevices =  devhandler.GetAllDevices();
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(viewPagerAdapter);
@@ -80,6 +95,26 @@ public class CameraFrontFragment extends Fragment {
         return view;
     }
 
+    private void HomeActivityInit()
+    {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
+        getActivity().setTitle("");
+       // getContext().t("");
+
+        settings = new Settings(getContext(), FragmentsEnum.MAIN_ACTIVITY.ordinal());
+        settings.InitAppFolder(getResources().getString(R.string.app_name));
+        settings.GetLanguage();
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+    }
+
     private void setUpBackdropButton(View view) {
         hideBackdropButton.setOnClickListener(new NavigationIconClickListener(
                 getContext(),
@@ -93,7 +128,20 @@ public class CameraFrontFragment extends Fragment {
         List<String> cameraList = Arrays.asList(getResources().getStringArray(R.array.PublicCameras));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item, cameraList);
         dropdown.setAdapter(adapter);
-
+//        if(UserDevices !=null)
+//        {
+//            for (Device device : UserDevices) {
+//                if(device.GetName()!=null){
+//                    adapter.add(device.GetName());
+//                }else{
+//                    adapter.add(device.GetURL());
+//                }
+//            }
+//        }
+//
+//        adapter.add("helo");
+//        adapter.notifyDataSetChanged();
+    //    dropdown.setAdapter(adapter);
         dropdown.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item) -> viewerStart(position));
     }
 

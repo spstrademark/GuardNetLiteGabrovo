@@ -30,8 +30,13 @@ public class DeviceHandler {
     private static String ITEM_SEPARATOR     = ";";
     Settings settings;
 
-    public DevicePushResultTypes Add(@NonNull String URL, @NonNull String DisplayName, boolean auth, String Username, String Password, Settings settings) {
+    public DeviceHandler(Settings settings)
+    {
         this.settings = settings;
+    }
+
+    public DevicePushResultTypes Add(@NonNull String URL, @NonNull String DisplayName, boolean auth, String Username, String Password) {
+
 
         if(TextUtils.isEmpty(URL)){
             return DevicePushResultTypes.FIELD_IS_EMPTY;

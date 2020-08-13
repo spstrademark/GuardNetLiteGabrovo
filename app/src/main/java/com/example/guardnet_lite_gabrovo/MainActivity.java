@@ -275,6 +275,9 @@ package com.example.guardnet_lite_gabrovo;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
 
@@ -286,6 +289,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -301,6 +305,9 @@ import android.widget.EditText;
 import com.evolve.backdroplibrary.BackdropContainer;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
 import android.os.Handler;
@@ -752,51 +759,99 @@ public class MainActivity extends AppCompatActivity {
         return CamerasURL.get(idx);
     }
 
+    private Bitmap GetBitmap()
+    {
+        final Bitmap[] bm = {null};
+        Viewer.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                Viewer.measure(View.MeasureSpec.makeMeasureSpec(
+                        View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                Viewer.layout(0, 0, Viewer.getMeasuredWidth(),
+                        Viewer.getMeasuredHeight());
+                Viewer.setDrawingCacheEnabled(true);
+                Viewer.buildDrawingCache();
+                bm[0] = Bitmap.createBitmap(Viewer.getMeasuredWidth(),
+                        Viewer.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+            }
+        });
+
+        return bm[0];
+    }
+
+    private void SaveBitmap(Bitmap bm)
+    {
+        if (bm != null) {
+            try {
+                String path = String.format("%s%s%s",
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+                        File.separator,
+                        getResources().getString(R.string.app_name));
+
+
+//                String path = Environment.getExternalStorageDirectory()
+//                        .toString();
+                OutputStream fOut = null;
+                File file = new File(path, "/aaaa.png");
+                fOut = new FileOutputStream(file);
+
+                bm.compress(Bitmap.CompressFormat.PNG, 50, fOut);
+                fOut.flush();
+                fOut.close();
+                bm.recycle();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void ExtractView()
     {
         Viewer.setWebViewClient(new WebViewClient() {
 // IN A NEW THREAT !
-//            public void onPageFinished(WebView view, String url) {
-//                // do your stuff here
-//                Viewer.measure(View.MeasureSpec.makeMeasureSpec(
-//                        View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
-//                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-//                Viewer.layout(0, 0, Viewer.getMeasuredWidth(),
-//                        Viewer.getMeasuredHeight());
-//                Viewer.setDrawingCacheEnabled(true);
-//                Viewer.buildDrawingCache();
-//                Bitmap bm = Bitmap.createBitmap(Viewer.getMeasuredWidth(),
-//                        Viewer.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-//
-//                Canvas bigcanvas = new Canvas(bm);
-//                Paint paint = new Paint();
-//                int iHeight = bm.getHeight();
-//                bigcanvas.drawBitmap(bm, 0, iHeight, paint);
-//                Viewer.draw(bigcanvas);
-//                System.out.println("1111111111111111111111="
-//                        + bigcanvas.getWidth());
-//                System.out.println("22222222222222222222222="
-//                        + bigcanvas.getHeight());
-//
-//                if (bm != null) {
-//                    try {
-//                        String path = Environment.getExternalStorageDirectory()
-//                                .toString();
-//                        OutputStream fOut = null;
-//                        File file = new File(path, "/aaaa.png");
-//                        fOut = new FileOutputStream(file);
-//
-//                        bm.compress(Bitmap.CompressFormat.PNG, 50, fOut);
-//                        fOut.flush();
-//                        fOut.close();
-//                        bm.recycle();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
+            public void onPageFinished(WebView view, String url) {
+                // do your stuff here
+                Viewer.measure(View.MeasureSpec.makeMeasureSpec(
+                        View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                Viewer.layout(0, 0, Viewer.getMeasuredWidth(),
+                        Viewer.getMeasuredHeight());
+                Viewer.setDrawingCacheEnabled(true);
+                Viewer.buildDrawingCache();
+                Bitmap bm = Bitmap.createBitmap(Viewer.getMeasuredWidth(),
+                        Viewer.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+                Canvas bigcanvas = new Canvas(bm);
+                Paint paint = new Paint();
+                int iHeight = bm.getHeight();
+                bigcanvas.drawBitmap(bm, 0, iHeight, paint);
+                Viewer.draw(bigcanvas);
+                System.out.println("1111111111111111111111="
+                        + bigcanvas.getWidth());
+                System.out.println("22222222222222222222222="
+                        + bigcanvas.getHeight());
+
+                if (bm != null) {
+                    try {
+                        String path = Environment.getExternalStorageDirectory()
+                                .toString();
+                        OutputStream fOut = null;
+                        File file = new File(path, "/aaaa.png");
+                        fOut = new FileOutputStream(file);
+
+                        bm.compress(Bitmap.CompressFormat.PNG, 50, fOut);
+                        fOut.flush();
+                        fOut.close();
+                        bm.recycle();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         });
     }
+
+
 
     public void ToggleFrontLayerVisibility(int visibility)
     {

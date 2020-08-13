@@ -107,8 +107,8 @@ public class AddFragment extends Fragment {
         password = text.getText().toString().trim();
 
 
-        DeviceHandler device = new DeviceHandler();
-        DevicePushResultTypes result = device.Add(url, name, auth_check, username, password, settings);
+        DeviceHandler device = new DeviceHandler(settings);
+        DevicePushResultTypes result = device.Add(url, name, auth_check, username, password);
         PrintAddMessage(result);
         return result;
     }
