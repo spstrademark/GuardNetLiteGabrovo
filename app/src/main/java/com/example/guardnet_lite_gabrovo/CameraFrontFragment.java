@@ -31,6 +31,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,6 +50,8 @@ public class CameraFrontFragment extends Fragment {
     private ViewPager2 viewPager;
 
     List<Device> UserDevices;
+
+    List<String> CamerasURL = new ArrayList<>();
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -65,7 +68,8 @@ public class CameraFrontFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewPager);
       //  settings = new Settings(getContext(), FragmentsEnum.ADD.ordinal());
         DeviceHandler devhandler = new DeviceHandler(settings);
-       UserDevices =  devhandler.GetAllDevices();
+        UserDevices =  devhandler.GetAllDevices();
+        InitCamerasURL();
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(viewPagerAdapter);
@@ -125,24 +129,37 @@ public class CameraFrontFragment extends Fragment {
     }
 
     private void setupCameraSpinner() {
+;
+        List<String> userDevices = new ArrayList<>();
+        if(UserDevices !=null){
+            for (Device device : UserDevices) {
+                if(device.GetName()!=null){
+                    userDevices.add(device.GetName());
+                }else{
+                    userDevices.add(device.GetURL());
+                }
+            }
+        }
+
         List<String> cameraList = Arrays.asList(getResources().getStringArray(R.array.PublicCameras));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item, cameraList);
+        userDevices.addAll(cameraList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item, userDevices);
+
+
         dropdown.setAdapter(adapter);
-//        if(UserDevices !=null)
-//        {
-//            for (Device device : UserDevices) {
-//                if(device.GetName()!=null){
-//                    adapter.add(device.GetName());
-//                }else{
-//                    adapter.add(device.GetURL());
-//                }
-//            }
-//        }
-//
-//        adapter.add("helo");
-//        adapter.notifyDataSetChanged();
-    //    dropdown.setAdapter(adapter);
+
         dropdown.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item) -> viewerStart(position));
+    }
+
+    private void InitCamerasURL()
+    {
+        if(this.UserDevices !=null){
+            for (Device device : this.UserDevices) {
+                CamerasURL.add(device.GetURL());
+            }
+        }
+        List<String> PublicURL = Arrays.asList(getResources().getStringArray(R.array.PublicCamerasEmbed));
+        this.CamerasURL.addAll(PublicURL);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -182,8 +199,9 @@ public class CameraFrontFragment extends Fragment {
     }
 
     private String getCameraURL(int idx) {
-        List<String> camerasURL = Arrays.asList(getResources().getStringArray(R.array.PublicCamerasEmbed));
-        return camerasURL.get(idx);
+//        List<String> camerasURL = Arrays.asList(getResources().getStringArray(R.array.PublicCamerasEmbed));
+//        return camerasURL.get(idx);
+        return this.CamerasURL.get(idx);
     }
 
     private void setupFAB() {
