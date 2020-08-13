@@ -130,12 +130,15 @@ public class CameraFrontFragment extends Fragment {
     private void setupCameraSpinner() {
 ;
         List<String> userDevices = new ArrayList<>();
-        if(UserDevices !=null){
+        if(UserDevices.size() != 0){
             for (Device device : UserDevices) {
-                if(device.GetName()!=null){
-                    userDevices.add(device.GetName());
-                }else{
-                    userDevices.add(device.GetURL());
+                if (device != null)
+                {
+                    if(device.GetName()!=null){
+                        userDevices.add(device.GetName());
+                    }else{
+                        userDevices.add(device.GetURL());
+                    }
                 }
             }
         }
@@ -152,8 +155,9 @@ public class CameraFrontFragment extends Fragment {
 
     private void InitCamerasURL()
     {
-        if(this.UserDevices !=null){
+        if(UserDevices.size() != 0){
             for (Device device : this.UserDevices) {
+                if(device==null) continue;
                 CamerasURL.add(device.GetURL());
             }
         }

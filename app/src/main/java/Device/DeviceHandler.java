@@ -136,12 +136,15 @@ public class DeviceHandler {
                 Device device;
                 try {
                     device = g.fromJson(devices[id], Device.class);
+
+                    if (device.GetID() != id)
+                        return id;
+
                 } catch (Exception e) {
                     return id;
                 }
 
-                if (device.GetID() != id)
-                    return id;
+
 
             }
         }
@@ -180,8 +183,11 @@ public class DeviceHandler {
 
             for (id = 0; id < devices.length; id++) {
                 Device device = g.fromJson(devices[id], Device.class);
-                if (device.GetName().equals(name))
-                    occurence++;
+                if(device!=null){
+                    if (device.GetName().equals(name))
+                        occurence++;
+                }
+
             }
         }
 
