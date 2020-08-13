@@ -93,7 +93,9 @@ public class DeviceHandler {
     public void PushNewDevice(String device)
     {
         device = device.concat(ITEM_SEPARATOR);
-        settings.GetPreferencesEditor().putString(settings.GetDeviceKey(),device);
+        String all = settings.GetPreferences().getString(settings.GetDeviceKey(),null);
+        all += device;
+        settings.GetPreferencesEditor().putString(settings.GetDeviceKey(),all);
         settings.GetPreferencesEditor().apply();
     }
 
@@ -142,9 +144,16 @@ public class DeviceHandler {
 
             for(id =0; id < count;id++)
             {
-                Device device = g.fromJson(devices[id], Device.class);
+                Device device;
+                try{
+                    device = g.fromJson(devices[id], Device.class);
+                }catch(Exception e) {
+                    return id;
+                }
+
                 if(device.GetID()!=id)
                     return id;
+
             }
         }
 
