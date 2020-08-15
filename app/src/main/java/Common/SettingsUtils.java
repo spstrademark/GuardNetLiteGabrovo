@@ -2,9 +2,12 @@ package Common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Environment;
 import android.util.DisplayMetrics;
+
+import androidx.preference.PreferenceManager;
 
 import com.example.guardnet_lite_gabrovo.R;
 
@@ -14,8 +17,7 @@ import java.util.Locale;
 import Camera.PublicCamerasEnum;
 import Notifications.NotificationsTriggerEnum;
 
-public class Settings {
-
+public class SettingsUtils {
 
     String folder = "";
     final String LastView = "LastView";
@@ -30,13 +32,36 @@ public class Settings {
     final String Devices = "Devices";
     final String DeviceCount = "DevicesCount";
 
-    private SharedPreferences.Editor SetPrefs;
-    private SharedPreferences GetPrefs;
-    Context context;
-    int activeView;
+    private Context context;
+
+    private static SettingsUtils sInstance;
+    private static final Object LOCK = new Object();
+    private SharedPreferences sharedPreferences;
+
+    private SettingsUtils(Context context) {
+        this.context = context;
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    public synchronized static void createInstance(Context context) {
+        if (sInstance == null) {
+            synchronized (LOCK) {
+                if (sInstance == null) {
+                    sInstance = new SettingsUtils(context);
+                }
+            }
+        }
+    }
+
+    public static SettingsUtils getInstance() {
+        if (sInstance == null) {
+            throw new IllegalStateException("Preference instance not initialized");
+        }
+        return sInstance;
+    }
 
 
-    public Settings(Context context, int activeView) {
+   /* public SettingsUtils(Context context, int activeView) {
 
 
         // final String APPLICATION_NAME =  context.getApplicationInfo().packageName;//context.getResources().getString(.app_name);
@@ -56,10 +81,10 @@ public class Settings {
         SetPrefs.putInt(this.LastView, activeView);
         SetPrefs.apply();
 
-    }
+    }*/
 
     public int GetView() {
-        return GetPrefs.getInt(this.LastView, FragmentsEnum.MAIN_ACTIVITY.ordinal());
+        return sharedPreferences.getInt(this.LastView, FragmentsEnum.MAIN_ACTIVITY.ordinal());
     }
 
     public void InitAppFolder(String AppName) {
@@ -73,23 +98,22 @@ public class Settings {
         }
     }
 
-    public android.content.res.Configuration SetLanguage(int languageIDX) {
+    public Configuration SetLanguage(int languageIDX) {
         String lan = LanguagesEnum.values()[languageIDX].toString().toLowerCase();
         Resources res = context.getResources();
-// Change locale settings in the app.
+        // Change locale settings in the app.
         DisplayMetrics dm = res.getDisplayMetrics();
-        android.content.res.Configuration conf = res.getConfiguration();
+        Configuration conf = res.getConfiguration();
         conf.setLocale(new Locale(lan)); // API 17+ only.
-// Use conf.locale = new Locale(...) if targeting lower versions
+        // Use conf.locale = new Locale(...) if targeting lower versions
         res.updateConfiguration(conf, dm);
 
-        SetPrefs.putInt(this.Language, languageIDX);
-        SetPrefs.apply();
+        sharedPreferences.edit().putInt(this.Language, languageIDX).apply();
         return conf;
     }
 
     public int GetLanguage() {
-        int lang = GetPrefs.getInt(Language, LanguagesEnum.EN.ordinal());
+        int lang = sharedPreferences.getInt(Language, LanguagesEnum.EN.ordinal());
         String lan = LanguagesEnum.values()[lang].toString().toLowerCase();
         Resources res = context.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
@@ -100,47 +124,46 @@ public class Settings {
     }
 
     public void SetCamera(int idx) {
-        SetPrefs.putInt(this.SelectedCam, idx);
-        SetPrefs.apply();
+        sharedPreferences.edit().putInt(this.SelectedCam, idx).apply();
     }
 
     public int GetCamera() {
-        return GetPrefs.getInt(this.SelectedCam, PublicCamerasEnum.RADECKA.ordinal());
+        return sharedPreferences.getInt(this.SelectedCam, PublicCamerasEnum.RADECKA.ordinal());
     }
 
     public void SetGalleryView(int idx) {
-        SetPrefs.putInt(this.GalleryView, idx);
-        SetPrefs.apply();
+        sharedPreferences.edit().putInt(this.GalleryView, idx).apply();
     }
 
     public int GetGalleryView() {
         int default_grid = Integer.parseInt(context.getResources().getString(R.string.default_gallery_view));
-        return GetPrefs.getInt(this.GalleryView, default_grid);
+        return sharedPreferences.getInt(this.GalleryView, default_grid);
     }
 
     public void SetNotificationsEventTrigger(int idx) {
-        SetPrefs.putInt(this.NotificationTrigger, idx);
-        SetPrefs.apply();
+        sharedPreferences.edit().putInt(this.NotificationTrigger, idx).apply();
     }
 
     public int GetNotificationsEventTrigger() {
-        return GetPrefs.getInt(this.NotificationTrigger, NotificationsTriggerEnum.SECONDS_5.ordinal());
+        return sharedPreferences.getInt(this.NotificationTrigger, NotificationsTriggerEnum.SECONDS_5.ordinal());
     }
 
+    // TODO: remove
     public SharedPreferences GetPreferences() {
-        return GetPrefs;
+        return sharedPreferences;
     }
 
+    // TODO: remove
     public SharedPreferences.Editor GetPreferencesEditor() {
-        return SetPrefs;
+        return sharedPreferences.edit();
     }
 
     public String GetDeviceKey() {
         return Devices;
     }
 
-    public Context GetContext()
-    {
+    // TODO: remove
+    public Context GetContext() {
         return context;
     }
 

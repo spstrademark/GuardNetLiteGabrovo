@@ -13,10 +13,10 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.guardnet_lite_gabrovo.R;
 
 import Common.FragmentsEnum;
-import Common.Settings;
+import Common.SettingsUtils;
 
 public class CalendarFragment extends Fragment {
-    Settings settings;
+    SettingsUtils settings;
 
     @Override
     public View onCreateView(
@@ -29,8 +29,8 @@ public class CalendarFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        settings = new Settings(getContext(), FragmentsEnum.CALENDAR.ordinal());
         super.onViewCreated(view, savedInstanceState);
+        settings = SettingsUtils.getInstance();
         FragmentInit();
 
         CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendarView);

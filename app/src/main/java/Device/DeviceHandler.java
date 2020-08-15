@@ -4,38 +4,25 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-
-import android.text.TextUtils;
-
-import androidx.annotation.NonNull;
 
 import com.example.guardnet_lite_gabrovo.R;
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import Common.Settings;
-import Device.Device;
+import Common.SettingsUtils;
 
 public class DeviceHandler {
 
     private static String ITEM_SEPARATOR = ";";
-    Settings settings;
+    private SettingsUtils settings;
 
-    public DeviceHandler(Settings settings) {
+    public DeviceHandler(SettingsUtils settings) {
         this.settings = settings;
     }
 
     public DevicePushResultTypes Add(@NonNull String URL, @NonNull String DisplayName, boolean auth, String Username, String Password) {
-
 
         if (TextUtils.isEmpty(URL)) {
             return DevicePushResultTypes.FIELD_IS_EMPTY;

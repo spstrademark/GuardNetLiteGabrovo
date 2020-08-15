@@ -313,12 +313,11 @@ import java.util.List;
 import android.os.Handler;
 import android.widget.Spinner;
 
-import Device.DeviceHandler;
 import Common.FragmentsEnum;
-import Common.Settings;
+import Common.SettingsUtils;
 
 public class MainActivity extends AppCompatActivity {
-    Settings settings;
+    SettingsUtils settings;
     private Handler handler = new Handler();
     private BackdropContainer backdropContainer;
     private static int BackdropHeight   = 400;
@@ -607,7 +606,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.setTitle("");
 
-        settings = new Settings(this, FragmentsEnum.MAIN_ACTIVITY.ordinal());
+        settings = SettingsUtils.getInstance();
         settings.InitAppFolder(getResources().getString(R.string.app_name));
         settings.GetLanguage();
         Toolbar toolbar = findViewById(R.id.toolbar);

@@ -20,12 +20,12 @@ import com.google.android.material.snackbar.Snackbar;
 
 import Device.DeviceHandler;
 import Common.FragmentsEnum;
-import Common.Settings;
+import Common.SettingsUtils;
 import Device.DevicePushResultTypes;
 
 public class AddFragment extends Fragment {
 
-    Settings settings;
+    private SettingsUtils settings;
     private EditText newUsername;
     private EditText newPassword;
     private CheckBox showPassToggle;
@@ -44,8 +44,8 @@ public class AddFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        settings = new Settings(getContext(), FragmentsEnum.ADD.ordinal());
         super.onViewCreated(view, savedInstanceState);
+        settings = SettingsUtils.getInstance();
         addFragmentRootLayout = view.findViewById(R.id.addFragmentRootLayout);
         newUsername = view.findViewById(R.id.newUsername);
         newPassword = view.findViewById(R.id.newPassword);

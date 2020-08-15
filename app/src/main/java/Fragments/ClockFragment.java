@@ -15,10 +15,10 @@ import com.example.guardnet_lite_gabrovo.R;
 import java.sql.Time;
 
 import Common.FragmentsEnum;
-import Common.Settings;
+import Common.SettingsUtils;
 
 public class ClockFragment extends Fragment {
-    Settings settings;
+    SettingsUtils settings;
 
     @Override
     public View onCreateView(
@@ -30,9 +30,8 @@ public class ClockFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        settings = new Settings(getContext(), FragmentsEnum.CLOCK.ordinal());
         super.onViewCreated(view, savedInstanceState);
-
+        settings = SettingsUtils.getInstance();
         long now = System.currentTimeMillis();
         Time sqlTime = new Time(now);
         String time_now = sqlTime.toString();

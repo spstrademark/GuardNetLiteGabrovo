@@ -15,13 +15,14 @@ import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
 
 import Common.FragmentsEnum;
-import Common.Settings;
-
+import Common.SettingsUtils;
 
 
 public class NotificationFragment extends Fragment {
-    Settings settings;
+
+    private SettingsUtils settings;
     int selected = 0;
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -32,9 +33,10 @@ public class NotificationFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        settings = new Settings(getContext(), FragmentsEnum.NOTIFICATIONS.ordinal());
         super.onViewCreated(view, savedInstanceState);
-     //   view.setVisibility(View.GONE);
+
+        settings = SettingsUtils.getInstance();
+        //   view.setVisibility(View.GONE);
         MainActivity activity = (MainActivity) getActivity();
         activity.SetActiveView(NotificationFragment.this);
         InitCameraDropdownList(view);
@@ -47,8 +49,7 @@ public class NotificationFragment extends Fragment {
 //        });
     }
 
-    void InitCameraDropdownList(@NonNull View view)
-    {
+    void InitCameraDropdownList(@NonNull View view) {
         Spinner dropdown = view.findViewById(R.id.notificationIntervals);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.NotificationTrigger, android.R.layout.simple_spinner_item);

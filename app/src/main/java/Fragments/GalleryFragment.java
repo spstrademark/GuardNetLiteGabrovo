@@ -18,12 +18,12 @@ import java.io.File;
 import java.util.ArrayList;
 
 import Common.FragmentsEnum;
-import Common.Settings;
+import Common.SettingsUtils;
 import GalleryTools.GalleryAdapter;
 import GalleryTools.GalleryList;
 
 public class GalleryFragment extends Fragment {
-    Settings settings;
+    SettingsUtils settings;
 
     private RecyclerView recyclerView;
     private Button gridViewButton;
@@ -41,8 +41,8 @@ public class GalleryFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        settings = new Settings(getContext(), FragmentsEnum.GALLERY.ordinal());
         super.onViewCreated(view, savedInstanceState);
+        settings = SettingsUtils.getInstance();
 
         gridViewButton = view.findViewById(R.id.gridView);
         listViewButton = view.findViewById(R.id.listView);

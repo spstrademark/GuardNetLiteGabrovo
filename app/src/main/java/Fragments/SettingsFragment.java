@@ -12,11 +12,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.guardnet_lite_gabrovo.R;
 
 import Common.FragmentsEnum;
-import Common.Settings;
+import Common.SettingsUtils;
 
 
 public class SettingsFragment extends Fragment {
-    Settings settings;
+
+    private SettingsUtils settings;
 
     @Override
     public View onCreateView(
@@ -29,7 +30,7 @@ public class SettingsFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        settings = new Settings(getContext(), FragmentsEnum.SETTINGS.ordinal());
+        settings = SettingsUtils.getInstance();
         super.onViewCreated(view, savedInstanceState);
         FragmentInit();
         view.findViewById(R.id.language).setOnClickListener(view1 -> NavHostFragment.findNavController(SettingsFragment.this)

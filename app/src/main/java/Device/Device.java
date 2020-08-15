@@ -1,12 +1,4 @@
 package Device;
-import android.text.TextUtils;
-
-import androidx.annotation.NonNull;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import Common.Settings;
 
 public class Device {
     private int ID;

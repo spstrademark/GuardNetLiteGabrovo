@@ -35,22 +35,22 @@ import java.util.Arrays;
 import java.util.List;
 
 import Common.FragmentsEnum;
-import Common.Settings;
+import Common.SettingsUtils;
 import Device.Device;
 import Device.DeviceHandler;
 
 public class CameraFrontFragment extends Fragment {
 
-    private Settings settings;
+    private SettingsUtils settings;
     private WebView webView;
     private MaterialSpinner dropdown;
     private FloatingActionButton addCameraButton;
     private ImageView hideBackdropButton;
     private ViewPager2 viewPager;
 
-    List<Device> UserDevices;
+    List<Device> userDevicesList;
+    List<String> camerasURLList = new ArrayList<>();
 
-    List<String> CamerasURL = new ArrayList<>();
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -67,7 +67,7 @@ public class CameraFrontFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewPager);
       //  settings = new Settings(getContext(), FragmentsEnum.ADD.ordinal());
         DeviceHandler devhandler = new DeviceHandler(settings);
-        UserDevices =  devhandler.GetAllDevices();
+        userDevicesList =  devhandler.GetAllDevices();
         InitCamerasURL();
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
@@ -111,7 +111,7 @@ public class CameraFrontFragment extends Fragment {
         getActivity().setTitle("");
        // getContext().t("");
 
-        settings = new Settings(getContext(), FragmentsEnum.MAIN_ACTIVITY.ordinal());
+        settings = SettingsUtils.getInstance();
         settings.InitAppFolder(getResources().getString(R.string.app_name));
         settings.GetLanguage();
 //        Toolbar toolbar = findViewById(R.id.toolbar);
@@ -130,8 +130,8 @@ public class CameraFrontFragment extends Fragment {
     private void setupCameraSpinner() {
 ;
         List<String> userDevices = new ArrayList<>();
-        if(UserDevices.size() != 0){
-            for (Device device : UserDevices) {
+        if(userDevicesList.size() != 0){
+            for (Device device : userDevicesList) {
                 if (device != null)
                 {
                     if(device.GetName()!=null){
@@ -155,14 +155,14 @@ public class CameraFrontFragment extends Fragment {
 
     private void InitCamerasURL()
     {
-        if(UserDevices.size() != 0){
-            for (Device device : this.UserDevices) {
+        if(userDevicesList.size() != 0){
+            for (Device device : this.userDevicesList) {
                 if(device==null) continue;
-                CamerasURL.add(device.GetURL());
+                camerasURLList.add(device.GetURL());
             }
         }
         List<String> PublicURL = Arrays.asList(getResources().getStringArray(R.array.PublicCamerasEmbed));
-        this.CamerasURL.addAll(PublicURL);
+        this.camerasURLList.addAll(PublicURL);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -204,7 +204,7 @@ public class CameraFrontFragment extends Fragment {
     private String getCameraURL(int idx) {
 //        List<String> camerasURL = Arrays.asList(getResources().getStringArray(R.array.PublicCamerasEmbed));
 //        return camerasURL.get(idx);
-        return this.CamerasURL.get(idx);
+        return this.camerasURLList.get(idx);
     }
 
     private void setupAddDeviceButton() {
