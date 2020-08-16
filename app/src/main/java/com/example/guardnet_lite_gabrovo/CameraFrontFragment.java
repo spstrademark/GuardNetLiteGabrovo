@@ -3,7 +3,11 @@ package com.example.guardnet_lite_gabrovo;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,9 +16,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -30,9 +37,15 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import Common.FragmentsEnum;
 import Common.SettingsUtils;
@@ -50,6 +63,7 @@ public class CameraFrontFragment extends Fragment {
 
     List<Device> userDevicesList;
     List<String> camerasURLList = new ArrayList<>();
+    ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
     @Override
     public View onCreateView(
@@ -59,7 +73,7 @@ public class CameraFrontFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_camera_front, container, false);
         setHasOptionsMenu(true);
-        HomeActivityInit();
+        homeActivityInit();
         webView = view.findViewById(R.id.frontLayerWebView);
         dropdown = view.findViewById(R.id.cameraListSpinner);
         addCameraButton = view.findViewById(R.id.button_add);
@@ -95,10 +109,12 @@ public class CameraFrontFragment extends Fragment {
         viewerStart(1);
         setupAddDeviceButton();
 
+        executor.scheduleAtFixedRate(aiTask , 0, 500, TimeUnit.MILLISECONDS );
+
         return view;
     }
 
-    private void HomeActivityInit()
+    private void homeActivityInit()
     {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
@@ -226,4 +242,86 @@ public class CameraFrontFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private Runnable aiTask = new Runnable() {
+        public void run() {
+
+            try {
+//                long inferenceStartTimeNanos = SystemClock.elapsedRealtimeNanos();
+//                total = SystemClock.elapsedRealtimeNanos();
+//                DoStuff();
+//
+//                long lastInferenceTimeNanos = SystemClock.elapsedRealtimeNanos() - inferenceStartTimeNanos;
+//
+//                Log.e("Runnable:","Runnable:" + ( 1.0f * lastInferenceTimeNanos / 1_000_000) + " ms");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
+
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent event) {
+//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//            View v = eventgetCurrentFocus(); // NOT RESOLVED
+//            if ( v instanceof EditText) {
+//                Rect outRect = new Rect();
+//                v.getGlobalVisibleRect(outRect);
+//                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+//                    v.clearFocus();
+//                    InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE); // NOT RESOLVED
+//                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//                }
+//            }
+//        }
+//        return super.dispatchTouchEvent(event);
+//    }
+
+    private Bitmap getBitmap()
+    {
+        final Bitmap[] bm = {null};
+        webView.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                webView.measure(View.MeasureSpec.makeMeasureSpec(
+                        View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                webView.layout(0, 0, webView.getMeasuredWidth(),
+                        webView.getMeasuredHeight());
+                webView.setDrawingCacheEnabled(true);
+                webView.buildDrawingCache();
+                bm[0] = Bitmap.createBitmap(webView.getMeasuredWidth(),
+                        webView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+            }
+        });
+
+        return bm[0];
+    }
+
+    private void saveBitmap(Bitmap bm)
+    {
+        if (bm != null) {
+            try {
+                String path = String.format("%s%s%s",
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+                        File.separator,
+                        getResources().getString(R.string.app_name));
+
+
+//                String path = Environment.getExternalStorageDirectory()
+//                        .toString();
+          //      OutputStream fOut = null;
+                File file = new File(path, "/aaaa.png");
+                OutputStream fOut = new FileOutputStream(file);
+
+                bm.compress(Bitmap.CompressFormat.PNG, 50, fOut);
+                fOut.flush();
+                fOut.close();
+                bm.recycle();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
