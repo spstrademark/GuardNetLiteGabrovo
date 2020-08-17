@@ -1,6 +1,6 @@
 package Device;
 
-public class Device {
+public class UserDevice {
     private int ID;
     private String URL;
     private String NAME;

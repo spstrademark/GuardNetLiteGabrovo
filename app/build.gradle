@@ -6,7 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.guardnet_lite_gabrovo"
-        minSdkVersion 19
+      //  minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -22,11 +23,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    aaptOptions {
+        noCompress "tflite"
+        noCompress "lite"
+    }
     compileOptions {
+        targetCompatibility "1.8"
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
 }
 
 dependencies {
@@ -48,5 +57,12 @@ dependencies {
     implementation 'com.akexorcist:localization:1.2.5'
 
 
-    
+
+    implementation project(":posenet")
+    implementation 'org.tensorflow:tensorflow-lite:2.2.0'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:2.2.0'
+  //  implementation 'org.apache.commons:commons-text:1.6'
+
+    implementation "androidx.core:core-ktx:1.0.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

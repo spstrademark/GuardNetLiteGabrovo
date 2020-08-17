@@ -4,10 +4,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,12 +16,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +35,9 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import org.tensorflow.lite.examples.posenet.Posenet.Posenet;
+import org.tensorflow.lite.examples.posenet.Posenet.Device;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -47,10 +48,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import Common.FragmentsEnum;
 import Common.SettingsUtils;
-import Device.Device;
+import Device.UserDevice;
 import Device.DeviceHandler;
+import kotlin.jvm.internal.Intrinsics;
 
 public class CameraFrontFragment extends Fragment {
 
@@ -60,8 +61,8 @@ public class CameraFrontFragment extends Fragment {
     private FloatingActionButton addCameraButton;
     private ImageView hideBackdropButton;
     private ViewPager2 viewPager;
-
-    List<Device> userDevicesList;
+    private Posenet posenet;
+    List<UserDevice> userDevicesList;
     List<String> camerasURLList = new ArrayList<>();
     ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
@@ -109,6 +110,7 @@ public class CameraFrontFragment extends Fragment {
         viewerStart(1);
         setupAddDeviceButton();
 
+        initModel();
         executor.scheduleAtFixedRate(aiTask , 0, 500, TimeUnit.MILLISECONDS );
 
         return view;
@@ -134,6 +136,13 @@ public class CameraFrontFragment extends Fragment {
 //        setSupportActionBar(toolbar);
     }
 
+    private void initModel()
+    {
+        posenet = new Posenet(getContext(),
+                "posenet_model.tflite",
+                Device.CPU);
+    }
+
     private void setUpBackdropButton(View view) {
         hideBackdropButton.setOnClickListener(new NavigationIconClickListener(
                 getContext(),
@@ -147,7 +156,7 @@ public class CameraFrontFragment extends Fragment {
 ;
         List<String> userDevices = new ArrayList<>();
         if(userDevicesList.size() != 0){
-            for (Device device : userDevicesList) {
+            for (UserDevice device : userDevicesList) {
                 if (device != null)
                 {
                     if(device.GetName()!=null){
@@ -172,7 +181,7 @@ public class CameraFrontFragment extends Fragment {
     private void InitCamerasURL()
     {
         if(userDevicesList.size() != 0){
-            for (Device device : this.userDevicesList) {
+            for (UserDevice device : this.userDevicesList) {
                 if(device==null) continue;
                 camerasURLList.add(device.GetURL());
             }
@@ -243,10 +252,13 @@ public class CameraFrontFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+
+
     private Runnable aiTask = new Runnable() {
         public void run() {
 
             try {
+                doDetection();
 //                long inferenceStartTimeNanos = SystemClock.elapsedRealtimeNanos();
 //                total = SystemClock.elapsedRealtimeNanos();
 //                DoStuff();
@@ -321,6 +333,48 @@ public class CameraFrontFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void doDetection()
+    {
+        long startTime = SystemClock.elapsedRealtimeNanos();
+        Bitmap bmp = getBitmap();
+        Bitmap copy = getBitmap().copy(bmp.getConfig(),bmp.isMutable());
+        Bitmap choppedBitmap = cropBitmap(bmp);
+        posenet.GeyKeyPoints(choppedBitmap,null);
+        bmp.recycle();
+        long endTime = SystemClock.elapsedRealtimeNanos() - startTime;
+        Log.i(
+                "posenet",
+                String.format("Init took %.2f ms", 1.0f * endTime / 1_000_000)
+        );
+    }
+
+    private final Bitmap cropBitmap(Bitmap bitmap) {
+        float bitmapRatio = (float)bitmap.getHeight() / (float)bitmap.getWidth();
+        float modelInputRatio = 1.0F;
+        double maxDifference = 1.0E-5D;
+        float cropHeight = modelInputRatio - bitmapRatio;
+        boolean var8 = false;
+        if ((double)Math.abs(cropHeight) < maxDifference) {
+            return bitmap;
+        } else {
+            Bitmap var10000;
+            Bitmap croppedBitmap;
+            if (modelInputRatio < bitmapRatio) {
+                cropHeight = (float)bitmap.getHeight() - (float)bitmap.getWidth() / modelInputRatio;
+                var10000 = Bitmap.createBitmap(bitmap, 0, (int)(cropHeight / (float)2), bitmap.getWidth(), (int)((float)bitmap.getHeight() - cropHeight));
+                Intrinsics.checkExpressionValueIsNotNull(var10000, "Bitmap.createBitmap(\n   …Height).toInt()\n        )");
+                croppedBitmap = var10000;
+            } else {
+                cropHeight = (float)bitmap.getWidth() - (float)bitmap.getHeight() * modelInputRatio;
+                var10000 = Bitmap.createBitmap(bitmap, (int)(cropHeight / (float)2), 0, (int)((float)bitmap.getWidth() - cropHeight), bitmap.getHeight());
+                Intrinsics.checkExpressionValueIsNotNull(var10000, "Bitmap.createBitmap(\n   …  bitmap.height\n        )");
+                croppedBitmap = var10000;
+            }
+
+            return croppedBitmap;
         }
     }
 

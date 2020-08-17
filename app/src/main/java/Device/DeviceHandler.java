@@ -56,7 +56,7 @@ public class DeviceHandler {
 
     public String NewItem(int id, @NonNull String URL, @NonNull String DisplayName, boolean auth, String Username, String Password) {
         String json = "";
-        Device dev = new Device();
+        UserDevice dev = new UserDevice();
         dev.SetID(id);
         dev.SetURL(URL);
         dev.SetName(InitDeviceName(DisplayName));
@@ -81,7 +81,7 @@ public class DeviceHandler {
         settings.GetPreferencesEditor().apply();
     }
 
-    public Device GetDeviceByID(int id) {
+    public UserDevice GetDeviceByID(int id) {
 
         String all = settings.GetPreferences().getString(settings.GetDeviceKey(), null);
 
@@ -90,7 +90,7 @@ public class DeviceHandler {
 
             String[] Devices = all.split(ITEM_SEPARATOR);
             for (int i = 0; i < Devices.length; i++) {
-                Device device = g.fromJson(Devices[id], Device.class);
+                UserDevice device = g.fromJson(Devices[id], UserDevice.class);
                 if (device.GetID() == id)
                     return device;
             }
@@ -120,9 +120,9 @@ public class DeviceHandler {
             int count = Integer.valueOf(settings.GetContext().getResources().getString(R.string.MaxDevices));//getString(R.string.hello);
 
             for (id = 0; id < count; id++) {
-                Device device;
+                UserDevice device;
                 try {
-                    device = g.fromJson(devices[id], Device.class);
+                    device = g.fromJson(devices[id], UserDevice.class);
 
                     if (device.GetID() != id)
                         return id;
@@ -139,7 +139,7 @@ public class DeviceHandler {
         return id;
     }
 
-    public int DeviceExist(Device dev) {
+    public int DeviceExist(UserDevice dev) {
         int id = -1;
         Gson g = new Gson();
         String all = settings.GetPreferences().getString(settings.GetDeviceKey(), null);
@@ -148,7 +148,7 @@ public class DeviceHandler {
             String[] devices = all.split(ITEM_SEPARATOR);
 
             for (id = 0; id < devices.length; id++) {
-                Device device = g.fromJson(devices[id], Device.class);
+                UserDevice device = g.fromJson(devices[id], UserDevice.class);
                 if (device.GetURL().equals(dev.GetURL()))
                     return id;
 
@@ -169,7 +169,7 @@ public class DeviceHandler {
             String[] devices = all.split(ITEM_SEPARATOR);
 
             for (id = 0; id < devices.length; id++) {
-                Device device = g.fromJson(devices[id], Device.class);
+                UserDevice device = g.fromJson(devices[id], UserDevice.class);
                 if(device!=null){
                     if (device.GetName().equals(name))
                         occurence++;
@@ -186,8 +186,8 @@ public class DeviceHandler {
         return name;
     }
 
-    public List<Device> GetAllDevices() {
-        List<Device> myDevices = new ArrayList<Device>();
+    public List<UserDevice> GetAllDevices() {
+        List<UserDevice> myDevices = new ArrayList<UserDevice>();
         Gson g = new Gson();
         String all = settings.GetPreferences().getString(settings.GetDeviceKey(), null);
 
@@ -195,7 +195,7 @@ public class DeviceHandler {
             String[] devices = all.split(ITEM_SEPARATOR);
 
             for (int i = 0; i < devices.length; i++) {
-                Device device = g.fromJson(devices[i], Device.class);
+                UserDevice device = g.fromJson(devices[i], UserDevice.class);
                 myDevices.add(device);
             }
         }
@@ -213,7 +213,7 @@ public class DeviceHandler {
             String[] devices = all.split(ITEM_SEPARATOR);
 
             for (int i = 0; i < devices.length; i++) {
-                Device device = g.fromJson(devices[i], Device.class);
+                UserDevice device = g.fromJson(devices[i], UserDevice.class);
                 String url = device.GetURL();
                 String name = device.GetName();
                 if (name != null && name.length() > 0)
