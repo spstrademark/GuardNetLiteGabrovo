@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -44,6 +46,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -52,9 +56,10 @@ import Common.SettingsUtils;
 import Device.UserDevice;
 import Device.DeviceHandler;
 import kotlin.jvm.internal.Intrinsics;
-
 public class CameraFrontFragment extends Fragment {
 
+
+ //   private volatile Bitmap currentFrame;
     private SettingsUtils settings;
     private WebView webView;
     private MaterialSpinner dropdown;
@@ -111,6 +116,7 @@ public class CameraFrontFragment extends Fragment {
         setupAddDeviceButton();
 
         initModel();
+    //    doTimerEvent();
         executor.scheduleAtFixedRate(aiTask , 0, 500, TimeUnit.MILLISECONDS );
 
         return view;
@@ -135,6 +141,7 @@ public class CameraFrontFragment extends Fragment {
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
     }
+
 
     private void initModel()
     {
@@ -252,24 +259,16 @@ public class CameraFrontFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private Runnable  aiTask = new Runnable () {
 
-
-    private Runnable aiTask = new Runnable() {
         public void run() {
-
-            try {
-                doDetection();
-//                long inferenceStartTimeNanos = SystemClock.elapsedRealtimeNanos();
-//                total = SystemClock.elapsedRealtimeNanos();
-//                DoStuff();
-//
-//                long lastInferenceTimeNanos = SystemClock.elapsedRealtimeNanos() - inferenceStartTimeNanos;
-//
-//                Log.e("Runnable:","Runnable:" + ( 1.0f * lastInferenceTimeNanos / 1_000_000) + " ms");
-            } catch (Exception e) {
-                e.printStackTrace();
+            synchronized(this) {
+                try {
+                    doDetection();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
         }
     };
 
@@ -292,22 +291,40 @@ public class CameraFrontFragment extends Fragment {
 
     private Bitmap getBitmap()
     {
-        final Bitmap[] bm = {null};
-        webView.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String url) {
-                webView.measure(View.MeasureSpec.makeMeasureSpec(
-                        View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
-                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-                webView.layout(0, 0, webView.getMeasuredWidth(),
-                        webView.getMeasuredHeight());
-                webView.setDrawingCacheEnabled(true);
-                webView.buildDrawingCache();
-                bm[0] = Bitmap.createBitmap(webView.getMeasuredWidth(),
-                        webView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-            }
-        });
 
-        return bm[0];
+//        final Bitmap[] bm = null;
+//        if(webView==null) return null;
+//        webView.setWebViewClient(new WebViewClient() {
+//            public void onPageFinished(WebView view, String url) {
+//                webView.measure(View.MeasureSpec.makeMeasureSpec(
+//                        View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+//                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+//                webView.layout(0, 0, webView.getMeasuredWidth(),
+//                        webView.getMeasuredHeight());
+//                webView.setDrawingCacheEnabled(true);
+//                webView.buildDrawingCache();
+//                bm[0] = Bitmap.createBitmap(webView.getMeasuredWidth(),
+//                        webView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+//            }
+//        });
+//        currentFrame =  bm[0];
+//        return currentFrame;
+
+        webView.measure(View.MeasureSpec.makeMeasureSpec(
+                View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        webView.layout(0, 0, webView.getMeasuredWidth(), webView.getMeasuredHeight());
+        webView.setDrawingCacheEnabled(true);
+        webView.buildDrawingCache();
+        Bitmap currentFrame = Bitmap.createBitmap(webView.getMeasuredWidth(),
+                webView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+//        Canvas canvas = new Canvas(currentFrame);
+//        Paint paint = new Paint();
+//        int iHeight = currentFrame.getHeight();
+//        canvas.drawBitmap(currentFrame, 0, iHeight, paint);
+//        webView.draw(canvas);
+        return currentFrame;
     }
 
     private void saveBitmap(Bitmap bm)
@@ -340,14 +357,20 @@ public class CameraFrontFragment extends Fragment {
     {
         long startTime = SystemClock.elapsedRealtimeNanos();
         Bitmap bmp = getBitmap();
-        Bitmap copy = getBitmap().copy(bmp.getConfig(),bmp.isMutable());
-        Bitmap choppedBitmap = cropBitmap(bmp);
-        posenet.GeyKeyPoints(choppedBitmap,null);
-        bmp.recycle();
+        if(bmp==null) return;
+
+        Bitmap copy = bmp.copy(bmp.getConfig(),false);
+   //     Bitmap copy = bmp.copy(bmp.getConfig(),bmp.isMutable());
+        Bitmap choppedBitmap = cropBitmap(copy);
+
+
+        Bitmap resized = Bitmap.createScaledBitmap(choppedBitmap, 257, 257, true);
+       posenet.GeyKeyPoints(resized);
+
         long endTime = SystemClock.elapsedRealtimeNanos() - startTime;
         Log.i(
                 "posenet",
-                String.format("Init took %.2f ms", 1.0f * endTime / 1_000_000)
+                String.format("Thread took %.2f ms", 1.0f * endTime / 1_000_000)
         );
     }
 

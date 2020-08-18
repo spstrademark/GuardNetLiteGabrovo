@@ -231,7 +231,7 @@ class Posenet(
   @Suppress("UNCHECKED_CAST")
  // fun GeyKeyPoints(bitmap: Bitmap, callback: (m: Boolean) -> Unit)  {
  // fun GeyKeyPoints(bitmap: Bitmap, callback: (m: HumanObjects) -> Unit): HumanObjects {
-  fun GeyKeyPoints(bitmap: Bitmap, callback: (m: HumanObjects) -> Unit) {
+  fun GeyKeyPoints(bitmap: Bitmap) {
     val tStart = SystemClock.elapsedRealtimeNanos()
     val start = System.currentTimeMillis()
     val startTime = SystemClock.elapsedRealtimeNanos()
@@ -337,7 +337,7 @@ class Posenet(
 //
 
 
-    callback(objects);
+    //callback(objects);
 
   }
 
