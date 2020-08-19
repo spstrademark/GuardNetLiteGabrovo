@@ -186,8 +186,8 @@ public class DeviceHandler {
         return name;
     }
 
-    public List<UserDevice> GetAllDevices() {
-        List<UserDevice> myDevices = new ArrayList<UserDevice>();
+    public List<UserDevice> getAllDevices() {
+        List<UserDevice> myDevices = new ArrayList<>();
         Gson g = new Gson();
         String all = settings.GetPreferences().getString(settings.GetDeviceKey(), null);
 

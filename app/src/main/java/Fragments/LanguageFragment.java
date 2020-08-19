@@ -16,7 +16,6 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.util.Arrays;
 import java.util.List;
 
-import Common.FragmentsEnum;
 import Common.SettingsUtils;
 
 public class LanguageFragment extends Fragment {
@@ -40,7 +39,7 @@ public class LanguageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         settings = SettingsUtils.getInstance();
-        currentLan = settings.GetLanguage();
+        currentLan = settings.getLanguage();
 
         thisView = view;
         activity = (MainActivity) getActivity();
@@ -71,7 +70,7 @@ public class LanguageFragment extends Fragment {
 //                }
                 //    if(currentLan!=position)
                 {
-                    settings.SetLanguage(position);
+                    settings.setLanguage(position);
 //                   dropdown.setSelectedIndex(0);
                     activity.UpdateLanguage(R.layout.language_fragment);
 //            //        notifyDataSetChanged

@@ -14,7 +14,6 @@ import com.example.guardnet_lite_gabrovo.R;
 
 import java.sql.Time;
 
-import Common.FragmentsEnum;
 import Common.SettingsUtils;
 
 public class ClockFragment extends Fragment {

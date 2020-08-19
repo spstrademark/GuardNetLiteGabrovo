@@ -17,7 +17,6 @@ import com.example.guardnet_lite_gabrovo.R;
 import java.io.File;
 import java.util.ArrayList;
 
-import Common.FragmentsEnum;
 import Common.SettingsUtils;
 import GalleryTools.GalleryAdapter;
 import GalleryTools.GalleryList;
@@ -60,7 +59,7 @@ public class GalleryFragment extends Fragment {
 
     private void initRecycleView(@NonNull View view) {
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view.getContext(), settings.GetGalleryView());
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view.getContext(), settings.getGalleryView());
         recyclerView.setLayoutManager(layoutManager);
         ArrayList<GalleryList> galleryLists = prepareData();
 
@@ -98,13 +97,13 @@ public class GalleryFragment extends Fragment {
         gridViewButton.setOnClickListener(view1 -> {
             RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view1.getContext(), GRID);
             recyclerView.setLayoutManager(layoutManager);
-            settings.SetGalleryView(GRID);
+            settings.setGalleryView(GRID);
         });
 
         listViewButton.setOnClickListener(view12 -> {
             RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view12.getContext(), LIST);
             recyclerView.setLayoutManager(layoutManager);
-            settings.SetGalleryView(LIST);
+            settings.setGalleryView(LIST);
         });
 
 

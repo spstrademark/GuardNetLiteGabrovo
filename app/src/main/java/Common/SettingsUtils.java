@@ -87,9 +87,9 @@ public class SettingsUtils {
         return sharedPreferences.getInt(this.LastView, FragmentsEnum.MAIN_ACTIVITY.ordinal());
     }
 
-    public void InitAppFolder(String AppName) {
-        this.folder = AppName;
-        final File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), AppName);
+    public void initAppFolder(String appName) {
+        this.folder = appName;
+        final File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), appName);
 
         if (!folder.exists()) {
             boolean rv = folder.mkdir();
@@ -98,7 +98,7 @@ public class SettingsUtils {
         }
     }
 
-    public Configuration SetLanguage(int languageIDX) {
+    public Configuration setLanguage(int languageIDX) {
         String lan = LanguagesEnum.values()[languageIDX].toString().toLowerCase();
         Resources res = context.getResources();
         // Change locale settings in the app.
@@ -112,7 +112,7 @@ public class SettingsUtils {
         return conf;
     }
 
-    public int GetLanguage() {
+    public int getLanguage() {
         int lang = sharedPreferences.getInt(Language, LanguagesEnum.EN.ordinal());
         String lan = LanguagesEnum.values()[lang].toString().toLowerCase();
         Resources res = context.getResources();
@@ -123,28 +123,28 @@ public class SettingsUtils {
         return lang;
     }
 
-    public void SetCamera(int idx) {
+    public void setCamera(int idx) {
         sharedPreferences.edit().putInt(this.SelectedCam, idx).apply();
     }
 
-    public int GetCamera() {
+    public int getCamera() {
         return sharedPreferences.getInt(this.SelectedCam, PublicCamerasEnum.RADECKA.ordinal());
     }
 
-    public void SetGalleryView(int idx) {
+    public void setGalleryView(int idx) {
         sharedPreferences.edit().putInt(this.GalleryView, idx).apply();
     }
 
-    public int GetGalleryView() {
+    public int getGalleryView() {
         int default_grid = Integer.parseInt(context.getResources().getString(R.string.default_gallery_view));
         return sharedPreferences.getInt(this.GalleryView, default_grid);
     }
 
-    public void SetNotificationsEventTrigger(int idx) {
+    public void setNotificationsEventTrigger(int idx) {
         sharedPreferences.edit().putInt(this.NotificationTrigger, idx).apply();
     }
 
-    public int GetNotificationsEventTrigger() {
+    public int getNotificationsEventTrigger() {
         return sharedPreferences.getInt(this.NotificationTrigger, NotificationsTriggerEnum.SECONDS_5.ordinal());
     }
 

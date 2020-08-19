@@ -607,8 +607,8 @@ public class MainActivity extends AppCompatActivity {
         this.setTitle("");
 
         settings = SettingsUtils.getInstance();
-        settings.InitAppFolder(getResources().getString(R.string.app_name));
-        settings.GetLanguage();
+        settings.initAppFolder(getResources().getString(R.string.app_name));
+        settings.getLanguage();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
@@ -638,13 +638,13 @@ public class MainActivity extends AppCompatActivity {
         MaterialSpinner dropdown = findViewById(R.id.cameraList);//= dropdown.findViewById(); // values
         List<String> Cameras = Arrays.asList(getResources().getStringArray(R.array.PublicCameras));
         dropdown.setItems(Cameras);
-        selected = settings.GetCamera();
+        selected = settings.getCamera();
         dropdown.setSelectedIndex(selected);
 
         dropdown.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
             @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                settings.SetCamera(position);
+                settings.setCamera(position);
                 ViewerStart(position);
           //      Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
             }

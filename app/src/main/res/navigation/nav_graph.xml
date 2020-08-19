@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/cameraFrontFragment"
-        android:name="com.example.guardnet_lite_gabrovo.CameraFrontFragment"
+        android:name="com.example.guardnet_lite_gabrovo.CameraFrontLayerFragment"
         android:label="@string/camera_front_layer"
-        tools:layout="@layout/fragment_camera_front">
+        tools:layout="@layout/fragment_camera_front_layer">
 
         <action
             android:id="@+id/action_CameraFragment_to_SettingsFragment"

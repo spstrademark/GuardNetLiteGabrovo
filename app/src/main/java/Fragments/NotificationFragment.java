@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
 
-import Common.FragmentsEnum;
 import Common.SettingsUtils;
 
 
@@ -55,14 +54,14 @@ public class NotificationFragment extends Fragment {
                 R.array.NotificationTrigger, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropdown.setAdapter(adapter);
-        selected = settings.GetNotificationsEventTrigger();
+        selected = settings.getNotificationsEventTrigger();
         dropdown.setSelection(selected);
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
-                settings.SetNotificationsEventTrigger(arg2);
+                settings.setNotificationsEventTrigger(arg2);
             }
 
             @Override

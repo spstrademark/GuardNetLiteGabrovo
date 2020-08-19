@@ -7,7 +7,7 @@
     android:background="@drawable/round_corner_background"
     android:elevation="8dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/fragment_camera_front">
+    tools:showIn="@layout/fragment_camera_front_layer">
 
     <TextView
         android:id="@+id/frontLayerTitle"
@@ -22,6 +22,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/playerView"
+        android:layout_width="0dp"
+        android:layout_height="226dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frontLayerTitle" />
+
     <WebView
         android:id="@+id/frontLayerWebView"
         android:layout_width="0dp"
@@ -29,6 +40,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frontLayerTitle" />
