@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.guardnet_lite_gabrovo.HomeActivity;
 import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -23,7 +24,7 @@ public class LanguageFragment extends Fragment {
     private SettingsUtils settings;
     int currentLan = 0;
     boolean init = false;
-    MainActivity activity;
+  //  HomeActivity activity;
     View thisView;
     MaterialSpinner dropdown;
 
@@ -42,9 +43,10 @@ public class LanguageFragment extends Fragment {
         currentLan = settings.getLanguage();
 
         thisView = view;
-        activity = (MainActivity) getActivity();
-        activity.SetActiveView(LanguageFragment.this);
-        activity.setTitle(R.string.Language);
+     //   activity = (HomeActivity) getActivity();
+      //  activity.SetActiveView(LanguageFragment.this);
+     //   activity.setTitle(R.string.Language);
+        getActivity().setTitle(R.string.Language);
         InitLanguagesDropdownList(view);
     }
 
@@ -72,7 +74,9 @@ public class LanguageFragment extends Fragment {
                 {
                     settings.setLanguage(position);
 //                   dropdown.setSelectedIndex(0);
+                    HomeActivity activity = (HomeActivity)getActivity();
                     activity.UpdateLanguage(R.layout.language_fragment);
+           //         activity.UpdateLanguage(R.layout.language_fragment);
 //            //        notifyDataSetChanged
 //                    dropdown = LanguageSpinnerFill(view);
                     dropdown.setSelectedIndex(position);

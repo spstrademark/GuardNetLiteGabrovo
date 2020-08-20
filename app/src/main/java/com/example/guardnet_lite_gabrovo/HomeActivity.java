@@ -65,4 +65,9 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.dispatchTouchEvent(event);
     }
+
+    public void UpdateLanguage(int current_fragment)
+    {
+        setContentView(current_fragment);
+    }
 }

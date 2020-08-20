@@ -44,6 +44,8 @@ import org.tensorflow.lite.examples.posenet.Posenet.Posenet
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.jvm.internal.Intrinsics
 import kotlin.math.abs
@@ -78,16 +80,7 @@ class CameraFrontLayerFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_camera_front_layer, container, false)
         setHasOptionsMenu(true)
         requestPermission()
-        webView = view.findViewById(R.id.frontLayerWebView)
-        dropdown = view.findViewById(R.id.cameraListSpinner)
-        addCameraButton = view.findViewById(R.id.button_add)
-        hideBackdropButton = view.findViewById(R.id.hideBackdropButton)
-        viewPager = view.findViewById(R.id.viewPager)
-        playerView = view.findViewById(R.id.playerView)
-
-        settings = SettingsUtils.getInstance()
-        val devhandler = DeviceHandler(settings)
-        userDevicesList = devhandler.allDevices
+        initVars(view)
         initCamerasURL()
 
         val viewPagerAdapter = ViewPagerAdapter(this)
@@ -110,6 +103,22 @@ class CameraFrontLayerFragment : Fragment() {
         initModel()
         doAiTask()
         return view
+    }
+
+    private fun initVars(view:View)
+    {
+        webView = view.findViewById(R.id.frontLayerWebView)
+        dropdown = view.findViewById(R.id.cameraListSpinner)
+        addCameraButton = view.findViewById(R.id.button_add)
+        hideBackdropButton = view.findViewById(R.id.hideBackdropButton)
+        viewPager = view.findViewById(R.id.viewPager)
+        playerView = view.findViewById(R.id.playerView)
+        settings = SettingsUtils.getInstance()
+        requireActivity().title = ""
+        settings.initAppFolder(resources.getString(R.string.app_name))
+        settings.getLanguage()
+    //    val devhandler = DeviceHandler(settings).allDevices
+        userDevicesList = DeviceHandler(settings).allDevices//devhandler.allDevices
     }
 
     override fun onDestroy() {
@@ -183,9 +192,7 @@ class CameraFrontLayerFragment : Fragment() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
         }
-        requireActivity().title = ""
-        settings.initAppFolder(resources.getString(R.string.app_name))
-        settings.getLanguage()
+
     }
 
     private fun initModel() {
@@ -317,6 +324,15 @@ class CameraFrontLayerFragment : Fragment() {
             }
             return bm[0]
         }
+
+    private fun getCurrentDateAndTime() : String
+    {
+        // will be used for saving bitmaps
+        val dateFormatter: DateFormat = SimpleDateFormat("yyyy_MM_dd_hh_mm_ss")
+        dateFormatter.isLenient = false
+        val today = Date()
+        return dateFormatter.format(today)
+    }
 
     private fun saveBitmap(bm: Bitmap?) {
         if (bm != null) {
