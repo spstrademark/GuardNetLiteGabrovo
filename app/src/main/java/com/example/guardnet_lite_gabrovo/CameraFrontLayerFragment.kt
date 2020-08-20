@@ -129,7 +129,9 @@ class CameraFrontLayerFragment : Fragment() {
 
     override fun onResume() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            initializePlayer(getCameraURL(1))
+        //    initializePlayer(getCameraURL(1))
+            initializePlayer("  https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/883assBN.m3u8")
+
         }
         super.onResume()
     }
