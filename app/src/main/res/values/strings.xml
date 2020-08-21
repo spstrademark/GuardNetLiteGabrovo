@@ -10,17 +10,29 @@
 
 
     <string-array name="PublicCamerasEmbed">
-        <item>https://rtsp.me/embed/883assBN/</item>
-        <item>https://rtsp.me/embed/fQrt2T8E/</item>
-        <item>https://rtsp.me/embed/BZsffinY/</item>
-        <item>https://rtsp.me/embed/iheyDBzQ/</item>
-        <item>https://rtsp.me/embed/ABiQSGrk/</item>
-        <item>https://rtsp.me/embed/2bahRDFG/</item>
+        <item>https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/883assBN.m3u8"</item>
+        <item>https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/fQrt2T8E.m3u8"</item>
+        <item>https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/BZsffinY.m3u8"</item>
+        <item>https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/iheyDBzQ.m3u8"</item>
+        <item>https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/ABiQSGrk.m3u8"</item>
+        <item>https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/2bahRDFG.m3u8"</item>
         <item>Bryanska</item>
-        <item>https://rtsp.me/embed/n2t6hQdd/</item>
-        <item>https://rtsp.me/embed/EbraNShY/</item>
-        <item>https://rtsp.me/embed/85S8e2ht/</item>
+        <item>https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/n2t6hQdd.m3u8"</item>
+        <item>https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/EbraNShY.m3u8"</item>
+        <item>https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/85S8e2ht.m3u8"</item>
     </string-array>
+<!--    <string-array name="PublicCamerasEmbed">-->
+<!--        <item>https://rtsp.me/embed/883assBN/</item>-->
+<!--        <item>https://rtsp.me/embed/fQrt2T8E/</item>-->
+<!--        <item>https://rtsp.me/embed/BZsffinY/</item>-->
+<!--        <item>https://rtsp.me/embed/iheyDBzQ/</item>-->
+<!--        <item>https://rtsp.me/embed/ABiQSGrk/</item>-->
+<!--        <item>https://rtsp.me/embed/2bahRDFG/</item>-->
+<!--        <item>Bryanska</item>-->
+<!--        <item>https://rtsp.me/embed/n2t6hQdd/</item>-->
+<!--        <item>https://rtsp.me/embed/EbraNShY/</item>-->
+<!--        <item>https://rtsp.me/embed/85S8e2ht/</item>-->
+<!--    </string-array>-->
     <!-- ^^^ SYSTEM ^^^ -->
 
     <!-- *** VIEW *** -->

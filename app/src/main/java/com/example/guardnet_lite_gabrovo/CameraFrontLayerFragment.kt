@@ -26,12 +26,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.source.hls.HlsMediaSource
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.trackselection.TrackSelection
+import com.google.android.exoplayer2.trackselection.TrackSelector
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -129,9 +134,7 @@ class CameraFrontLayerFragment : Fragment() {
 
     override fun onResume() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-        //    initializePlayer(getCameraURL(1))
-            initializePlayer("  https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/883assBN.m3u8")
-
+         initializePlayer(getCameraURL(0))
         }
         super.onResume()
     }
@@ -163,14 +166,18 @@ class CameraFrontLayerFragment : Fragment() {
         Log.d("Main", "temp, videoUrl: $videoUrl")
         val uri = Uri.parse(videoUrl) // TODO: this link is not recognised by the exoplayer library
         val mediaSource = buildMediaSource(uri) ?: return
-        playerView.requestFocus()
+
+        playerView.useController = false;//set to true or false to see controllers
+
         player = SimpleExoPlayer.Builder(requireContext()).build()
+        playerView.requestFocus()
         playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
         playerView.player = player
         player.playWhenReady = playWhenReady
 
         player.seekTo(currentWindow, playbackPosition)
         player.prepare(mediaSource, false, false)
+        player.playWhenReady = true; //run file/link when ready to play.
     }
 
     private fun releasePlayer() {
@@ -183,8 +190,9 @@ class CameraFrontLayerFragment : Fragment() {
 
     private fun buildMediaSource(uri: Uri): MediaSource? {
         val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(requireContext(), "exoplayer")
-        return ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(uri)
+        return HlsMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
+//        return ProgressiveMediaSource.Factory(dataSourceFactory)
+//            .createMediaSource(uri)
     }
 
     private fun requestPermission() {
