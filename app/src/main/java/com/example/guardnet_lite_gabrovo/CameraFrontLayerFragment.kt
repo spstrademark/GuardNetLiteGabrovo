@@ -26,17 +26,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.trackselection.TrackSelection
-import com.google.android.exoplayer2.trackselection.TrackSelector
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -110,19 +104,19 @@ class CameraFrontLayerFragment : Fragment() {
         return view
     }
 
-    private fun initVars(view:View)
-    {
+    private fun initVars(view: View) {
+        settings = SettingsUtils.getInstance()
         webView = view.findViewById(R.id.frontLayerWebView)
         dropdown = view.findViewById(R.id.cameraListSpinner)
         addCameraButton = view.findViewById(R.id.button_add)
         hideBackdropButton = view.findViewById(R.id.hideBackdropButton)
         viewPager = view.findViewById(R.id.viewPager)
         playerView = view.findViewById(R.id.playerView)
-        settings = SettingsUtils.getInstance()
-        requireActivity().title = ""
+
+//        requireActivity().title = ""
         settings.initAppFolder(resources.getString(R.string.app_name))
         settings.getLanguage()
-    //    val devhandler = DeviceHandler(settings).allDevices
+        //    val devhandler = DeviceHandler(settings).allDevices
         userDevicesList = DeviceHandler(settings).allDevices//devhandler.allDevices
     }
 
@@ -134,14 +128,14 @@ class CameraFrontLayerFragment : Fragment() {
 
     override fun onResume() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-         initializePlayer(getCameraURL(0))
+            initializePlayer(getCameraURL(0))
         }
         super.onResume()
     }
 
     override fun onStart() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            initializePlayer(getCameraURL(1))
+            initializePlayer(getCameraURL(0))
         }
         super.onStart()
     }
@@ -163,11 +157,10 @@ class CameraFrontLayerFragment : Fragment() {
     private fun initializePlayer(videoUrl: String?) {
         playWhenReady = false
 
-        Log.d("Main", "temp, videoUrl: $videoUrl")
-        val uri = Uri.parse(videoUrl) // TODO: this link is not recognised by the exoplayer library
+        val uri = Uri.parse(videoUrl)
         val mediaSource = buildMediaSource(uri) ?: return
 
-        playerView.useController = false;//set to true or false to see controllers
+//        playerView.useController = false;//set to true or false to see controllers
 
         player = SimpleExoPlayer.Builder(requireContext()).build()
         playerView.requestFocus()
@@ -188,11 +181,10 @@ class CameraFrontLayerFragment : Fragment() {
         playWhenReady = player.playWhenReady
     }
 
-    private fun buildMediaSource(uri: Uri): MediaSource? {
+    private fun buildMediaSource(uri: Uri): HlsMediaSource? {
         val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(requireContext(), "exoplayer")
-        return HlsMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
-//        return ProgressiveMediaSource.Factory(dataSourceFactory)
-//            .createMediaSource(uri)
+        return HlsMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(uri)
     }
 
     private fun requestPermission() {
@@ -202,7 +194,6 @@ class CameraFrontLayerFragment : Fragment() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
         }
-
     }
 
     private fun initModel() {
@@ -288,7 +279,7 @@ class CameraFrontLayerFragment : Fragment() {
     }
 
     private fun setupAddDeviceButton() {
-        addCameraButton!!.setOnClickListener { v: View? ->
+        addCameraButton?.setOnClickListener { v: View? ->
             NavHostFragment.findNavController(this@CameraFrontLayerFragment)
                     .navigate(R.id.action_CameraFragment_to_AddFragment)
         }
@@ -321,7 +312,7 @@ class CameraFrontLayerFragment : Fragment() {
                             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
                     val measuredWidth = webView?.measuredWidth ?: 0
                     val measuredHeight = webView?.measuredHeight ?: 0
-                    if (measuredWidth > 0 || measuredHeight > 0) {
+                    if (measuredWidth > 0 && measuredHeight > 0) {
                         return
                     }
                     webView?.layout(0, 0, measuredWidth,
@@ -335,8 +326,7 @@ class CameraFrontLayerFragment : Fragment() {
             return bm[0]
         }
 
-    private fun getCurrentDateAndTime() : String
-    {
+    private fun getCurrentDateAndTime(): String {
         // will be used for saving bitmaps
         val dateFormatter: DateFormat = SimpleDateFormat("yyyy_MM_dd_hh_mm_ss")
         dateFormatter.isLenient = false
