@@ -10,7 +10,8 @@
 
 
     <string-array name="PublicCamerasEmbed">
-        <item>https://frn.rtsp.me/fv3hnhNWOAXEi9IzfE18pw/1598167468/hls/883assBN.m3u8</item>
+        <item> https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8</item>
+        <item>https://frn.rtsp.me/jIhfrGrPiBfLtpaIRjZAtA/1598170533/hls/883assBN.m3u8</item>
         <item>https://frn.rtsp.me/fv3hnhNWOAXEi9IzfE18pw/1598029710/hls/fQrt2T8E.m3u8</item>
         <item>https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/BZsffinY.m3u8</item>
         <item>https://frn.rtsp.me/C9uO9p6cuRq7U5NK7Q_Jzw/1598029710/hls/iheyDBzQ.m3u8</item>
