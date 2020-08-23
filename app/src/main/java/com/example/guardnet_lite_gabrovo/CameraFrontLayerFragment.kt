@@ -104,7 +104,6 @@ class CameraFrontLayerFragment : Fragment() {
         setupAddDeviceButton()
         initModel()
         doAiTask()
-        getM3u8Playlist("https://rtsp.me/embed/883assBN/")
         return view
     }
 
@@ -132,17 +131,16 @@ class CameraFrontLayerFragment : Fragment() {
 
     override fun onResume() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-       //     initializePlayer(getCameraURL(0))
-          initializePlayer( "https://frn.rtsp.me/vVCU_UusS18turA89aIhMw/1598268373/hls/883assBN.m3u8\"")
-
+          val playList : String? = getM3u8Playlist(getCameraURL(0))
+          initializePlayer( playList)
         }
         super.onResume()
     }
 
     override fun onStart() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-         //   initializePlayer(getCameraURL(0))
-            initializePlayer( "https://frn.rtsp.me/vVCU_UusS18turA89aIhMw/1598268373/hls/883assBN.m3u8")
+            val playList : String? = getM3u8Playlist(getCameraURL(0))
+            initializePlayer( playList)
         }
         super.onStart()
     }
