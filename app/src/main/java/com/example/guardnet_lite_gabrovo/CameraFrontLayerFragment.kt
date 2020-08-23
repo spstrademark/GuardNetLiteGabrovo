@@ -172,8 +172,11 @@ class CameraFrontLayerFragment : Fragment() {
                     val urlScript: String = scripts.last().toString()
                     val startIdx = urlScript.indexOf("https://")
                     val endIdx = urlScript.indexOf(";")
-                    val tmp = urlScript.substring(startIdx, endIdx)
-                    result = tmp.replace("\"", "")
+                    
+                    if(startIdx != -1 && endIdx != -1){
+                        val tmp = urlScript.substring(startIdx, endIdx)
+                        result = tmp.replace("\"", "")
+                    }
                 }
             }
             deferredResult.await()
