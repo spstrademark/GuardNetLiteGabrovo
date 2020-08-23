@@ -8,7 +8,9 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -34,20 +36,15 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import com.jaredrummler.materialspinner.MaterialSpinner
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import org.tensorflow.lite.examples.posenet.Posenet.Device
 import org.tensorflow.lite.examples.posenet.Posenet.Posenet
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.io.OutputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -165,36 +162,28 @@ class CameraFrontLayerFragment : Fragment() {
     }
 
     @Synchronized
-    fun getM3u8Playlist( embedUrl : String) : String? {
-
+    fun getM3u8Playlist(embedUrl : String) : String? {
         var result : String? = null
-        uiScope.launch(Dispatchers.IO)  {
-                try {
-                    val html: Connection.Response = Jsoup.connect(embedUrl).execute()
-                    val statusCode = html.statusCode()
-                    if (statusCode == 200) {
-                        val dok: Document = Jsoup.parse(html.body(), embedUrl)
-
-                        val scripts : Elements = dok.getElementsByTag("script")
-                        val urlScript : String = scripts.last().toString()
-                        val start_idx = urlScript.indexOf("https://")
-                        val end_idx = urlScript.indexOf(";")
-                        var tmp = urlScript.substring(start_idx,end_idx)
-                        result =  tmp.replace("\"","")
-
-
-                    }
-
-                } catch (e: IOException) {
-                    e.printStackTrace()
-
+        result = runBlocking {
+            val deferredResult = async(Dispatchers.IO) {
+                val html: Connection.Response = Jsoup.connect(embedUrl).execute()
+                val statusCode = html.statusCode()
+                if (statusCode == 200) {
+                    val dok: Document = Jsoup.parse(html.body(), embedUrl)
+                    val scripts: Elements = dok.getElementsByTag("script")
+                    val urlScript: String = scripts.last().toString()
+                    val startIdx = urlScript.indexOf("https://")
+                    val endIdx = urlScript.indexOf(";")
+                    val tmp = urlScript.substring(startIdx, endIdx)
+                    result = tmp.replace("\"", "")
                 }
-
+            }
+            deferredResult.await()
+            result
         }
+        Log.d("CameraFrontLayer", "temp, result: $result")
         return result
-
     }
-
 
     private fun initializePlayer(videoUrl: String?) {
         playWhenReady = false
