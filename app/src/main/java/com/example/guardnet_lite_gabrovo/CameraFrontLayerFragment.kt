@@ -8,10 +8,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.Environment
-import android.os.SystemClock
+import android.os.*
 import android.util.Log
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -37,11 +34,20 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import com.jaredrummler.materialspinner.MaterialSpinner
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import org.jsoup.Connection
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import org.jsoup.select.Elements
 import org.tensorflow.lite.examples.posenet.Posenet.Device
 import org.tensorflow.lite.examples.posenet.Posenet.Posenet
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.io.OutputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -101,6 +107,7 @@ class CameraFrontLayerFragment : Fragment() {
         setupAddDeviceButton()
         initModel()
         doAiTask()
+        getM3u8Playlist("https://rtsp.me/embed/883assBN/")
         return view
     }
 
@@ -128,14 +135,17 @@ class CameraFrontLayerFragment : Fragment() {
 
     override fun onResume() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            initializePlayer(getCameraURL(0))
+       //     initializePlayer(getCameraURL(0))
+          initializePlayer( "https://frn.rtsp.me/vVCU_UusS18turA89aIhMw/1598268373/hls/883assBN.m3u8\"")
+
         }
         super.onResume()
     }
 
     override fun onStart() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            initializePlayer(getCameraURL(0))
+         //   initializePlayer(getCameraURL(0))
+            initializePlayer( "https://frn.rtsp.me/vVCU_UusS18turA89aIhMw/1598268373/hls/883assBN.m3u8")
         }
         super.onStart()
     }
@@ -154,13 +164,45 @@ class CameraFrontLayerFragment : Fragment() {
         super.onStop()
     }
 
+    @Synchronized
+    fun getM3u8Playlist( embedUrl : String) : String? {
+
+        var result : String? = null
+        uiScope.launch(Dispatchers.IO)  {
+                try {
+                    val html: Connection.Response = Jsoup.connect(embedUrl).execute()
+                    val statusCode = html.statusCode()
+                    if (statusCode == 200) {
+                        val dok: Document = Jsoup.parse(html.body(), embedUrl)
+
+                        val scripts : Elements = dok.getElementsByTag("script")
+                        val urlScript : String = scripts.last().toString()
+                        val start_idx = urlScript.indexOf("https://")
+                        val end_idx = urlScript.indexOf(";")
+                        var tmp = urlScript.substring(start_idx,end_idx)
+                        result =  tmp.replace("\"","")
+
+
+                    }
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+
+                }
+
+        }
+        return result
+
+    }
+
+
     private fun initializePlayer(videoUrl: String?) {
         playWhenReady = false
 
         val uri = Uri.parse(videoUrl)
         val mediaSource = buildMediaSource(uri) ?: return
 
-//        playerView.useController = false;//set to true or false to see controllers
+        playerView.useController = false
 
         player = SimpleExoPlayer.Builder(requireContext()).build()
         playerView.requestFocus()
@@ -355,21 +397,23 @@ class CameraFrontLayerFragment : Fragment() {
     }
 
     private fun doDetection() {
-        val startTime = SystemClock.elapsedRealtimeNanos()
-        val bmp = bitmap ?: return
-        uiScope.launch(Dispatchers.IO) {
-            //asyncOperation
-            val copy = bmp.copy(bmp.config, false)
-            val choppedBitmap = cropBitmap(copy)
-            val resized = Bitmap.createScaledBitmap(choppedBitmap, 257, 257, true)
-            posenet?.GeyKeyPoints(resized)
-            val endTime = SystemClock.elapsedRealtimeNanos() - startTime
-            Log.i("posenet", String.format("Thread took %.2f ms", 1.0f * endTime / 1000000))
 
-            withContext(Dispatchers.Main) {
-                //ui operation if needed
-            }
-        }
+//        val startTime = SystemClock.elapsedRealtimeNanos()
+//        val bmp = bitmap ?: return
+//        uiScope.launch(Dispatchers.IO) {
+//
+//            //asyncOperation
+//            val copy = bmp.copy(bmp.config, false)
+//            val choppedBitmap = cropBitmap(copy)
+//            val resized = Bitmap.createScaledBitmap(choppedBitmap, 257, 257, true)
+//            posenet?.GeyKeyPoints(resized)
+//            val endTime = SystemClock.elapsedRealtimeNanos() - startTime
+//            Log.i("posenet", String.format("Thread took %.2f ms", 1.0f * endTime / 1000000))
+//
+//            withContext(Dispatchers.Main) {
+//                //ui operation if needed
+//            }
+//        }
     }
 
     private fun cropBitmap(bitmap: Bitmap): Bitmap {
