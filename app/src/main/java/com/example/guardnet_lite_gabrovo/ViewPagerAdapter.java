@@ -19,12 +19,12 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 1:
-                return CalendarFragment.getInstance();
-            case 2:
                 return ClockFragment.getInstance();
+            case 2:
+                return GalleryFragment.getInstance();
             case 0:
             default:
-                return GalleryFragment.getInstance();
+                return CalendarFragment.getInstance();
         }
     }
 

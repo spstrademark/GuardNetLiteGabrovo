@@ -644,7 +644,7 @@ public class MainActivity extends AppCompatActivity {
         dropdown.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
             @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                settings.setCamera(position);
+                settings.saveSelectedCamera(position);
                 ViewerStart(position);
           //      Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
             }

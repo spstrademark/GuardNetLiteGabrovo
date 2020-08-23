@@ -12,7 +12,7 @@
         style="@style/Widget.Style.Backdrop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="48dp"/>
+        android:layout_marginTop="48dp" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:background="@color/colorBackground"
             app:elevation="0dp"
-            app:tabGravity="center"
+            app:tabGravity="start"
             app:tabIconTint="@color/colorText"
             app:tabIndicatorColor="@color/colorAccent"
             app:tabIndicatorFullWidth="true"
@@ -34,7 +34,8 @@
             app:tabPaddingEnd="18dp"
             app:tabPaddingStart="18dp"
             app:tabRippleColor="@color/colorText"
-            app:tabSelectedTextColor="@color/colorAccent">
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextColor="@color/colorAccent">
 
         </com.google.android.material.tabs.TabLayout>
 

@@ -7,6 +7,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -34,8 +35,8 @@ import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.coroutines.*
 import org.jsoup.Connection
@@ -69,7 +70,7 @@ class CameraFrontLayerFragment : Fragment() {
 
     private var posenet: Posenet? = null
     private lateinit var userDevicesList: List<UserDevice>
-    var camerasURLList: MutableList<String> = ArrayList()
+    private var camerasURLList: MutableList<String> = ArrayList()
 
     private var selected = 0
     private val job = Job()
@@ -90,22 +91,46 @@ class CameraFrontLayerFragment : Fragment() {
         val viewPagerAdapter = ViewPagerAdapter(this)
         viewPager.adapter = viewPagerAdapter
         val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
-        TabLayoutMediator(tabLayout, viewPager, TabConfigurationStrategy { tab: TabLayout.Tab, position: Int ->
+        TabLayoutMediator(tabLayout, viewPager) { tab: TabLayout.Tab, position: Int ->
             when (position) {
-                0 -> tab.setIcon(R.drawable.ic_photo_library_24px)
-                1 -> tab.setIcon(R.drawable.ic_insert_invitation_24px)
-                2 -> tab.setIcon(R.drawable.ic_schedule_24px)
+                0 -> tab.setIcon(R.drawable.ic_insert_invitation_24px)
+                1 -> tab.setIcon(R.drawable.ic_notifications_none_24px)
+                2 -> tab.setIcon(R.drawable.ic_photo_library_24px)
             }
-        }).attach()
+        }.attach()
+
+        val tabFirst = tabLayout.getTabAt(0)
+        tabFirst?.icon?.setColorFilter(ContextCompat.getColor(requireContext(), R.color.colorAccent), PorterDuff.Mode.SRC_IN)
+
+        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val tabIconColor = ContextCompat.getColor(requireContext(), R.color.colorAccent)
+                tab?.icon?.setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN)
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                val tabIconColor = ContextCompat.getColor(requireContext(), R.color.colorText)
+                tab?.icon?.setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN)
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+        })
 
         // Set up the tool bar
         setUpBackdropButton(view)
         setupCameraSpinner()
-        initWebView()
+//        initWebView()
         viewerStart(1)
         setupAddDeviceButton()
         initModel()
         doAiTask()
+
+        selected = settings.getCamera()
+        val playList: String? = getM3u8Playlist(getCameraURL(selected))
+        initializePlayer(playList)
+
         return view
     }
 
@@ -118,7 +143,7 @@ class CameraFrontLayerFragment : Fragment() {
         viewPager = view.findViewById(R.id.viewPager)
         playerView = view.findViewById(R.id.playerView)
 
-//        requireActivity().title = ""
+//        requireActivity().title = resources.getString(R.string.app_name)
         settings.initAppFolder(resources.getString(R.string.app_name))
         settings.getLanguage()
         //    val devhandler = DeviceHandler(settings).allDevices
@@ -133,18 +158,16 @@ class CameraFrontLayerFragment : Fragment() {
 
     override fun onResume() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            selected = settings.getCamera()
-            val playList : String? = getM3u8Playlist(getCameraURL(selected))
-            initializePlayer( playList)
+            val playList: String? = getM3u8Playlist(getCameraURL(selected))
+            initializePlayer(playList)
         }
         super.onResume()
     }
 
     override fun onStart() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            selected = settings.getCamera()
-            val playList : String? = getM3u8Playlist(getCameraURL(selected))
-            initializePlayer( playList)
+            val playList: String? = getM3u8Playlist(getCameraURL(selected))
+            initializePlayer(playList)
         }
         super.onStart()
     }
@@ -164,8 +187,8 @@ class CameraFrontLayerFragment : Fragment() {
     }
 
     @Synchronized
-    fun getM3u8Playlist(embedUrl : String) : String? {
-        var result : String? = null
+    fun getM3u8Playlist(embedUrl: String): String? {
+        var result: String? = null
         result = runBlocking {
             val deferredResult = async(Dispatchers.IO) {
                 val html: Connection.Response = Jsoup.connect(embedUrl).execute()
@@ -177,7 +200,7 @@ class CameraFrontLayerFragment : Fragment() {
                     val startIdx = urlScript.indexOf("https://")
                     val endIdx = urlScript.indexOf(";")
 
-                    if(startIdx != -1 && endIdx != -1){
+                    if (startIdx != -1 && endIdx != -1) {
                         val tmp = urlScript.substring(startIdx, endIdx)
                         result = tmp.replace("\"", "")
                     }
@@ -263,8 +286,7 @@ class CameraFrontLayerFragment : Fragment() {
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, userDevices)
         dropdown?.setAdapter(adapter)
         dropdown?.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener { view: MaterialSpinner?, position: Int, id: Long, item: String? ->
-   //         viewerStart(position)
-            settings.setCamera(position)
+            settings.saveSelectedCamera(position)
         })
     }
 
@@ -276,7 +298,7 @@ class CameraFrontLayerFragment : Fragment() {
         }
         val publicURLList = listOf(*resources.getStringArray(R.array.PublicCamerasEmbed))
         camerasURLList.addAll(publicURLList)
-    //    selected = settings.getCamera()
+        //    selected = settings.getCamera()
     }
 
     @SuppressLint("ClickableViewAccessibility")

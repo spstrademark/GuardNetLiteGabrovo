@@ -123,7 +123,7 @@ public class SettingsUtils {
         return lang;
     }
 
-    public void setCamera(int idx) {
+    public void saveSelectedCamera(int idx) {
         sharedPreferences.edit().putInt(this.SelectedCam, idx).apply();
     }
 

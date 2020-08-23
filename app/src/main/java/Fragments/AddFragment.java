@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,11 +15,10 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.guardnet_lite_gabrovo.R;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
-
-import Device.DeviceHandler;
-import Common.FragmentsEnum;
 import Common.SettingsUtils;
+import Device.DeviceHandler;
 import Device.DevicePushResultTypes;
 
 public class AddFragment extends Fragment {
@@ -31,7 +29,7 @@ public class AddFragment extends Fragment {
     private CheckBox showPassToggle;
     private Button addDeviceButton;
     private EditText cameraUrlEditText, userNameEditText;
-    private Switch authSwitch;
+    private SwitchMaterial authSwitch;
     private View addFragmentRootLayout;
 
     @Override
@@ -51,17 +49,17 @@ public class AddFragment extends Fragment {
         newPassword = view.findViewById(R.id.newPassword);
         newPassword = view.findViewById(R.id.newPassword);
         addDeviceButton = view.findViewById(R.id.addDevice);
-        cameraUrlEditText = view.findViewById(R.id.userURL);
+        cameraUrlEditText = view.findViewById(R.id.userUrlEditField);
         userNameEditText = view.findViewById(R.id.userCamName);
         authSwitch = view.findViewById(R.id.authSwitch);
         showPassToggle = view.findViewById(R.id.showPassBUtton);
 
-        ButtonEvents(view);
+        buttonEvents();
     }
 
-    private void ButtonEvents(@NonNull View view) {
-        view.findViewById(R.id.authSwitch).setOnClickListener(v -> {
-            boolean checked = ((Switch) v).isChecked();
+    private void buttonEvents() {
+        authSwitch.setOnClickListener(v -> {
+            boolean checked = ((SwitchMaterial) v).isChecked();
             newUsername.setEnabled(checked);
             newPassword.setEnabled(checked);
             showPassToggle.setEnabled(checked);
