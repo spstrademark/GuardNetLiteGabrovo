@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.SystemClock
 import android.util.Log
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -70,6 +71,7 @@ class CameraFrontLayerFragment : Fragment() {
     private lateinit var userDevicesList: List<UserDevice>
     var camerasURLList: MutableList<String> = ArrayList()
 
+    private var selected = 0
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
@@ -131,15 +133,17 @@ class CameraFrontLayerFragment : Fragment() {
 
     override fun onResume() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-          val playList : String? = getM3u8Playlist(getCameraURL(0))
-          initializePlayer( playList)
+            selected = settings.getCamera()
+            val playList : String? = getM3u8Playlist(getCameraURL(selected))
+            initializePlayer( playList)
         }
         super.onResume()
     }
 
     override fun onStart() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val playList : String? = getM3u8Playlist(getCameraURL(0))
+            selected = settings.getCamera()
+            val playList : String? = getM3u8Playlist(getCameraURL(selected))
             initializePlayer( playList)
         }
         super.onStart()
@@ -172,7 +176,7 @@ class CameraFrontLayerFragment : Fragment() {
                     val urlScript: String = scripts.last().toString()
                     val startIdx = urlScript.indexOf("https://")
                     val endIdx = urlScript.indexOf(";")
-                    
+
                     if(startIdx != -1 && endIdx != -1){
                         val tmp = urlScript.substring(startIdx, endIdx)
                         result = tmp.replace("\"", "")
@@ -258,7 +262,10 @@ class CameraFrontLayerFragment : Fragment() {
         userDevices.addAll(cameraList)
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, userDevices)
         dropdown?.setAdapter(adapter)
-        dropdown?.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener { view: MaterialSpinner?, position: Int, id: Long, item: String? -> viewerStart(position) })
+        dropdown?.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener { view: MaterialSpinner?, position: Int, id: Long, item: String? ->
+   //         viewerStart(position)
+            settings.setCamera(position)
+        })
     }
 
     private fun initCamerasURL() {
@@ -269,6 +276,7 @@ class CameraFrontLayerFragment : Fragment() {
         }
         val publicURLList = listOf(*resources.getStringArray(R.array.PublicCamerasEmbed))
         camerasURLList.addAll(publicURLList)
+    //    selected = settings.getCamera()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -388,22 +396,22 @@ class CameraFrontLayerFragment : Fragment() {
 
     private fun doDetection() {
 
-//        val startTime = SystemClock.elapsedRealtimeNanos()
-//        val bmp = bitmap ?: return
-//        uiScope.launch(Dispatchers.IO) {
-//
-//            //asyncOperation
-//            val copy = bmp.copy(bmp.config, false)
-//            val choppedBitmap = cropBitmap(copy)
-//            val resized = Bitmap.createScaledBitmap(choppedBitmap, 257, 257, true)
-//            posenet?.GeyKeyPoints(resized)
-//            val endTime = SystemClock.elapsedRealtimeNanos() - startTime
-//            Log.i("posenet", String.format("Thread took %.2f ms", 1.0f * endTime / 1000000))
-//
-//            withContext(Dispatchers.Main) {
-//                //ui operation if needed
-//            }
-//        }
+        val startTime = SystemClock.elapsedRealtimeNanos()
+        val bmp = bitmap ?: return
+        uiScope.launch(Dispatchers.IO) {
+
+            //asyncOperation
+            val copy = bmp.copy(bmp.config, false)
+            val choppedBitmap = cropBitmap(copy)
+            val resized = Bitmap.createScaledBitmap(choppedBitmap, 257, 257, true)
+            posenet?.GeyKeyPoints(resized)
+            val endTime = SystemClock.elapsedRealtimeNanos() - startTime
+            Log.i("posenet", String.format("Thread took %.2f ms", 1.0f * endTime / 1000000))
+
+            withContext(Dispatchers.Main) {
+                //ui operation if needed
+            }
+        }
     }
 
     private fun cropBitmap(bitmap: Bitmap): Bitmap {
