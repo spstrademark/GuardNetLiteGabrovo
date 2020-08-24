@@ -127,12 +127,7 @@ class CameraFrontLayerFragment : Fragment() {
         initModel()
         doAiTask()
 
-        if(isValidURL(getCameraURL(selected)))
-        {
-            val playList: String? = getM3u8Playlist(getCameraURL(selected))
-            initializePlayer(playList)
-        }
-
+        playerStart(selected)
 
         return view
     }
@@ -162,21 +157,14 @@ class CameraFrontLayerFragment : Fragment() {
 
     override fun onResume() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            if(isValidURL(getCameraURL(selected))){
-                val playList: String? = getM3u8Playlist(getCameraURL(selected))
-                initializePlayer(playList)
-            }
-
+            playerStart(selected)
         }
         super.onResume()
     }
 
     override fun onStart() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if(isValidURL(getCameraURL(selected))){
-                val playList: String? = getM3u8Playlist(getCameraURL(selected))
-                initializePlayer(playList)
-            }
+            playerStart(selected)
         }
         super.onStart()
     }
@@ -297,6 +285,7 @@ class CameraFrontLayerFragment : Fragment() {
         dropdown!!.selectedIndex = selected
         dropdown?.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener { view: MaterialSpinner?, position: Int, id: Long, item: String? ->
             settings.saveSelectedCamera(position)
+            playerStart(selected)
         })
     }
 
@@ -344,6 +333,14 @@ class CameraFrontLayerFragment : Fragment() {
         val playVideo = String.format(webContent, getCameraURL(position))
         Log.d("Main", "temp, playVideo: $playVideo")
         webView?.loadData(playVideo, "text/html", "utf-8")
+    }
+
+    private fun playerStart(position: Int){
+        if(isValidURL(getCameraURL(position)))
+        {
+            val playList: String? = getM3u8Playlist(getCameraURL(position))
+            initializePlayer(playList)
+        }
     }
 
     private fun getCameraURL(idx: Int): String {
