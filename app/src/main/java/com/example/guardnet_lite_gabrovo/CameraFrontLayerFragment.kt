@@ -12,7 +12,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.os.SystemClock
 import android.util.Log
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -28,6 +27,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
@@ -128,7 +128,7 @@ class CameraFrontLayerFragment : Fragment() {
         doAiTask()
 
         playerStart(selected)
-
+     //   initializePlayer("https://192.168.0.101:8080")
         return view
     }
 
@@ -214,8 +214,8 @@ class CameraFrontLayerFragment : Fragment() {
         playWhenReady = false
 
         val uri = Uri.parse(videoUrl)
-        val mediaSource = buildMediaSource(uri) ?: return
-
+        val mediaSource = buildHlsMediaSource(uri) ?: return
+   //     val mediaSource = buildHttpMediaSource(uri) ?: return
         playerView.useController = false
 
         player = SimpleExoPlayer.Builder(requireContext()).build()
@@ -237,7 +237,25 @@ class CameraFrontLayerFragment : Fragment() {
         playWhenReady = player.playWhenReady
     }
 
-    private fun buildMediaSource(uri: Uri): HlsMediaSource? {
+    private fun buildHttpMediaSource(uri: Uri): ProgressiveMediaSource? {
+
+        //  DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "exoplayer2example"), bandwidthMeter);
+//        val dataSourceFactory = DefaultHttpDataSourceFactory(
+//                Util.getUserAgent(requireContext(), "exoplayer2example"),
+//                null /* listener */,
+//                DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS,
+//                DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS,
+//                true /* allowCrossProtocolRedirects */
+//        )
+
+      val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(requireContext(), "exoplayer")
+        return ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(uri);
+
+
+    }
+
+    private fun buildHlsMediaSource(uri: Uri): HlsMediaSource? {
         val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(requireContext(), "exoplayer")
         return HlsMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(uri)
@@ -284,8 +302,15 @@ class CameraFrontLayerFragment : Fragment() {
         dropdown?.setAdapter(adapter)
         dropdown!!.selectedIndex = selected
         dropdown?.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener { view: MaterialSpinner?, position: Int, id: Long, item: String? ->
-            settings.saveSelectedCamera(position)
-            playerStart(selected)
+        settings.saveSelectedCamera(position)
+
+        val playList: String? = getM3u8Playlist(getCameraURL(position))
+        val uri = Uri.parse(playList)
+        val mediaSource = buildHlsMediaSource(uri)
+        if (mediaSource != null) {
+            player.prepare(mediaSource, false, false)
+        }
+
         })
     }
 
@@ -367,8 +392,16 @@ class CameraFrontLayerFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+
     private fun doAiTask() {
-        doDetection()
+        uiScope.launch(Dispatchers.IO) {
+            Log.d("Main", "Hi!")
+            doDetection()
+            withContext(Dispatchers.Main) {
+                //ui operation if needed
+            }
+        }
+
     }
 
     private val bitmap: Bitmap?
@@ -425,22 +458,20 @@ class CameraFrontLayerFragment : Fragment() {
 
     private fun doDetection() {
 
-        val startTime = SystemClock.elapsedRealtimeNanos()
-        val bmp = bitmap ?: return
-        uiScope.launch(Dispatchers.IO) {
+////        val startTime = SystemClock.elapsedRealtimeNanos()
+////        val bmp = bitmap ?: return
 
+            val textureView   = playerView.videoSurfaceView.
+            val bitmap = textureView.bitmap
             //asyncOperation
-            val copy = bmp.copy(bmp.config, false)
-            val choppedBitmap = cropBitmap(copy)
-            val resized = Bitmap.createScaledBitmap(choppedBitmap, 257, 257, true)
-            posenet?.GeyKeyPoints(resized)
-            val endTime = SystemClock.elapsedRealtimeNanos() - startTime
-            Log.i("posenet", String.format("Thread took %.2f ms", 1.0f * endTime / 1000000))
+//            val copy = bmp.copy(bmp.config, false)
+//            val choppedBitmap = cropBitmap(copy)
+//            val resized = Bitmap.createScaledBitmap(choppedBitmap, 257, 257, true)
+//            posenet?.GeyKeyPoints(resized)
+//            val endTime = SystemClock.elapsedRealtimeNanos() - startTime
+//            Log.i("posenet", String.format("Thread took %.2f ms", 1.0f * endTime / 1000000))
 
-            withContext(Dispatchers.Main) {
-                //ui operation if needed
-            }
-        }
+
     }
 
     private fun cropBitmap(bitmap: Bitmap): Bitmap {
