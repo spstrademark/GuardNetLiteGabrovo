@@ -122,13 +122,13 @@ class CameraFrontLayerFragment : Fragment() {
         setUpBackdropButton(view)
         setupCameraSpinner()
 //        initWebView()
-     //   viewerStart(1)
+        //   viewerStart(1)
         setupAddDeviceButton()
         initModel()
         doAiTask()
 
         playerStart(selected)
-     //   initializePlayer("https://192.168.0.101:8080")
+//        initializePlayer("https://192.168.0.101:8080")
         return view
     }
 
@@ -215,7 +215,7 @@ class CameraFrontLayerFragment : Fragment() {
 
         val uri = Uri.parse(videoUrl)
         val mediaSource = buildHlsMediaSource(uri) ?: return
-   //     val mediaSource = buildHttpMediaSource(uri) ?: return
+//        val mediaSource = buildHttpMediaSource(uri) ?: return
         playerView.useController = false
 
         player = SimpleExoPlayer.Builder(requireContext()).build()
@@ -238,7 +238,6 @@ class CameraFrontLayerFragment : Fragment() {
     }
 
     private fun buildHttpMediaSource(uri: Uri): ProgressiveMediaSource? {
-
         //  DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "exoplayer2example"), bandwidthMeter);
 //        val dataSourceFactory = DefaultHttpDataSourceFactory(
 //                Util.getUserAgent(requireContext(), "exoplayer2example"),
@@ -248,11 +247,9 @@ class CameraFrontLayerFragment : Fragment() {
 //                true /* allowCrossProtocolRedirects */
 //        )
 
-      val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(requireContext(), "exoplayer")
+        val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(requireContext(), "exoplayer")
         return ProgressiveMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(uri);
-
-
     }
 
     private fun buildHlsMediaSource(uri: Uri): HlsMediaSource? {
@@ -302,14 +299,14 @@ class CameraFrontLayerFragment : Fragment() {
         dropdown?.setAdapter(adapter)
         dropdown!!.selectedIndex = selected
         dropdown?.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener { view: MaterialSpinner?, position: Int, id: Long, item: String? ->
-        settings.saveSelectedCamera(position)
+            settings.saveSelectedCamera(position)
 
-        val playList: String? = getM3u8Playlist(getCameraURL(position))
-        val uri = Uri.parse(playList)
-        val mediaSource = buildHlsMediaSource(uri)
-        if (mediaSource != null) {
-            player.prepare(mediaSource, false, false)
-        }
+            val playList: String? = getM3u8Playlist(getCameraURL(position))
+            val uri = Uri.parse(playList)
+            val mediaSource = buildHlsMediaSource(uri)
+            if (mediaSource != null) {
+                player.prepare(mediaSource, false, false)
+            }
 
         })
     }
@@ -360,9 +357,8 @@ class CameraFrontLayerFragment : Fragment() {
         webView?.loadData(playVideo, "text/html", "utf-8")
     }
 
-    private fun playerStart(position: Int){
-        if(isValidURL(getCameraURL(position)))
-        {
+    private fun playerStart(position: Int) {
+        if (isValidURL(getCameraURL(position))) {
             val playList: String? = getM3u8Playlist(getCameraURL(position))
             initializePlayer(playList)
         }
@@ -461,9 +457,9 @@ class CameraFrontLayerFragment : Fragment() {
 ////        val startTime = SystemClock.elapsedRealtimeNanos()
 ////        val bmp = bitmap ?: return
 
-            val textureView   = playerView.videoSurfaceView.
-            val bitmap = textureView.bitmap
-            //asyncOperation
+//            val textureView   = playerView.videoSurfaceView.
+//            val bitmap = textureView.bitmap
+        //asyncOperation
 //            val copy = bmp.copy(bmp.config, false)
 //            val choppedBitmap = cropBitmap(copy)
 //            val resized = Bitmap.createScaledBitmap(choppedBitmap, 257, 257, true)
@@ -500,7 +496,7 @@ class CameraFrontLayerFragment : Fragment() {
         }
     }
 
-    private fun isValidURL(url : String) : Boolean{
+    private fun isValidURL(url: String): Boolean {
         return url.startsWith("http://") || url.startsWith("https://")
     }
 
