@@ -23,6 +23,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
@@ -70,6 +71,7 @@ class CameraFrontLayerFragment : Fragment() {
 
     private var posenet: Posenet? = null
     private lateinit var userDevicesList: List<UserDevice>
+    private lateinit var cameraFrontViewModel: CameraFrontViewModel
     private var camerasURLList: MutableList<String> = ArrayList()
 
     private var selected = 0
@@ -87,6 +89,10 @@ class CameraFrontLayerFragment : Fragment() {
         requestPermission()
         initVars(view)
         initCamerasURL()
+
+        // init the ViewModel
+        val viewModelFactory = CameraFrontViewModelFactory(Posenet(requireContext()))
+        cameraFrontViewModel = ViewModelProvider(viewModelStore, viewModelFactory).get(CameraFrontViewModel::class.java)
 
         val viewPagerAdapter = ViewPagerAdapter(this)
         viewPager.adapter = viewPagerAdapter
@@ -125,10 +131,17 @@ class CameraFrontLayerFragment : Fragment() {
         //   viewerStart(1)
         setupAddDeviceButton()
         initModel()
-        doAiTask()
 
         playerStart(selected)
 //        initializePlayer("https://192.168.0.101:8080")
+
+        val textureView = playerView.videoSurfaceView as TextureView
+        val bitmap = textureView.bitmap
+        if (bitmap != null) {
+            // wait for the right bitmap
+            doInfiniteTask(bitmap) // start infinite task of getting bitmaps
+        }
+
         return view
     }
 
@@ -297,7 +310,7 @@ class CameraFrontLayerFragment : Fragment() {
         userDevices.addAll(cameraList)
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, userDevices)
         dropdown?.setAdapter(adapter)
-        dropdown!!.selectedIndex = selected
+        dropdown?.selectedIndex = selected
         dropdown?.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener { view: MaterialSpinner?, position: Int, id: Long, item: String? ->
             settings.saveSelectedCamera(position)
 
@@ -388,18 +401,6 @@ class CameraFrontLayerFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-
-    private fun doAiTask() {
-        uiScope.launch(Dispatchers.IO) {
-            Log.d("Main", "Hi!")
-            doDetection()
-            withContext(Dispatchers.Main) {
-                //ui operation if needed
-            }
-        }
-
-    }
-
     private val bitmap: Bitmap?
         get() {
             val bm = arrayOf<Bitmap?>(null)
@@ -452,48 +453,8 @@ class CameraFrontLayerFragment : Fragment() {
         }
     }
 
-    private fun doDetection() {
-
-////        val startTime = SystemClock.elapsedRealtimeNanos()
-////        val bmp = bitmap ?: return
-
-//            val textureView   = playerView.videoSurfaceView.
-//            val bitmap = textureView.bitmap
-        //asyncOperation
-//            val copy = bmp.copy(bmp.config, false)
-//            val choppedBitmap = cropBitmap(copy)
-//            val resized = Bitmap.createScaledBitmap(choppedBitmap, 257, 257, true)
-//            posenet?.GeyKeyPoints(resized)
-//            val endTime = SystemClock.elapsedRealtimeNanos() - startTime
-//            Log.i("posenet", String.format("Thread took %.2f ms", 1.0f * endTime / 1000000))
-
-
-    }
-
-    private fun cropBitmap(bitmap: Bitmap): Bitmap {
-        val bitmapRatio = bitmap.height.toFloat() / bitmap.width.toFloat()
-        val modelInputRatio = 1.0f
-        val maxDifference = 1.0E-5
-        var cropHeight = modelInputRatio - bitmapRatio
-        val var8 = false
-        return if (abs(cropHeight) < maxDifference) {
-            bitmap
-        } else {
-            val var10000: Bitmap
-            val croppedBitmap: Bitmap
-            if (modelInputRatio < bitmapRatio) {
-                cropHeight = bitmap.height.toFloat() - bitmap.width.toFloat() / modelInputRatio
-                var10000 = Bitmap.createBitmap(bitmap, 0, (cropHeight / 2.toFloat()).toInt(), bitmap.width, (bitmap.height.toFloat() - cropHeight).toInt())
-                Intrinsics.checkExpressionValueIsNotNull(var10000, "Bitmap.createBitmap(\n   …Height).toInt()\n        )")
-                croppedBitmap = var10000
-            } else {
-                cropHeight = bitmap.width.toFloat() - bitmap.height.toFloat() * modelInputRatio
-                var10000 = Bitmap.createBitmap(bitmap, (cropHeight / 2.toFloat()).toInt(), 0, (bitmap.width.toFloat() - cropHeight).toInt(), bitmap.height)
-                Intrinsics.checkExpressionValueIsNotNull(var10000, "Bitmap.createBitmap(\n   …  bitmap.height\n        )")
-                croppedBitmap = var10000
-            }
-            croppedBitmap
-        }
+    private fun doInfiniteTask(bitmap: Bitmap) {
+        cameraFrontViewModel.runForever(bitmap)
     }
 
     private fun isValidURL(url: String): Boolean {
