@@ -18,11 +18,15 @@ class CameraFrontViewModel(private val posenet: Posenet) : ViewModel() {
         viewModelScope.launch {
             // cancelled when the ViewModel is cleared
             while (true) {
-                delay(100)
+                delay(1000)
                 // do something every 100 ms
                 doDetection(bitmap)
             }
         }
+    }
+
+    fun closePosenet() {
+        posenet.close()
     }
 
     private fun doDetection(bitmap: Bitmap?) {

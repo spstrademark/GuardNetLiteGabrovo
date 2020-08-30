@@ -27,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
@@ -52,8 +53,6 @@ import java.io.OutputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.jvm.internal.Intrinsics
-import kotlin.math.abs
 
 class CameraFrontLayerFragment : Fragment() {
 
@@ -69,15 +68,34 @@ class CameraFrontLayerFragment : Fragment() {
     private var currentWindow = 0
     private var playbackPosition: Long = 0
 
-    private var posenet: Posenet? = null
     private lateinit var userDevicesList: List<UserDevice>
     private lateinit var cameraFrontViewModel: CameraFrontViewModel
-    private var camerasURLList: MutableList<String> = ArrayList()
+    private val camerasURLList: MutableList<String> = ArrayList()
 
     private var selected = 0
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
+    private val eventListener = object : Player.EventListener {
+        override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+            if (playWhenReady && playbackState == Player.STATE_READY) { // media playing
+                val textureView = playerView.videoSurfaceView as TextureView
+                val bitmap = textureView.bitmap
+                Log.d("CameraFront", "bitmap: $bitmap")
+                if (bitmap != null) {
+                    // wait for the right bitmap
+                    doInfiniteTask(bitmap) // start infinite task of getting bitmaps
+                }
+            } else if (playWhenReady) {
+                // might be idle (plays after prepare()),
+                // buffering (plays when data available)
+                // or ended (plays when seek away from end)
+            } else {
+                // player paused in any state
+                Log.d("CameraFront", "player is paused")
+            }
+        }
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -88,10 +106,12 @@ class CameraFrontLayerFragment : Fragment() {
         setHasOptionsMenu(true)
         requestPermission()
         initVars(view)
-        initCamerasURL()
 
         // init the ViewModel
-        val viewModelFactory = CameraFrontViewModelFactory(Posenet(requireContext()))
+        val viewModelFactory = CameraFrontViewModelFactory(
+                Posenet(requireContext(),
+                "posenet_model.tflite",
+                Device.CPU))
         cameraFrontViewModel = ViewModelProvider(viewModelStore, viewModelFactory).get(CameraFrontViewModel::class.java)
 
         val viewPagerAdapter = ViewPagerAdapter(this)
@@ -126,21 +146,12 @@ class CameraFrontLayerFragment : Fragment() {
 
         // Set up the tool bar
         setUpBackdropButton(view)
-        setupCameraSpinner()
-//        initWebView()
-        //   viewerStart(1)
         setupAddDeviceButton()
-        initModel()
+//        initializePlayer("https://192.168.0.101:8080")
+        initCamerasURL()
+        setupCameraSpinner()
 
         playerStart(selected)
-//        initializePlayer("https://192.168.0.101:8080")
-
-        val textureView = playerView.videoSurfaceView as TextureView
-        val bitmap = textureView.bitmap
-        if (bitmap != null) {
-            // wait for the right bitmap
-            doInfiniteTask(bitmap) // start infinite task of getting bitmaps
-        }
 
         return view
     }
@@ -154,17 +165,16 @@ class CameraFrontLayerFragment : Fragment() {
         viewPager = view.findViewById(R.id.viewPager)
         playerView = view.findViewById(R.id.playerView)
 
-//        requireActivity().title = resources.getString(R.string.app_name)
         settings.initAppFolder(resources.getString(R.string.app_name))
         settings.getLanguage()
-        //    val devhandler = DeviceHandler(settings).allDevices
         userDevicesList = DeviceHandler(settings).allDevices//devhandler.allDevices
+        Log.d("CameraFrontLayer", "temp, userDevicesList: $userDevicesList")
         selected = settings.getCamera()
     }
 
     override fun onDestroy() {
         job.cancel()
-        posenet?.close()
+        cameraFrontViewModel.closePosenet()
         super.onDestroy()
     }
 
@@ -239,12 +249,14 @@ class CameraFrontLayerFragment : Fragment() {
 
         player.seekTo(currentWindow, playbackPosition)
         player.prepare(mediaSource, false, false)
-        player.playWhenReady = true; //run file/link when ready to play.
+        player.addListener(eventListener)
+        player.playWhenReady = true //run file/link when ready to play.
     }
 
     private fun releasePlayer() {
         playbackPosition = player.currentPosition
         currentWindow = player.currentWindowIndex
+        player.removeListener(eventListener)
         player.stop()
         player.release()
         playWhenReady = player.playWhenReady
@@ -280,12 +292,6 @@ class CameraFrontLayerFragment : Fragment() {
         }
     }
 
-    private fun initModel() {
-        posenet = Posenet(requireContext(),
-                "posenet_model.tflite",
-                Device.CPU)
-    }
-
     private fun setUpBackdropButton(view: View) {
         hideBackdropButton?.setOnClickListener(NavigationIconClickListener(
                 context,
@@ -305,6 +311,7 @@ class CameraFrontLayerFragment : Fragment() {
                     userDevices.add(device.GetURL())
                 }
             }
+            Log.d("CameraFrontLayer", "temp, userDevices: ${userDevices}")
         }
         val cameraList = listOf(*resources.getStringArray(R.array.PublicCameras))
         userDevices.addAll(cameraList)
