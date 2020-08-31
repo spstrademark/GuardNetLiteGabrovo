@@ -3,6 +3,8 @@ package com.example.guardnet_lite_gabrovo
 import Common.SettingsUtils
 import Device.DeviceHandler
 import Device.UserDevice
+import Ai.Classifier
+import Ai.TFLiteDetector
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
@@ -45,17 +47,18 @@ import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
-import org.tensorflow.lite.examples.posenet.Posenet.Device
-import org.tensorflow.lite.examples.posenet.Posenet.Posenet
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.jvm.internal.Intrinsics
+import kotlin.math.abs
+
 
 class CameraFrontLayerFragment : Fragment() {
-
+    val tf: Classifier? = null
     private lateinit var settings: SettingsUtils
     private var webView: WebView? = null
     private var dropdown: MaterialSpinner? = null
@@ -75,16 +78,19 @@ class CameraFrontLayerFragment : Fragment() {
     private var selected = 0
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
-
+    private val TF_LITE_SIZE = 337
     private val eventListener = object : Player.EventListener {
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
             if (playWhenReady && playbackState == Player.STATE_READY) { // media playing
                 val textureView = playerView.videoSurfaceView as TextureView
-                val bitmap = textureView.bitmap
+                var bitmap = textureView.bitmap
+
                 Log.d("CameraFront", "bitmap: $bitmap")
                 if (bitmap != null) {
                     // wait for the right bitmap
-                    doInfiniteTask(bitmap) // start infinite task of getting bitmaps
+                    val choppedBitmap = cropBitmap(bitmap)//Bitmap.createScaledBitmap(bitmap, TF_LITE_SIZE, TF_LITE_SIZE, true)
+                    val resizedBitmap = Bitmap.createScaledBitmap(choppedBitmap, TF_LITE_SIZE, TF_LITE_SIZE, true)
+                    doInfiniteTask(resizedBitmap) // start infinite task of getting bitmaps
                 }
             } else if (playWhenReady) {
                 // might be idle (plays after prepare()),
@@ -107,11 +113,26 @@ class CameraFrontLayerFragment : Fragment() {
         requestPermission()
         initVars(view)
 
+
         // init the ViewModel
+//        val viewModelFactory = CameraFrontViewModelFactory(
+//                Posenet(requireContext(),
+//                "posenet_model.tflite",
+//                Device.CPU))
+
         val viewModelFactory = CameraFrontViewModelFactory(
-                Posenet(requireContext(),
-                "posenet_model.tflite",
-                Device.CPU))
+                TFLiteDetector.create(requireContext(),
+                    null,
+                    R.raw.posenet_trademark_v1,
+                    TF_LITE_SIZE,
+                    TF_LITE_SIZE))
+
+        //            tf = TFLiteDetector.create(this,
+//                    null,
+//                    R.raw.posenet_trademark_v1,
+//                    TF_LITE_SIZE,
+//                    TF_LITE_SIZE
+//            );
         cameraFrontViewModel = ViewModelProvider(viewModelStore, viewModelFactory).get(CameraFrontViewModel::class.java)
 
         val viewPagerAdapter = ViewPagerAdapter(this)
@@ -466,6 +487,32 @@ class CameraFrontLayerFragment : Fragment() {
 
     private fun isValidURL(url: String): Boolean {
         return url.startsWith("http://") || url.startsWith("https://")
+    }
+
+    private fun cropBitmap(bitmap: Bitmap): Bitmap {
+        val bitmapRatio = bitmap.height.toFloat() / bitmap.width.toFloat()
+        val modelInputRatio = 1.0f
+        val maxDifference = 1.0E-5
+        var cropHeight = modelInputRatio - bitmapRatio
+        val var8 = false
+        return if (abs(cropHeight) < maxDifference) {
+            bitmap
+        } else {
+            val var10000: Bitmap
+            val croppedBitmap: Bitmap
+            if (modelInputRatio < bitmapRatio) {
+                cropHeight = bitmap.height.toFloat() - bitmap.width.toFloat() / modelInputRatio
+                var10000 = Bitmap.createBitmap(bitmap, 0, (cropHeight / 2.toFloat()).toInt(), bitmap.width, (bitmap.height.toFloat() - cropHeight).toInt())
+                Intrinsics.checkExpressionValueIsNotNull(var10000, "Bitmap.createBitmap(\n   …Height).toInt()\n        )")
+                croppedBitmap = var10000
+            } else {
+                cropHeight = bitmap.width.toFloat() - bitmap.height.toFloat() * modelInputRatio
+                var10000 = Bitmap.createBitmap(bitmap, (cropHeight / 2.toFloat()).toInt(), 0, (bitmap.width.toFloat() - cropHeight).toInt(), bitmap.height)
+                Intrinsics.checkExpressionValueIsNotNull(var10000, "Bitmap.createBitmap(\n   …  bitmap.height\n        )")
+                croppedBitmap = var10000
+            }
+            croppedBitmap
+        }
     }
 
 }
