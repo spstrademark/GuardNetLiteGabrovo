@@ -57,7 +57,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.11.7'
     implementation 'org.jsoup:jsoup:1.13.1'
 
-    implementation project(":posenet")
+ //   implementation project(":posenet")
     implementation 'org.tensorflow:tensorflow-lite:2.2.0'
     implementation 'org.tensorflow:tensorflow-lite-gpu:2.2.0'
 

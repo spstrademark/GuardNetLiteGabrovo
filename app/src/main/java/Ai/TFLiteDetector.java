@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.os.Build;
 import android.util.Log;
 
@@ -49,6 +51,12 @@ public class TFLiteDetector implements Classifier {
         GPU
     }
 
+
+    public static int[][] CocoColors = {
+            {255, 0, 0}, {255, 0, 0}, {255, 0, 0}, {255, 0, 0}, {255, 0, 0}, {255, 0, 0}, {255, 0, 0},
+            {255, 0, 0}, {255, 0, 0}, {255, 0, 0}, {255, 0, 0}, {255, 0, 0}, {255, 0, 0}, {255, 0, 0},
+            {255, 0, 0},{255, 0, 0} , {255, 0, 0}, {255, 0, 0}};
+
     String[] partNames = {
             "nose", "leftEye", "rightEye", "leftEar", "rightEar", "leftShoulder",
             "rightShoulder", "leftElbow", "rightElbow", "leftWrist", "rightWrist",
@@ -89,6 +97,8 @@ public class TFLiteDetector implements Classifier {
 
     private static final int BYTES_PER_CHANNEL = 4;
     private int inputSize = 0;
+
+    private int HUMAN_RADIUS = 2;
     private TFLiteDetector() {
     }
 
@@ -558,6 +568,24 @@ public class TFLiteDetector implements Classifier {
         interpreter = null;
         gpuDelegate.close();
         gpuDelegate = null;
+    }
+
+    public void drawPoints(Bitmap bitmap, List<List<TFLiteDetector.Coords>> coords ) {
+        int size = coords.size();
+        if(size==0) return;
+        Canvas canvas = new Canvas(bitmap);
+
+        for(int i=0; i < size;i++)
+        {
+            List<Coords> c = coords.get(i);
+            for(int j=0; j< c.size();j++)
+            {
+                Paint paint = new Paint();
+                paint.setColor(Color.rgb(CocoColors[0][0], CocoColors[0][1], CocoColors[0][2]));
+                canvas.drawCircle(c.get(j).x, c.get(j).y, HUMAN_RADIUS, paint);
+            }
+        }
+
     }
 
 }

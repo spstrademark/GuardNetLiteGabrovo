@@ -102,6 +102,7 @@ public interface Classifier {
 
     List<List<TFLiteDetector.Coords>> getBodyPartsPosition(Bitmap bitmap, List<Map<String, Object>> keypoints);
 
+    void drawPoints(Bitmap bitmap, List<List<TFLiteDetector.Coords>> coords);
     void enableStatLogging(final boolean debug);
 
     String getStatString();
