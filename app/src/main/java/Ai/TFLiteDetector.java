@@ -6,19 +6,27 @@ import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
+import org.jetbrains.annotations.NotNull;
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.Tensor;
 import org.tensorflow.lite.gpu.GpuDelegate;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,14 +36,12 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 
-//import ai.Classifier;
-
-
-//import ai.Classifier;
-
-
-
 public class TFLiteDetector implements Classifier {
+
+    public class Coords {
+        float x;
+        float y;
+    }
 
     enum Device {
         CPU,
@@ -60,10 +66,6 @@ public class TFLiteDetector implements Classifier {
             {"rightKnee", "rightAnkle"}
     };
 
-
-
-
-
     Map<String, Integer> partsIds = new HashMap<>();
     List<Integer> parentToChildEdges = new ArrayList<>();
     List<Integer> childToParentEdges = new ArrayList<>();
@@ -73,7 +75,6 @@ public class TFLiteDetector implements Classifier {
     double threshold = 0.7;
 
     int numResults = 2;      // defaults to 5
-
     int nmsRadius = 10;
 
     Device device = Device.CPU;
@@ -81,22 +82,10 @@ public class TFLiteDetector implements Classifier {
     private  GpuDelegate gpuDelegate = null;
     private Context context = null;
     private String filename = "";
-    private int DIM_IMG_WIDTH = -1;
-    private int DIM_IMG_HEIGHT = -1;
     private static int NUM_LITE_THREADS = 4;
     private static final String TAG = "tflite_detector";
-    private static final int DIM_BATCH_SIZE = 1;
-    private static final int DIM_PIXEL_SIZE = 3;
     private static final int IMAGE_MEAN = 128;
     private static final float IMAGE_STD = 128.0f;
-    private static final int NUM_ANCHORS = 1917;
-    private float NMS_Threshold = 0.1f;
-    private int InterMinAbove_Threshold = 6;
-    private float Inter_Threashold = 0.1f;
-    private int Min_Subset_Cnt = 4;
-    private float Min_Subset_Score = 0.8f;
-    private int Max_Human = 96;
-    private Integer HUMAN_RADIUS = 2;
 
     private static final int BYTES_PER_CHANNEL = 4;
     private int inputSize = 0;
@@ -113,8 +102,8 @@ public class TFLiteDetector implements Classifier {
 
         tflite.context = context;
         tflite.filename = filename;
-        tflite.DIM_IMG_WIDTH = img_width;
-        tflite.DIM_IMG_HEIGHT = img_height;
+//        tflite.DIM_IMG_WIDTH = img_width;
+//        tflite.DIM_IMG_HEIGHT = img_height;
 
         Interpreter.Options options = new Interpreter.Options();
         switch(tflite.device){
@@ -269,68 +258,34 @@ public class TFLiteDetector implements Classifier {
 
     }
 
-    public void draw_skeleton(Canvas canvas,List<Map<String, Object>> keypoints)
+
+    public List<List<Coords>>  getBodyPartsPosition(Bitmap Bitmap, @NotNull List<Map<String, Object>> keypoints)
     {
         int size = keypoints.size();
-        if(size==0) return;
-        int cp = partNames.length;//Common.CocoPart.values().length;
-        int image_w = canvas.getWidth();
-        int image_h = canvas.getHeight();
+        if(size==0) return null;
+
+        int image_w = Bitmap.getWidth();
+        int image_h = Bitmap.getHeight();
+
+        List<List<Coords>> Positions = new ArrayList<List<Coords>>();
 
         for(int i =0; i <size;i++) {
-//            Point[] centers = new Point[cp];
-//            Map<String, Object> result =keypoints[i];// new HashMap<>(keypoints[i]);
-//
-//            Set<Integer> part_idxs = human.parts.keySet();
+
+            List<Coords> keyPos = new ArrayList<>();
+            HashMap<Integer,Object> keys =  (HashMap<Integer,Object>)keypoints.get(i).get("keypoints");
+            int key_size = keys.size();
+            for(int j=0; j < key_size;j++)
+            {
+                Coords coords = new Coords();
+                HashMap<String,Float> item = (HashMap<String,Float>)keys.get(i);
+                coords.x = (item.get("x") * image_w) - 6;
+                coords.y = (item.get("y") * image_h) - 6;
+                keyPos.add(coords);
+            }
+
+            Positions.add(keyPos);
         }
-        //    for human in human_list:
-//        for (TensorFlowPoseDetector.Human human : human_list) {
-//            Point[] centers = new Point[cp];
-//            //part_idxs = human.keys()
-//            Set<Integer> part_idxs = human.parts.keySet();
-//
-//            //     LOGGER.i("COORD =====================================");
-//            //# draw point
-//            //for i in range(CocoPart.Background.value):
-//            for (Common.CocoPart i : Common.CocoPart.values()) {
-//                //if i not in part_idxs:
-//                if (!part_idxs.contains(i.index)) {
-//                    //            LOGGER.w("COORD %s, NULL, NULL", i.toString());
-//                    continue;
-//                }
-//                //part_coord = human[i][1]
-//                TensorFlowPoseDetector.Coord part_coord = human.parts.get(i.index);
-//                //center = (int(part_coord[0] * image_w + 0.5), int(part_coord[1] * image_h + 0.5))
-//                Point center = new Point((int) (part_coord.x * image_w + 0.5f), (int) (part_coord.y * image_h + 0.5f));
-//                //centers[i] = center
-//                centers[i.index] = center;
-//
-//                //cv2.circle(img_copied, center, 3, CocoColors[i], thickness=3, lineType=8, shift=0)
-//                Paint paint = new Paint();
-//                paint.setColor(Color.rgb(Common.CocoColors[i.index][0], Common.CocoColors[i.index][1], Common.CocoColors[i.index][2]));
-//                paint.setStyle(Paint.Style.FILL);
-//                canvas.drawCircle(center.x, center.y, HUMAN_RADIUS, paint);
-//
-//                //  LOGGER.i("COORD %s, %f, %f", i.toString(), part_coord.x, part_coord.y);
-//            }
-//
-//            //# draw line
-//            //for pair_order, pair in enumerate(CocoPairsRender):
-//            for (int pair_order = 0; pair_order < Common.CocoPairsRender.length; pair_order++) {
-//                int[] pair = Common.CocoPairsRender[pair_order];
-//                //if pair[0] not in part_idxs or pair[1] not in part_idxs:
-//                if (!part_idxs.contains(pair[0]) || !part_idxs.contains(pair[1])) {
-//                    continue;
-//                }
-//
-//                //img_copied = cv2.line(img_copied, centers[pair[0]], centers[pair[1]], CocoColors[pair_order], 3)
-//                Paint paint = new Paint();
-//                paint.setColor(Color.rgb(Common.CocoColors[pair_order][0], Common.CocoColors[pair_order][1], Common.CocoColors[pair_order][2]));
-//                paint.setStrokeWidth(HUMAN_RADIUS);
-//                paint.setStyle(Paint.Style.STROKE);
-//                canvas.drawLine(centers[pair[0]].x, centers[pair[0]].y, centers[pair[1]].x, centers[pair[1]].y, paint);
-//            }
-//        }
+        return Positions;
     }
 
 
@@ -370,7 +325,8 @@ public class TFLiteDetector implements Classifier {
             keypoint.put("part", partNames[(int) root.get("partId")]);
             keypoint.put("y", rootPoint[0] / inputSize);
             keypoint.put("x", rootPoint[1] / inputSize);
-
+//            keypoint.put("y", rootPoint[0] );
+//            keypoint.put("x", rootPoint[1] );
             Map<Integer, Map<String, Object>> keypoints = new HashMap<>();
             keypoints.put((int) root.get("partId"), keypoint);
 

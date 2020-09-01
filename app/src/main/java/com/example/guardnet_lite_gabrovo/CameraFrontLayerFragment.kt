@@ -1,10 +1,10 @@
 package com.example.guardnet_lite_gabrovo
 
+import Ai.Classifier
+import Ai.TFLiteDetector
 import Common.SettingsUtils
 import Device.DeviceHandler
 import Device.UserDevice
-import Ai.Classifier
-import Ai.TFLiteDetector
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
@@ -31,12 +31,17 @@ import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
+import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.RawResourceDataSource
+import com.google.android.exoplayer2.util.Util
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -260,6 +265,7 @@ class CameraFrontLayerFragment : Fragment() {
         val uri = Uri.parse(videoUrl)
         val mediaSource = buildHlsMediaSource(uri) ?: return
 //        val mediaSource = buildHttpMediaSource(uri) ?: return
+ //       val mediaSource = buildLocalMediaSource()
         playerView.useController = false
 
         player = SimpleExoPlayer.Builder(requireContext()).build()
@@ -296,6 +302,19 @@ class CameraFrontLayerFragment : Fragment() {
         val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(requireContext(), "exoplayer")
         return ProgressiveMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(uri);
+    }
+
+    private fun buildLocalMediaSource() : MediaSource{
+        // Produces DataSource instances through which media data is loaded.
+
+        // Produces DataSource instances through which media data is loaded.
+        val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(requireContext(), "exoplayer")
+
+        // This is the MediaSource representing the media to be played.
+
+        // This is the MediaSource representing the media to be played.
+        return ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(RawResourceDataSource.buildRawResourceUri(R.raw.aggr))
+
     }
 
     private fun buildHlsMediaSource(uri: Uri): HlsMediaSource? {

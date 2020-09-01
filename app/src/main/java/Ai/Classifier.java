@@ -100,7 +100,7 @@ public interface Classifier {
 
     List<Map<String, Object>> get_positions(Bitmap bitmap);
 
-    void draw_skeleton(Canvas canvas, List<Map<String, Object>> keypoints);
+    List<List<TFLiteDetector.Coords>> getBodyPartsPosition(Bitmap bitmap, List<Map<String, Object>> keypoints);
 
     void enableStatLogging(final boolean debug);
 

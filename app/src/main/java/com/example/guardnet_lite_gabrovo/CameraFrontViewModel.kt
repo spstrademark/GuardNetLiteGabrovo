@@ -31,11 +31,8 @@ class CameraFrontViewModel(private val classifier: Classifier) : ViewModel() {
     private fun doDetection(bitmap: Bitmap?) {
         if (bitmap == null) return
         val startTime = SystemClock.elapsedRealtimeNanos()
-
-//        val copy = bitmap.copy(bitmap.config, false)
-//        val choppedBitmap = cropBitmap(copy)
-//        val resized = Bitmap.createScaledBitmap(choppedBitmap, 257, 257, true)
         val kp =    classifier.get_positions(bitmap)
+        val bodyPos = classifier.getBodyPartsPosition(bitmap,kp)
         val endTime = SystemClock.elapsedRealtimeNanos() - startTime
         Log.i("posenet", String.format("Thread took %.2f ms", 1.0f * endTime / 1000000))
     }
