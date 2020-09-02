@@ -52,8 +52,8 @@ public class Notifications {
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             builder.setContentTitle(Notification_title)                            // required
                 //    .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)   // required
-              //      .setContentText(context.getString(R.string.app_name)) // required
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    //      .setContentText(context.getString(R.string.app_name)) // required
                     .setContentText(content)
                     .setOngoing(true)
                     .setTimeoutAfter(-1)
