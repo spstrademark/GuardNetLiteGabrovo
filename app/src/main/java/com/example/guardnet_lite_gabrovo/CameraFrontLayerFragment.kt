@@ -63,7 +63,7 @@ import kotlin.math.abs
 
 
 class CameraFrontLayerFragment : Fragment() {
-    val tf: Classifier? = null
+
     private lateinit var settings: SettingsUtils
     private var webView: WebView? = null
     private var dropdown: MaterialSpinner? = null
@@ -130,7 +130,8 @@ class CameraFrontLayerFragment : Fragment() {
                     null,
                     R.raw.posenet_trademark_v1,
                     TF_LITE_SIZE,
-                    TF_LITE_SIZE))
+                    TF_LITE_SIZE),
+                    requireContext())
 
         //            tf = TFLiteDetector.create(this,
 //                    null,
@@ -265,7 +266,7 @@ class CameraFrontLayerFragment : Fragment() {
         val uri = Uri.parse(videoUrl)
         val mediaSource = buildHlsMediaSource(uri) ?: return
 //        val mediaSource = buildHttpMediaSource(uri) ?: return
-   //    val mediaSource = buildLocalMediaSource()
+      // val mediaSource = buildLocalMediaSource()
         playerView.useController = false
 
         player = SimpleExoPlayer.Builder(requireContext()).build()
@@ -471,34 +472,6 @@ class CameraFrontLayerFragment : Fragment() {
             }
             return bm[0]
         }
-
-    private fun getCurrentDateAndTime(): String {
-        // will be used for saving bitmaps
-        val dateFormatter: DateFormat = SimpleDateFormat("yyyy_MM_dd_hh_mm_ss")
-        dateFormatter.isLenient = false
-        val today = Date()
-        return dateFormatter.format(today)
-    }
-
-    private fun saveBitmap(bm: Bitmap?) {
-        if (bm != null) {
-            try {
-                val path = String.format("%s%s%s",
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
-                        File.separator,
-                        resources.getString(R.string.app_name))
-
-                val file = File(path, "/aaaa.png")
-                val fOut: OutputStream = FileOutputStream(file)
-                bm.compress(Bitmap.CompressFormat.PNG, 50, fOut)
-                fOut.flush()
-                fOut.close()
-                bm.recycle()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
 
     private fun doInfiniteTask(bitmap: Bitmap) {
         cameraFrontViewModel.runForever(bitmap)

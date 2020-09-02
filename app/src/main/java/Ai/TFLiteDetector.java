@@ -40,11 +40,6 @@ import java.util.PriorityQueue;
 
 public class TFLiteDetector implements Classifier {
 
-    public class Coords {
-        float x;
-        float y;
-    }
-
     enum Device {
         CPU,
         NNAPI,
@@ -570,7 +565,7 @@ public class TFLiteDetector implements Classifier {
         gpuDelegate = null;
     }
 
-    public void drawPoints(Bitmap bitmap, List<List<TFLiteDetector.Coords>> coords ) {
+    public void drawPoints(Bitmap bitmap, List<List<Coords>> coords ) {
         int size = coords.size();
         if(size==0) return;
         Canvas canvas = new Canvas(bitmap);

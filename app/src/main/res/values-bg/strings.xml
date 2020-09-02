@@ -83,4 +83,9 @@
     <string name="ItemMaxLimit">Достигнат е лимита от камери!</string>
     <!-- ^^^ MESSAGES ^^^ -->
 
+    <!-- *** MAIL *** -->
+    <string name="Title">Тревога</string>
+    <string name="Body">Открита е опасност !</string>
+    <!-- ^^^ MAIL ^^^ -->
+
 </resources>

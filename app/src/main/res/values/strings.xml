@@ -110,4 +110,11 @@
     <!-- Strings used for fragments for navigation -->
 
     <!-- ^^^ USER MESSAGES ^^^ -->
+
+    <!-- *** MAIL & Notification *** -->
+    <string name="Title">Alert</string>
+    <string name="Body">Threat found !</string>
+    <!-- ^^^ MAIL & Notification ^^^ -->
+
+
 </resources>
