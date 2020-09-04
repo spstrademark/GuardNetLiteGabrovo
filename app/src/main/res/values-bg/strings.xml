@@ -6,7 +6,7 @@
     <string name="save_user_camera">Запази настройките</string>
 
     <!-- *** VIEW *** -->
-    <string name="CamViewer">Изглед от камера</string>
+    <string name="CamViewer">Kамера</string>
     <string-array name="PublicCameras">
         <item>Радецка</item>
         <item>Автогара</item>

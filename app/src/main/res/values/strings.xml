@@ -26,7 +26,7 @@
     <!-- *** VIEW *** -->
     <string name="add_new">Add</string>
     <string name="save_user_camera">Save</string>
-    <string name="CamViewer">Camera Viewer</string>
+    <string name="CamViewer">Camera</string>
     <string-array name="PublicCameras">
         <item>Radecka</item>
         <item>Bus Station</item>
