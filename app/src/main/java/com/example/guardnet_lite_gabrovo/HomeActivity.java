@@ -69,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void UpdateLanguage(int current_fragment)
     {
-        setContentView(current_fragment);
+ //       setContentView(current_fragment);
 //        Toolbar toolbar = findViewById(R.id.app_bar);
 //        setSupportActionBar(toolbar);
 //        toolbar.setTitle(getString(R.string.app_name));

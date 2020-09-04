@@ -42,20 +42,26 @@ class CameraFrontViewModel(private val classifier: Classifier, private val conte
             while (true) {
                 delay(100)
                 // do something every 100 ms
-           //     doDetection(bitmap)
+
 //                if(doDetection(bitmap)){
-//                    SendNotifications(bitmap)
+//                   sendNotifications(bitmap)
 //                }
+
             }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun SendNotifications(bitmap: Bitmap)
+    private fun sendNotifications(bitmap: Bitmap)
     {
         var fileName : String = getCurrentDateAndTime().plus(".png")
         saveBitmap(bitmap,fileName)
-        sender!!.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), "spstrademark@outlook.com", fileName);
+        Thread {
+            // do the async Stuff
+            sender!!.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), "spstrademark@outlook.com", fileName);
+            // maybe do some more stuff
+        }.start()
+
         notification!!.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body),context) // OK
 
     }
@@ -69,11 +75,15 @@ class CameraFrontViewModel(private val classifier: Classifier, private val conte
         val startTime   = SystemClock.elapsedRealtimeNanos()
         val kp          = classifier.get_positions(bitmap)
         val bodyPos     = classifier.getBodyPartsPosition(bitmap,kp)
-        classifier.drawPoints(bitmap,bodyPos);
+    //    classifier.drawPoints(bitmap,bodyPos);
 
         val endTime     = SystemClock.elapsedRealtimeNanos() - startTime
         Log.i("posenet", String.format("Thread took %.2f ms", 1.0f * endTime / 1000000))
-        return  oddbehavior.isBehaviorOdd(kp);
+        if(bodyPos!=null){
+            Log.i("posenet", String.format("SIZE: %d", bodyPos.size))
+        }
+
+        return  oddbehavior.isBehaviorOdd(bodyPos);
     }
 
     private fun getCurrentDateAndTime(): String {
@@ -85,24 +95,23 @@ class CameraFrontViewModel(private val classifier: Classifier, private val conte
     }
 
     private fun saveBitmap(bm: Bitmap?, filename : String?) {
-//        if (bm != null) {
-//            try {
-//                val path = String.format("%s%s%s",
-//                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
-//                        File.separator,
-//                        resources.getString(R.string.app_name))
-//
-//           //     val file = File(path, "/aaaa.png")
-//               val file = File(path, ("/" + filename))
-//                val fOut: OutputStream = FileOutputStream(file)
-//                bm.compress(Bitmap.CompressFormat.PNG, 50, fOut)
-//                fOut.flush()
-//                fOut.close()
-//                bm.recycle()
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
+        if (bm != null) {
+            try {
+                val path = String.format("%s%s%s",
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+                        File.separator,
+                        context.resources.getString(R.string.app_name))
+
+                val file = File(path, ("/" + filename))
+                val fOut: OutputStream = FileOutputStream(file)
+                bm.compress(Bitmap.CompressFormat.PNG, 90, fOut)
+                fOut.flush()
+                fOut.close()
+                bm.recycle()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
 }

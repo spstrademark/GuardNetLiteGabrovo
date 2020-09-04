@@ -66,7 +66,7 @@ public class GMailSender extends javax.mail.Authenticator {
         return new PasswordAuthentication(user, password);
     }
 
-    public synchronized void sendMail(String subject, String body, String recipients, String img_dir) throws Exception {
+    public synchronized void sendMail(String subject, String body, String recipients, String fName) throws Exception {
         try{
 
             MimeMessage message = new MimeMessage(session);
@@ -79,7 +79,7 @@ public class GMailSender extends javax.mail.Authenticator {
                 message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
             //=========================================
             String file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), this.context.getResources().getString(R.string.app_name)).toString(); //"path of file to be attached";
-            String fileName = "1.jpg";
+            String fileName = fName;
             String FileDir = file.concat(File.separator).concat(fileName);
 
             MimeBodyPart attachmentBodyPart= new MimeBodyPart();
@@ -87,7 +87,7 @@ public class GMailSender extends javax.mail.Authenticator {
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(attachmentBodyPart); // add the attachement part
 
-            if(img_dir!=null){
+            if(fName!=null){
                 attachmentBodyPart= new MimeBodyPart();
                 DataSource source = new FileDataSource(FileDir); // ex : "C:\\test.pdf"
                 attachmentBodyPart.setDataHandler(new DataHandler(source));

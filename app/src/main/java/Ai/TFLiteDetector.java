@@ -560,10 +560,17 @@ public class TFLiteDetector implements Classifier {
 
     @Override
     public void close() {
-        interpreter.close();
-        interpreter = null;
-        gpuDelegate.close();
-        gpuDelegate = null;
+        if(interpreter!=null){
+            interpreter.close();
+            interpreter = null;
+        }
+
+        if(gpuDelegate!=null)
+        {
+            gpuDelegate.close();
+            gpuDelegate = null;
+        }
+
     }
 
     public void drawPoints(Bitmap bitmap, List<List<Coords>> coords ) {
