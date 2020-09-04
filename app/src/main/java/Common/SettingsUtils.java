@@ -32,6 +32,7 @@ public class SettingsUtils {
     final String Devices = "Devices";
     final String DeviceCount = "DevicesCount";
 
+    final String NotificationEmails = "NotificationEmails";
     private Context context;
 
     private static SettingsUtils sInstance;
@@ -128,7 +129,9 @@ public class SettingsUtils {
     }
 
     public int getCamera() {
-        return sharedPreferences.getInt(this.SelectedCam, PublicCamerasEnum.RADECKA.ordinal());
+    //    return sharedPreferences.getInt(this.SelectedCam, PublicCamerasEnum.RADECKA.ordinal());
+        int val = sharedPreferences.getInt(this.SelectedCam,0);
+        return val;
     }
 
     public void setGalleryView(int idx) {
@@ -166,5 +169,6 @@ public class SettingsUtils {
     public Context GetContext() {
         return context;
     }
+
 
 }

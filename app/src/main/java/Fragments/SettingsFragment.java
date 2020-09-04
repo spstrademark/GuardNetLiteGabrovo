@@ -35,6 +35,10 @@ public class SettingsFragment extends Fragment {
         FragmentInit();
         view.findViewById(R.id.language).setOnClickListener(view1 -> NavHostFragment.findNavController(SettingsFragment.this)
                 .navigate(R.id.action_SettingsFragment_to_LanguageFragment));
+        view.findViewById(R.id.gallery).setOnClickListener(view1 -> NavHostFragment.findNavController(SettingsFragment.this)
+                .navigate(R.id.action_SettingsFragment_to_GalleryFragment));
+        view.findViewById(R.id.notifications).setOnClickListener(view1 -> NavHostFragment.findNavController(SettingsFragment.this)
+                .navigate(R.id.action_SettingsFragment_to_NotificationFragment));
     }
 
     public void FragmentInit() {

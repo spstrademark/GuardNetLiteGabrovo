@@ -35,17 +35,17 @@ class CameraFrontViewModel(private val classifier: Classifier, private val conte
 
         oddbehavior = OddBehavior.getInstance()
         notification = Notifications()
-        sender = GMailSender()
-        notification!!.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body),context) // OK
+        sender = GMailSender(context)
         // start a new coroutine in the ViewModel
         viewModelScope.launch {
             // cancelled when the ViewModel is cleared
             while (true) {
                 delay(100)
                 // do something every 100 ms
-                if(doDetection(bitmap)){
-                    SendNotifications(bitmap)
-                }
+           //     doDetection(bitmap)
+//                if(doDetection(bitmap)){
+//                    SendNotifications(bitmap)
+//                }
             }
         }
     }
@@ -56,11 +56,9 @@ class CameraFrontViewModel(private val classifier: Classifier, private val conte
         var fileName : String = getCurrentDateAndTime().plus(".png")
         saveBitmap(bitmap,fileName)
         sender!!.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), "spstrademark@outlook.com", fileName);
-
+        notification!!.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body),context) // OK
 
     }
-
-
 
     fun closePosenet() {
         classifier.close()
@@ -75,7 +73,7 @@ class CameraFrontViewModel(private val classifier: Classifier, private val conte
 
         val endTime     = SystemClock.elapsedRealtimeNanos() - startTime
         Log.i("posenet", String.format("Thread took %.2f ms", 1.0f * endTime / 1000000))
-        return oddbehavior.isBehaviorOdd(kp);
+        return  oddbehavior.isBehaviorOdd(kp);
     }
 
     private fun getCurrentDateAndTime(): String {

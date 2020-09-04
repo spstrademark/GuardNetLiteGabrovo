@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.guardnet_lite_gabrovo.HomeActivity;
 import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
 
@@ -36,8 +37,8 @@ public class NotificationFragment extends Fragment {
 
         settings = SettingsUtils.getInstance();
         //   view.setVisibility(View.GONE);
-        MainActivity activity = (MainActivity) getActivity();
-        activity.SetActiveView(NotificationFragment.this);
+        HomeActivity activity = (HomeActivity) getActivity();
+    //    activity.SetActiveView(NotificationFragment.this);
         InitCameraDropdownList(view);
 //        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -71,5 +72,12 @@ public class NotificationFragment extends Fragment {
         });
 
     }
+
+    public static Fragment getInstance() {
+
+        return new NotificationFragment();
+    }
+
+
 
 }

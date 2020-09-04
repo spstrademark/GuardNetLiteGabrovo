@@ -7,6 +7,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import Fragments.CalendarFragment;
 import Fragments.ClockFragment;
 import Fragments.GalleryFragment;
+import Fragments.NotificationFragment;
+import Notifications.Notifications;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
@@ -19,7 +21,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 1:
-                return ClockFragment.getInstance();
+                return NotificationFragment.getInstance();
             case 2:
                 return GalleryFragment.getInstance();
             case 0:

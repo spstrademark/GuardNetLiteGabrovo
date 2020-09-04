@@ -266,6 +266,7 @@ public class TFLiteDetector implements Classifier {
 
     public List<List<Coords>>  getBodyPartsPosition(Bitmap Bitmap, @NotNull List<Map<String, Object>> keypoints)
     {
+        if(keypoints==null) return null;
         int size = keypoints.size();
         if(size==0) return null;
 
@@ -566,6 +567,8 @@ public class TFLiteDetector implements Classifier {
     }
 
     public void drawPoints(Bitmap bitmap, List<List<Coords>> coords ) {
+        if(coords==null) return;
+        if(coords.size()==0) return;
         int size = coords.size();
         if(size==0) return;
         Canvas canvas = new Canvas(bitmap);

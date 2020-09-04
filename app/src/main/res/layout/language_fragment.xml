@@ -6,21 +6,22 @@
     android:layout_height="match_parent"
     tools:context="Fragments.SettingsFragment">
 
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/languages"
-        android:layout_width="342dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="179dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="519dp"
-        android:entries="@array/Languages"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.166" />
+<!--    <com.jaredrummler.materialspinner.MaterialSpinner-->
+<!--        android:id="@+id/languages"-->
+<!--        android:layout_width="342dp"-->
+<!--        android:layout_height="46dp"-->
+<!--        android:layout_marginStart="35dp"-->
+<!--        android:layout_marginTop="179dp"-->
+<!--        android:layout_marginEnd="35dp"-->
+<!--        android:layout_marginBottom="519dp"-->
+<!--        android:background="@color/colorBackground"-->
+<!--        android:textColor="@color/colorText"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.166" />-->
 
     <TextView
         android:id="@+id/lang"
@@ -39,11 +40,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner3"
+        android:id="@+id/spinnerLan"
         android:layout_width="239dp"
         android:layout_height="25dp"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="329dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="184dp"
         android:entries="@array/Languages"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

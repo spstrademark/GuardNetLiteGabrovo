@@ -1,4 +1,5 @@
 package Mail;
+import android.content.Context;
 import android.os.Environment;
 import javax.activation.CommandMap;
 import javax.activation.DataHandler;
@@ -21,20 +22,22 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Security;
 import java.util.Properties;
+import com.example.guardnet_lite_gabrovo.R;
 
 public class GMailSender extends javax.mail.Authenticator {
     private String mailhost = "smtp.gmail.com";
     private String user = "guardnetlite.no.reply@gmail.com";;
     private String password = "GuardNetLite0895162746";
     private Session session;
+    private Context context;
     //https://myaccount.google.com/lesssecureapps
     static {
         Security.addProvider(new JSSEProvider());
     }
 
-    public GMailSender() {
+    public GMailSender(Context context) {
 
-
+        this.context = context;
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
         props.setProperty("mail.host", mailhost);
@@ -65,8 +68,9 @@ public class GMailSender extends javax.mail.Authenticator {
 
     public synchronized void sendMail(String subject, String body, String recipients, String img_dir) throws Exception {
         try{
+
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(this.user, "GuardNetLite-Gabrovo"));
+            message.setFrom(new InternetAddress(this.user, this.context.getResources().getString(R.string.app_name)));
             message.setSubject(subject);
 
             if (recipients.indexOf(',') > 0)
@@ -74,7 +78,7 @@ public class GMailSender extends javax.mail.Authenticator {
             else
                 message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
             //=========================================
-            String file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "PublicCamViewTest2").toString(); //"path of file to be attached";
+            String file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), this.context.getResources().getString(R.string.app_name)).toString(); //"path of file to be attached";
             String fileName = "1.jpg";
             String FileDir = file.concat(File.separator).concat(fileName);
 
