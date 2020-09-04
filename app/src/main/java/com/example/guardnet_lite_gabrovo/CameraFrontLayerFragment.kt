@@ -305,18 +305,18 @@ class CameraFrontLayerFragment : Fragment() {
                 .createMediaSource(uri);
     }
 
-    private fun buildLocalMediaSource() : MediaSource{
-        // Produces DataSource instances through which media data is loaded.
-
-        // Produces DataSource instances through which media data is loaded.
-        val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(requireContext(), "exoplayer")
-
-        // This is the MediaSource representing the media to be played.
-
-        // This is the MediaSource representing the media to be played.
-        return ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(RawResourceDataSource.buildRawResourceUri(R.raw.aggr))
-
-    }
+//    private fun buildLocalMediaSource() : MediaSource{
+//        // Produces DataSource instances through which media data is loaded.
+//
+//        // Produces DataSource instances through which media data is loaded.
+//        val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(requireContext(), "exoplayer")
+//
+//        // This is the MediaSource representing the media to be played.
+//
+//        // This is the MediaSource representing the media to be played.
+//        return ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(RawResourceDataSource.buildRawResourceUri(R.raw.aggr))
+//
+//    }
 
     private fun buildHlsMediaSource(uri: Uri): HlsMediaSource? {
         val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(requireContext(), "exoplayer")
