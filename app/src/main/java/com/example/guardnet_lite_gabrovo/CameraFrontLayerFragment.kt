@@ -93,7 +93,7 @@ class CameraFrontLayerFragment : Fragment() {
                 Log.d("CameraFront", "bitmap: $bitmap")
                 if (bitmap != null) {
                     // wait for the right bitmap
-            //        val choppedBitmap = cropBitmap(bitmap)
+                    //        val choppedBitmap = cropBitmap(bitmap)
                     val resizedBitmap = Bitmap.createScaledBitmap(bitmap, TF_LITE_SIZE, TF_LITE_SIZE, true)
                     doInfiniteTask(resizedBitmap) // start infinite task of getting bitmaps
                 }
@@ -118,20 +118,15 @@ class CameraFrontLayerFragment : Fragment() {
         requestPermission()
         initVars(view)
 
-
         // init the ViewModel
-//        val viewModelFactory = CameraFrontViewModelFactory(
-//                Posenet(requireContext(),
-//                "posenet_model.tflite",
-//                Device.CPU))
-
         val viewModelFactory = CameraFrontViewModelFactory(
+                requireActivity().application,
                 TFLiteDetector.create(requireContext(),
-                    null,
-                    R.raw.posenet_trademark_v1,
-                    TF_LITE_SIZE,
-                    TF_LITE_SIZE),
-                    requireContext())
+                        null,
+                        R.raw.posenet_trademark_v1,
+                        TF_LITE_SIZE,
+                        TF_LITE_SIZE),
+        )
 
         //            tf = TFLiteDetector.create(this,
 //                    null,
@@ -266,7 +261,7 @@ class CameraFrontLayerFragment : Fragment() {
         val uri = Uri.parse(videoUrl)
         val mediaSource = buildHlsMediaSource(uri) ?: return
 //        val mediaSource = buildHttpMediaSource(uri) ?: return
-   //     val mediaSource = buildLocalMediaSource()
+        //     val mediaSource = buildLocalMediaSource()
         playerView.useController = false
 
         player = SimpleExoPlayer.Builder(requireContext()).build()

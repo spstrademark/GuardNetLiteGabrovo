@@ -4,35 +4,26 @@ import Ai.Classifier
 import Mail.GMailSender
 import Notifications.Notifications
 import OddBehavior.OddBehavior
-import android.content.Context
+import android.app.Application
 import android.graphics.Bitmap
-import android.os.Build
-import android.os.Environment
 import android.os.SystemClock
 import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.security.AccessController.getContext
-import androidx.core.content.res.ResourcesCompat
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CameraFrontViewModel(private val classifier: Classifier, private val context : Context) : ViewModel() {
+class CameraFrontViewModel(application: Application, private val classifier: Classifier) : AndroidViewModel(application) {
 
     private lateinit var oddbehavior: OddBehavior
-    private var notification : Notifications? = null
-    private var sender : GMailSender? = null
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun runForever(bitmap: Bitmap) {
+    private var notification: Notifications? = null
+    private var sender: GMailSender? = null
+    private val context = application.applicationContext
 
+    fun runForever(bitmap: Bitmap) {
         oddbehavior = OddBehavior.getInstance()
         notification = Notifications()
         sender = GMailSender(context)
@@ -42,27 +33,20 @@ class CameraFrontViewModel(private val classifier: Classifier, private val conte
             while (true) {
                 delay(100)
                 // do something every 100 ms
-
+                //     doDetection(bitmap)
 //                if(doDetection(bitmap)){
-//                   sendNotifications(bitmap)
+//                    sendNotifications(bitmap)
 //                }
-
             }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun sendNotifications(bitmap: Bitmap)
-    {
-        var fileName : String = getCurrentDateAndTime().plus(".png")
-        saveBitmap(bitmap,fileName)
-        Thread {
-            // do the async Stuff
-            sender!!.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), "spstrademark@outlook.com", fileName);
-            // maybe do some more stuff
-        }.start()
 
-        notification!!.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body),context) // OK
+    private fun sendNotifications(bitmap: Bitmap) {
+        var fileName: String = getCurrentDateAndTime().plus(".png")
+        saveBitmap(bitmap, fileName)
+        sender?.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), "spstrademark@outlook.com", fileName);
+        notification?.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), context) // OK
 
     }
 
@@ -70,20 +54,18 @@ class CameraFrontViewModel(private val classifier: Classifier, private val conte
         classifier.close()
     }
 
-    private fun doDetection(bitmap: Bitmap?) : Boolean {
+    private fun doDetection(bitmap: Bitmap?): Boolean {
         if (bitmap == null) return false
-        val startTime   = SystemClock.elapsedRealtimeNanos()
-        val kp          = classifier.get_positions(bitmap)
-        val bodyPos     = classifier.getBodyPartsPosition(bitmap,kp)
-    //    classifier.drawPoints(bitmap,bodyPos);
-
-        val endTime     = SystemClock.elapsedRealtimeNanos() - startTime
+        val startTime = SystemClock.elapsedRealtimeNanos()
+        val kp = classifier.get_positions(bitmap)
+        val bodyPos = classifier.getBodyPartsPosition(bitmap, kp)
+//    classifier.drawPoints(bitmap,bodyPos);
+        val endTime = SystemClock.elapsedRealtimeNanos() - startTime
         Log.i("posenet", String.format("Thread took %.2f ms", 1.0f * endTime / 1000000))
-        if(bodyPos!=null){
+        if (bodyPos != null) {
             Log.i("posenet", String.format("SIZE: %d", bodyPos.size))
         }
-
-        return  oddbehavior.isBehaviorOdd(bodyPos);
+        return oddbehavior.isBehaviorOdd(bodyPos)
     }
 
     private fun getCurrentDateAndTime(): String {
@@ -94,24 +76,25 @@ class CameraFrontViewModel(private val classifier: Classifier, private val conte
         return dateFormatter.format(today)
     }
 
-    private fun saveBitmap(bm: Bitmap?, filename : String?) {
-        if (bm != null) {
-            try {
-                val path = String.format("%s%s%s",
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
-                        File.separator,
-                        context.resources.getString(R.string.app_name))
-
-                val file = File(path, ("/" + filename))
-                val fOut: OutputStream = FileOutputStream(file)
-                bm.compress(Bitmap.CompressFormat.PNG, 90, fOut)
-                fOut.flush()
-                fOut.close()
-                bm.recycle()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+    private fun saveBitmap(bm: Bitmap?, filename: String?) {
+//        if (bm != null) {
+//            try {
+//                val path = String.format("%s%s%s",
+//                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+//                        File.separator,
+//                        resources.getString(R.string.app_name))
+//
+//           //     val file = File(path, "/aaaa.png")
+//               val file = File(path, ("/" + filename))
+//                val fOut: OutputStream = FileOutputStream(file)
+//                bm.compress(Bitmap.CompressFormat.PNG, 50, fOut)
+//                fOut.flush()
+//                fOut.close()
+//                bm.recycle()
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
     }
 
 }

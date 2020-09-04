@@ -19,7 +19,7 @@ import com.example.guardnet_lite_gabrovo.R;
 public class Notifications {
 
     private NotificationManager notifManager;
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     public void createNotification(String Notification_title,String content, Context context) {
         final int NOTIFY_ID = 0; // ID of notification
         String id = String.valueOf(NOTIFY_ID);
