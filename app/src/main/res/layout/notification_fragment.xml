@@ -6,8 +6,29 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true">
 
+    <Button
+        android:id="@+id/saveNotifications"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="120dp"
+        android:background="@color/colorBackground"
+        android:fontFamily="@font/roboto_light"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/save_user_camera"
+        android:textColor="@color/colorText"
+        android:textSize="18sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showPassLabel"
+        app:layout_constraintVertical_bias="1.0" />
+
     <EditText
-        android:id="@+id/addEmail"
+        android:id="@+id/addEmail1"
         android:layout_width="319dp"
         android:layout_height="47dp"
         android:layout_marginStart="16dp"
@@ -31,7 +52,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/addEmail1"
+        android:id="@+id/addEmail0"
         android:layout_width="319dp"
         android:layout_height="47dp"
         android:layout_marginStart="16dp"
@@ -83,8 +104,8 @@
 
     <Switch
         android:id="@+id/notificationShow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="28dp"
         android:layout_marginStart="284dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,5 +119,7 @@
         android:layout_marginTop="60dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

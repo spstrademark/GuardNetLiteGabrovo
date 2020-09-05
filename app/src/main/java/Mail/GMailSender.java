@@ -68,7 +68,7 @@ public class GMailSender extends javax.mail.Authenticator {
 
     public synchronized void sendMail(String subject, String body, String recipients, String fName) throws Exception {
         try{
-
+            if(recipients==null) return;
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(this.user, this.context.getResources().getString(R.string.app_name)));
             message.setSubject(subject);

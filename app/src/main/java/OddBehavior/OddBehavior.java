@@ -167,7 +167,7 @@ public class OddBehavior {
 //
 //    }
 
-    public boolean isBehaviorOdd(@NotNull List<? extends List<Coords>> bodyPos) {
+    public boolean isBehaviorOdd(@NotNull List<? extends List<Coords>> bodyPos, int interval) {
 
         if(bodyPos==null) return false;
         int size = bodyPos.size();
@@ -245,7 +245,7 @@ public class OddBehavior {
                 positioning.add(keyPos);
             }
 
-            if(timePassed() >=400 && oddBehaviorInFrame>0){
+            if(timePassed() >=interval && oddBehaviorInFrame>0){
                 oddBehaviorInFrame = 0;
                 startTime = 0;
 

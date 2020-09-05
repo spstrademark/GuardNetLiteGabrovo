@@ -33,6 +33,11 @@ public class SettingsUtils {
     final String DeviceCount = "DevicesCount";
 
     final String NotificationEmails = "NotificationEmails";
+
+    final String NotificationNotify = "NotificationNotify";
+    final String NotificationSendMail = "NotificationSendMail";
+    final String NotificationActivate = "NotificationActivate";
+
     private Context context;
 
     private static SettingsUtils sInstance;
@@ -165,10 +170,15 @@ public class SettingsUtils {
         return Devices;
     }
 
+    public String GetNotificationEmailsKey() {return NotificationEmails; }
+
+    public String GetNotificationNotifyKey() {return NotificationNotify; }
+    public String GetNotificationSendMailKey() {return NotificationSendMail; }
+    public String GetNotificationActivateKey() {return NotificationActivate; }
+
     // TODO: remove
     public Context GetContext() {
         return context;
     }
-
 
 }

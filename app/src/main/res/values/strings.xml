@@ -26,7 +26,7 @@
     <!-- *** VIEW *** -->
     <string name="add_new">Add</string>
     <string name="save_user_camera">Save</string>
-    <string name="CamViewer">Camera</string>
+    <string name="CamViewer">Camera Viewer</string>
     <string-array name="PublicCameras">
         <item>Radecka</item>
         <item>Bus Station</item>
@@ -65,8 +65,8 @@
     <string name="NotificationsSend">SEND NOTIFICATIONS</string>
     <string name="NotificationsShow">SHOW NOTIFICATIONS</string>
     <string name="AddEmail">Add email</string>
-    <string name="Email2nd">second@email.com</string>
-    <string name="Email3rd">third@email.com</string>
+    <string name="Email2nd"></string>
+    <string name="Email3rd"></string>
 
     <string-array name="NotificationTrigger">
         <item>5 seconds</item>

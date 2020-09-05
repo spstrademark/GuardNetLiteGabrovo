@@ -1,7 +1,9 @@
 package com.example.guardnet_lite_gabrovo
 
 import Ai.Classifier
+import Common.SettingsUtils
 import Mail.GMailSender
+import NotificationSettings.NotificationsUtils
 import Notifications.Notifications
 import OddBehavior.OddBehavior
 import android.app.Application
@@ -22,6 +24,10 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
     private var notification: Notifications? = null
     private var sender: GMailSender? = null
     private val context = application.applicationContext
+    private val settings : SettingsUtils = SettingsUtils.getInstance()
+    private val notificationsUtils : NotificationsUtils = NotificationsUtils(settings)
+
+    private var test = false
 
     fun runForever(bitmap: Bitmap) {
         oddbehavior = OddBehavior.getInstance()
@@ -37,6 +43,14 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
 //                if(doDetection(bitmap)){
 //                    sendNotifications(bitmap)
 //                }
+
+//                if(test==false){
+//                    test = true
+//                    if(notificationsUtils.notificationsSendGet())
+//                        sender?.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), notificationsUtils.notificationsGetMails(), null);
+//                    if(notificationsUtils.notificationsNotifyGet())
+//                        notification?.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), context) // OK
+//                }
             }
         }
     }
@@ -45,8 +59,12 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
     private fun sendNotifications(bitmap: Bitmap) {
         var fileName: String = getCurrentDateAndTime().plus(".png")
         saveBitmap(bitmap, fileName)
-        sender?.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), "spstrademark@outlook.com", fileName);
-        notification?.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), context) // OK
+
+
+        if(notificationsUtils.notificationsSendGet())
+            sender?.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), notificationsUtils.notificationsGetMails(), fileName);
+        if(notificationsUtils.notificationsNotifyGet())
+            notification?.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), context) // OK
 
     }
 
@@ -65,7 +83,9 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
         if (bodyPos != null) {
             Log.i("posenet", String.format("SIZE: %d", bodyPos.size))
         }
-        return oddbehavior.isBehaviorOdd(bodyPos)
+
+
+        return oddbehavior.isBehaviorOdd(bodyPos,notificationsUtils.notificationSecondsTriggerGet()*1000)
     }
 
     private fun getCurrentDateAndTime(): String {
