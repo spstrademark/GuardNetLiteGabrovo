@@ -234,20 +234,25 @@ class CameraFrontLayerFragment : Fragment() {
         var result: String? = null
         result = runBlocking {
             val deferredResult = async(Dispatchers.IO) {
-                val html: Connection.Response = Jsoup.connect(embedUrl).execute()
-                val statusCode = html.statusCode()
-                if (statusCode == 200) {
-                    val dok: Document = Jsoup.parse(html.body(), embedUrl)
-                    val scripts: Elements = dok.getElementsByTag("script")
-                    val urlScript: String = scripts.last().toString()
-                    val startIdx = urlScript.indexOf("https://")
-                    val endIdx = urlScript.indexOf(";")
+                try{
+                    val html: Connection.Response = Jsoup.connect(embedUrl).execute()
+                    val statusCode = html.statusCode()
+                    if (statusCode == 200) {
+                        val dok: Document = Jsoup.parse(html.body(), embedUrl)
+                        val scripts: Elements = dok.getElementsByTag("script")
+                        val urlScript: String = scripts.last().toString()
+                        val startIdx = urlScript.indexOf("https://")
+                        val endIdx = urlScript.indexOf(";")
 
-                    if (startIdx != -1 && endIdx != -1) {
-                        val tmp = urlScript.substring(startIdx, endIdx)
-                        result = tmp.replace("\"", "")
+                        if (startIdx != -1 && endIdx != -1) {
+                            val tmp = urlScript.substring(startIdx, endIdx)
+                            result = tmp.replace("\"", "")
+                        }
                     }
+                }catch(e: Exception){
+
                 }
+
             }
             deferredResult.await()
             result
@@ -258,32 +263,41 @@ class CameraFrontLayerFragment : Fragment() {
 
     private fun initializePlayer(videoUrl: String?) {
         playWhenReady = false
-
-        val uri = Uri.parse(videoUrl)
-        val mediaSource = buildHlsMediaSource(uri) ?: return
+        try {
+            val uri = Uri.parse(videoUrl)
+            val mediaSource = buildHlsMediaSource(uri) ?: return
 //        val mediaSource = buildHttpMediaSource(uri) ?: return
-        //     val mediaSource = buildLocalMediaSource()
-        playerView.useController = false
+            //     val mediaSource = buildLocalMediaSource()
+            playerView.useController = false
 
-        player = SimpleExoPlayer.Builder(requireContext()).build()
-        playerView.requestFocus()
-        playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
-        playerView.player = player
-        player.playWhenReady = playWhenReady
+            player = SimpleExoPlayer.Builder(requireContext()).build()
+            playerView.requestFocus()
+            playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
+            playerView.player = player
+            player.playWhenReady = playWhenReady
 
-        player.seekTo(currentWindow, playbackPosition)
-        player.prepare(mediaSource, false, false)
-        player.addListener(eventListener)
-        player.playWhenReady = true //run file/link when ready to play.
+            player.seekTo(currentWindow, playbackPosition)
+            player.prepare(mediaSource, false, false)
+            player.addListener(eventListener)
+            player.playWhenReady = true //run file/link when ready to play.
+        }catch (e: Exception) {
+
+        }
+
     }
 
     private fun releasePlayer() {
-        playbackPosition = player.currentPosition
-        currentWindow = player.currentWindowIndex
-        player.removeListener(eventListener)
-        player.stop()
-        player.release()
-        playWhenReady = player.playWhenReady
+        try{
+            playbackPosition = player.currentPosition
+            currentWindow = player.currentWindowIndex
+            player.removeListener(eventListener)
+            player.stop()
+            player.release()
+            playWhenReady = player.playWhenReady
+        }catch (e: Exception) {
+
+        }
+
     }
 
     private fun buildHttpMediaSource(uri: Uri): ProgressiveMediaSource? {
