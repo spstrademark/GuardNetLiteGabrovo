@@ -141,9 +141,9 @@ class CameraFrontLayerFragment : Fragment() {
         val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
         TabLayoutMediator(tabLayout, viewPager) { tab: TabLayout.Tab, position: Int ->
             when (position) {
-                0 -> tab.setIcon(R.drawable.ic_insert_invitation_24px)
-                1 -> tab.setIcon(R.drawable.ic_notifications_none_24px)
-                2 -> tab.setIcon(R.drawable.ic_photo_library_24px)
+                0 -> tab.setIcon(R.drawable.ic_bo_alarm_24px)
+                1 -> tab.setIcon(R.drawable.ic_bo_event_24px)
+                2 -> tab.setIcon(R.drawable.ic_bo_gallery_24px)
             }
         }.attach()
 
