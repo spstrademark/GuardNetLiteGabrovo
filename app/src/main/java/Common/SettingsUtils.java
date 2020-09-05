@@ -178,6 +178,45 @@ public class SettingsUtils {
         sharedPreferences.edit().putString(GetNotificationEmailsKey(), addAll).apply();
     }
 
+    public String notificationsGetMails() {
+        String val =  sharedPreferences.getString(GetNotificationEmailsKey(),null);
+        return val;
+    }
+
+
+    public void notificationsSendSet(boolean mailActive)
+    {
+        sharedPreferences.edit().putBoolean(GetNotificationSendMailKey(), mailActive).apply();
+    }
+
+    public void notificationsNotifySet(boolean mailActive)
+    {
+        sharedPreferences.edit().putBoolean(GetNotificationNotifyKey(), mailActive).apply();
+    }
+
+    public boolean  notificationsNotifyGet()
+    {
+        return sharedPreferences.getBoolean(GetNotificationNotifyKey(),true);
+    }
+
+    public boolean  notificationsSendGet()
+    {
+        return sharedPreferences.getBoolean(GetNotificationSendMailKey(),true);
+    }
+
+    public void notificationSecondsTriggerSet(String seconds)
+    {
+        SettingsUtils settings1 = SettingsUtils.getInstance();
+        String[] items = seconds.trim().split(" ");
+        int val = Integer.parseInt(items[0]);
+        sharedPreferences.edit().putInt(settings1.GetNotificationActivateKey(), val).apply();
+    }
+
+    public int notificationSecondsTriggerGet()
+    {
+        return sharedPreferences.getInt(GetNotificationActivateKey(),5);
+    }
+
     public String[] notificationsGetMailFields() {
         String values = sharedPreferences.getString(GetNotificationEmailsKey(), null);
         if (values != null) {

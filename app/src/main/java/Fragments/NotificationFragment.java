@@ -32,11 +32,11 @@ public class NotificationFragment extends Fragment {
     private Button saveNotifications;
     private Switch notificationShow;
     private Switch notificationSend;
-    private EditText email0;
-    private EditText email1;
-    private EditText email2;
+    private EditText[] email = new EditText[3];
+//    private EditText email1;
+//    private EditText email2;
 
-    private NotificationsUtils notificationsUtils;
+  //  private NotificationsUtils notificationsUtils;
 
     int selected = 0;
 
@@ -54,25 +54,22 @@ public class NotificationFragment extends Fragment {
         saveNotifications = view.findViewById(R.id.saveNotifications);
         notificationShow = (Switch) view.findViewById(R.id.notificationShow);
         notificationSend = (Switch) view.findViewById(R.id.notificationSend);
-        email0 = view.findViewById(R.id.addEmail0);
-        email1 = view.findViewById(R.id.addEmail1);
-        email2 = view.findViewById(R.id.addEmail2);
+        email[0] = view.findViewById(R.id.addEmail0);
+        email[1] = view.findViewById(R.id.addEmail1);
+        email[2] = view.findViewById(R.id.addEmail2);
         settings = SettingsUtils.getInstance();
-        notificationsUtils = NotificationsUtils.getInstance();//new NotificationsUtils(settings);
+     //   notificationsUtils = NotificationsUtils.getInstance();//new NotificationsUtils(settings);
 
-        notificationShow.setChecked(notificationsUtils.notificationsNotifyGet());
-        notificationSend.setChecked(notificationsUtils.notificationsSendGet());
+        notificationShow.setChecked(settings.notificationsNotifyGet());
+        notificationSend.setChecked(settings.notificationsSendGet());
 
 
-        String[] values = notificationsUtils.notificationsGetMailFields();
+        String[] values = settings.notificationsGetMailFields();
 
         if(values==null) return;
-        if(values[0]!=null)
-            email0.setText(values[0]);
-        if(values[1]!=null)
-            email1.setText(values[1]);
-        if(values[2]!=null)
-            email2.setText(values[2]);
+        for(int i=0; i < values.length;i++){
+            email[i].setText(values[i]);
+        }
 
 
     }
@@ -108,14 +105,14 @@ public class NotificationFragment extends Fragment {
 
     private boolean setNotifications()
     {
-        String e1 = email0.getText().toString().trim();
-        String e2 = email1.getText().toString().trim();
-        String e3 = email1.getText().toString().trim();
+        String e1 = email[0].getText().toString().trim();
+        String e2 = email[1].getText().toString().trim();
+        String e3 = email[2].getText().toString().trim();
 
-        notificationsUtils.notificationsNotifySet(notificationShow.isChecked());
-        notificationsUtils.notificationsSendSet(notificationSend.isChecked());
-        notificationsUtils.notificationsSetMails(e1,e2,e3);
-        notificationsUtils.notificationSecondsTriggerSet(dropdown.getSelectedItem().toString());
+        settings.notificationsNotifySet(notificationShow.isChecked());
+        settings.notificationsSendSet(notificationSend.isChecked());
+        settings.notificationsSetMails(e1,e2,e3);
+        settings.notificationSecondsTriggerSet(dropdown.getSelectedItem().toString());
 
         return true;
     }

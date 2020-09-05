@@ -25,7 +25,7 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
     private var sender: GMailSender? = null
     private val context = application.applicationContext
     private val settings : SettingsUtils = SettingsUtils.getInstance()
-    private val notificationsUtils : NotificationsUtils = NotificationsUtils.getInstance()
+//    private val notificationsUtils : NotificationsUtils = NotificationsUtils.getInstance()
 
     private var test = false
 
@@ -61,9 +61,9 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
         saveBitmap(bitmap, fileName)
 
 
-        if(notificationsUtils.notificationsSendGet())
-            sender?.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), notificationsUtils.notificationsGetMails(), fileName);
-        if(notificationsUtils.notificationsNotifyGet())
+        if(settings.notificationsSendGet())
+            sender?.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), settings.notificationsGetMails(), fileName);
+        if(settings.notificationsNotifyGet())
             notification?.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), context) // OK
 
     }
@@ -85,7 +85,7 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
         }
 
 
-        return oddbehavior.isBehaviorOdd(bodyPos,notificationsUtils.notificationSecondsTriggerGet()*1000)
+        return oddbehavior.isBehaviorOdd(bodyPos,settings.notificationSecondsTriggerGet()*1000)
     }
 
     private fun getCurrentDateAndTime(): String {
