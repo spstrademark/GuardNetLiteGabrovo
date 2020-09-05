@@ -11,7 +11,7 @@ public class NotificationsUtils {
         this.settings = settings;
     }
 
-    public void notificationsSetMails(String mail1, String mail2, String mail3)
+    /*public void notificationsSetMails(String mail1, String mail2, String mail3)
     {
         String addAll = "";
 
@@ -32,9 +32,9 @@ public class NotificationsUtils {
 
         settings.GetPreferencesEditor().putString(settings.GetNotificationEmailsKey(), addAll);
         settings.GetPreferencesEditor().apply();
-    }
+    }*/
 
-    public String[] notificationsGetMailFields()
+    /*public String[] notificationsGetMailFields()
     {
         String values = settings.GetPreferences().getString(settings.GetNotificationEmailsKey(),null);
         if(values !=null){
@@ -46,7 +46,7 @@ public class NotificationsUtils {
 
         }
         return null;
-    }
+    }*/
 
     public String notificationsGetMails() {
         String val =  settings.GetPreferences().getString(settings.GetNotificationEmailsKey(),null);
