@@ -210,7 +210,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/showPassLabel"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            app:strokeColor="@color/colorText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
