@@ -26,6 +26,7 @@ public class SettingsUtils {
     final String SelectedCam = "SelectedCamera";
     final String Language = "SelectedLanguage";
     final String GalleryView = "SelectedView";
+    private static String ITEM_SEPARATOR = ",";
 
     final String NotificationTrigger = "SelectedNotificationTrigger";
 
@@ -134,8 +135,8 @@ public class SettingsUtils {
     }
 
     public int getCamera() {
-    //    return sharedPreferences.getInt(this.SelectedCam, PublicCamerasEnum.RADECKA.ordinal());
-        int val = sharedPreferences.getInt(this.SelectedCam,0);
+        //    return sharedPreferences.getInt(this.SelectedCam, PublicCamerasEnum.RADECKA.ordinal());
+        int val = sharedPreferences.getInt(this.SelectedCam, 0);
         return val;
     }
 
@@ -156,6 +157,40 @@ public class SettingsUtils {
         return sharedPreferences.getInt(this.NotificationTrigger, NotificationsTriggerEnum.SECONDS_5.ordinal());
     }
 
+    public void notificationsSetMails(String mail1, String mail2, String mail3) {
+        String addAll = "";
+
+        if (mail1 != null && !mail1.isEmpty()) {
+            addAll += mail1;
+            if ((mail2 != null && !mail2.isEmpty()) || (mail3 != null && !mail3.isEmpty())) {
+                addAll += ITEM_SEPARATOR;
+            }
+        }
+
+        if (mail2 != null && !mail2.isEmpty()) {
+            addAll += mail2 + ITEM_SEPARATOR;
+        }
+
+        if (mail3 != null && !mail3.isEmpty()) {
+            addAll += mail3 + ITEM_SEPARATOR;
+        }
+
+        sharedPreferences.edit().putString(GetNotificationEmailsKey(), addAll).apply();
+    }
+
+    public String[] notificationsGetMailFields() {
+        String values = sharedPreferences.getString(GetNotificationEmailsKey(), null);
+        if (values != null) {
+            if (values.contains(ITEM_SEPARATOR)) {
+                return values.split(ITEM_SEPARATOR);
+            } else {
+                return values.concat(ITEM_SEPARATOR).split(ITEM_SEPARATOR);
+            }
+
+        }
+        return null;
+    }
+
     // TODO: remove
     public SharedPreferences GetPreferences() {
         return sharedPreferences;
@@ -170,11 +205,21 @@ public class SettingsUtils {
         return Devices;
     }
 
-    public String GetNotificationEmailsKey() {return NotificationEmails; }
+    public String GetNotificationEmailsKey() {
+        return NotificationEmails;
+    }
 
-    public String GetNotificationNotifyKey() {return NotificationNotify; }
-    public String GetNotificationSendMailKey() {return NotificationSendMail; }
-    public String GetNotificationActivateKey() {return NotificationActivate; }
+    public String GetNotificationNotifyKey() {
+        return NotificationNotify;
+    }
+
+    public String GetNotificationSendMailKey() {
+        return NotificationSendMail;
+    }
+
+    public String GetNotificationActivateKey() {
+        return NotificationActivate;
+    }
 
     // TODO: remove
     public Context GetContext() {
