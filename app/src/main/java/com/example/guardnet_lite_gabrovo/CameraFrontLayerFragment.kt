@@ -191,7 +191,8 @@ class CameraFrontLayerFragment : Fragment() {
         settings.getLanguage()
         userDevicesList = DeviceHandler(settings).allDevices//devhandler.allDevices
         Log.d("CameraFrontLayer", "temp, userDevicesList: $userDevicesList")
-        selected = 0;// settings.getCamera()
+      //  val test = settings.getCamera()
+        selected =  settings.getCamera()
     }
 
     override fun onDestroy() {

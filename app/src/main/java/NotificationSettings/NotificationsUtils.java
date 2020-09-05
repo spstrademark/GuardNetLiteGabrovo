@@ -1,15 +1,46 @@
 package NotificationSettings;
 
+import android.content.Context;
+
+import androidx.preference.PreferenceManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import Ai.Coords;
 import Common.SettingsUtils;
+import OddBehavior.OddBehavior;
 
 public class NotificationsUtils {
 
+    private static NotificationsUtils sInstance;
     private static String ITEM_SEPARATOR = ",";
     private SettingsUtils settings;
+    private static final Object LOCK = new Object();
 
-    public NotificationsUtils(SettingsUtils settings) {
+    public synchronized static void createInstance(SettingsUtils settings) {
+        if (sInstance == null) {
+            synchronized (LOCK) {
+                if (sInstance == null) {
+                    sInstance = new NotificationsUtils(settings);
+                }
+            }
+        }
+    }
+    private NotificationsUtils(SettingsUtils settings) {
         this.settings = settings;
     }
+
+    public static NotificationsUtils getInstance() {
+        if (sInstance == null) {
+            throw new IllegalStateException("Preference instance not initialized");
+        }
+        return sInstance;
+    }
+
+//    public NotificationsUtils(SettingsUtils settings) {
+//        this.settings = settings;
+//    }
 
     public void notificationsSetMails(String mail1, String mail2, String mail3)
     {

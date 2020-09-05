@@ -58,7 +58,7 @@ public class NotificationFragment extends Fragment {
         email1 = view.findViewById(R.id.addEmail1);
         email2 = view.findViewById(R.id.addEmail2);
         settings = SettingsUtils.getInstance();
-        notificationsUtils = new NotificationsUtils(settings);
+        notificationsUtils = NotificationsUtils.getInstance();//new NotificationsUtils(settings);
 
         notificationShow.setChecked(notificationsUtils.notificationsNotifyGet());
         notificationSend.setChecked(notificationsUtils.notificationsSendGet());

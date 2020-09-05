@@ -25,7 +25,7 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
     private var sender: GMailSender? = null
     private val context = application.applicationContext
     private val settings : SettingsUtils = SettingsUtils.getInstance()
-    private val notificationsUtils : NotificationsUtils = NotificationsUtils(settings)
+    private val notificationsUtils : NotificationsUtils = NotificationsUtils.getInstance()
 
     private var test = false
 
