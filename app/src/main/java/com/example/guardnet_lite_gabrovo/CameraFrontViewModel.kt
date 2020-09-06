@@ -21,37 +21,39 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CameraFrontViewModel(application: Application, private val classifier: Classifier) : AndroidViewModel(application) {
+class CameraFrontViewModel(
+        application: Application,
+        private val classifier: Classifier,
+        private val oddbehavior: OddBehavior,
+        private val notification: Notifications,
+        private val sender: GMailSender
+) : AndroidViewModel(application) {
 
-    private lateinit var oddbehavior: OddBehavior
-    private var notification: Notifications? = null
-    private var sender: GMailSender? = null
     private val context = application.applicationContext
-    private val settings : SettingsUtils = SettingsUtils.getInstance()
+    private val settings: SettingsUtils = SettingsUtils.getInstance()
 //    private val notificationsUtils : NotificationsUtils = NotificationsUtils.getInstance()
 
     private var test = false
 
     fun runForever(bitmap: Bitmap) {
-        oddbehavior = OddBehavior.getInstance()
-        notification = Notifications()
-        sender = GMailSender(context)
         // start a new coroutine in the ViewModel
         viewModelScope.launch {
             // cancelled when the ViewModel is cleared
             while (true) {
                 delay(100)
-                val bmp: Bitmap = bitmap.copy(bitmap.getConfig(), true)
-                if(!test){
-                    test = true
-                    sendNotifications(bmp)
-                }
+//                val bmp: Bitmap = bitmap.copy(bitmap.getConfig(), true)
+//                if (!test) {
+//                    test = true
+//                var fileName: String = getCurrentDateAndTime().plus(".png")
+//                saveBitmap(bmp,fileName)
+//                    sendNotifications(bmp)
+//                }
 
                 // do something every 100 ms
                 //     doDetection(bitmap)
-//                if(doDetection(bitmap)){
-//                    sendNotifications(bitmap)
-//                }
+                if (doDetection(bitmap)) {
+                    sendNotifications(bitmap)
+                }
 
 //                if(test==false){
 //                    test = true
@@ -70,17 +72,17 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
         saveBitmap(bitmap, fileName)
 
 
-        if(settings.notificationsSendGet()){
+        if (settings.notificationsSendGet()) {
             Thread {
                 // do the async Stuff
-                var Mails : String = settings.notificationsGetMails()
-                sender?.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), Mails, fileName);
+                var Mails: String = settings.notificationsGetMails()
+                sender.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), Mails, fileName);
                 // maybe do some more stuff
             }.start()
         }
 
-        if(settings.notificationsNotifyGet())
-            notification?.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), context) // OK
+        if (settings.notificationsNotifyGet())
+            notification.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), context) // OK
 
     }
 
@@ -101,7 +103,7 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
         }
 
 
-        return oddbehavior.isBehaviorOdd(bodyPos,settings.notificationSecondsTriggerGet()*1000)
+        return oddbehavior.isBehaviorOdd(bodyPos, settings.notificationSecondsTriggerGet() * 1000)
     }
 
     private fun getCurrentDateAndTime(): String {
@@ -120,8 +122,8 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
                         File.separator,
                         context.resources.getString(R.string.app_name))
 
-           //     val file = File(path, "/aaaa.png")
-               val file = File(path, ("/" + filename))
+                //     val file = File(path, "/aaaa.png")
+                val file = File(path, ("/" + filename))
                 val fOut: OutputStream = FileOutputStream(file)
                 bm.compress(Bitmap.CompressFormat.PNG, 100, fOut)
                 fOut.flush()

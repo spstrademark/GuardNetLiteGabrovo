@@ -14,6 +14,7 @@ import java.util.Map;
 import Ai.Coords;
 import Ai.TFLiteDetector;
 import Common.SettingsUtils;
+import kotlin.jvm.JvmStatic;
 
 public class OddBehavior {
 
