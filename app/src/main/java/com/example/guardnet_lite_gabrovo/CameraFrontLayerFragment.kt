@@ -5,8 +5,12 @@ import Ai.TFLiteDetector
 import Common.SettingsUtils
 import Device.DeviceHandler
 import Device.UserDevice
+import Mail.GMailSender
+import Notifications.Notifications
+import OddBehavior.OddBehavior
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
@@ -80,6 +84,9 @@ class CameraFrontLayerFragment : Fragment() {
     private lateinit var cameraFrontViewModel: CameraFrontViewModel
     private val camerasURLList: MutableList<String> = ArrayList()
 
+    private lateinit var sender: GMailSender
+    private lateinit var notification: Notifications
+
     private var selected = 0
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
@@ -118,6 +125,9 @@ class CameraFrontLayerFragment : Fragment() {
         requestPermission()
         initVars(view)
 
+        sender = GMailSender(context)
+        notification = Notifications()
+
         // init the ViewModel
         val viewModelFactory = CameraFrontViewModelFactory(
                 requireActivity().application,
@@ -126,14 +136,11 @@ class CameraFrontLayerFragment : Fragment() {
                         R.raw.posenet_trademark_v1,
                         TF_LITE_SIZE,
                         TF_LITE_SIZE),
+                OddBehavior.getInstance(),
+                notification,
+                sender
         )
 
-        //            tf = TFLiteDetector.create(this,
-//                    null,
-//                    R.raw.posenet_trademark_v1,
-//                    TF_LITE_SIZE,
-//                    TF_LITE_SIZE
-//            );
         cameraFrontViewModel = ViewModelProvider(viewModelStore, viewModelFactory).get(CameraFrontViewModel::class.java)
 
         val viewPagerAdapter = ViewPagerAdapter(this)
@@ -191,8 +198,8 @@ class CameraFrontLayerFragment : Fragment() {
         settings.getLanguage()
         userDevicesList = DeviceHandler(settings).allDevices//devhandler.allDevices
         Log.d("CameraFrontLayer", "temp, userDevicesList: $userDevicesList")
-      //  val test = settings.getCamera()
-        selected =  settings.getCamera()
+        //  val test = settings.getCamera()
+        selected = settings.getCamera()
     }
 
     override fun onDestroy() {
@@ -234,7 +241,7 @@ class CameraFrontLayerFragment : Fragment() {
         var result: String? = null
         result = runBlocking {
             val deferredResult = async(Dispatchers.IO) {
-                try{
+                try {
                     val html: Connection.Response = Jsoup.connect(embedUrl).execute()
                     val statusCode = html.statusCode()
                     if (statusCode == 200) {
@@ -249,7 +256,7 @@ class CameraFrontLayerFragment : Fragment() {
                             result = tmp.replace("\"", "")
                         }
                     }
-                }catch(e: Exception){
+                } catch (e: Exception) {
 
                 }
 
@@ -267,7 +274,7 @@ class CameraFrontLayerFragment : Fragment() {
             val uri = Uri.parse(videoUrl)
             val mediaSource = buildHlsMediaSource(uri) ?: return
 //        val mediaSource = buildHttpMediaSource(uri) ?: return
- //       val mediaSource = buildLocalMediaSource()
+            //       val mediaSource = buildLocalMediaSource()
             playerView.useController = false
 
             player = SimpleExoPlayer.Builder(requireContext()).build()
@@ -280,21 +287,21 @@ class CameraFrontLayerFragment : Fragment() {
             player.prepare(mediaSource, false, false)
             player.addListener(eventListener)
             player.playWhenReady = true //run file/link when ready to play.
-        }catch (e: Exception) {
+        } catch (e: Exception) {
 
         }
 
     }
 
     private fun releasePlayer() {
-        try{
+        try {
             playbackPosition = player.currentPosition
             currentWindow = player.currentWindowIndex
             player.removeListener(eventListener)
             player.stop()
             player.release()
             playWhenReady = player.playWhenReady
-        }catch (e: Exception) {
+        } catch (e: Exception) {
 
         }
 
