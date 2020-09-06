@@ -22,7 +22,6 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import Common.SettingsUtils;
 import Device.DevicePushResultTypes;
-import NotificationSettings.NotificationsUtils;
 
 
 public class NotificationFragment extends Fragment {

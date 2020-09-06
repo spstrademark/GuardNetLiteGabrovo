@@ -267,7 +267,7 @@ class CameraFrontLayerFragment : Fragment() {
             val uri = Uri.parse(videoUrl)
             val mediaSource = buildHlsMediaSource(uri) ?: return
 //        val mediaSource = buildHttpMediaSource(uri) ?: return
-            //     val mediaSource = buildLocalMediaSource()
+ //       val mediaSource = buildLocalMediaSource()
             playerView.useController = false
 
             player = SimpleExoPlayer.Builder(requireContext()).build()

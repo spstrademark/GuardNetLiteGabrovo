@@ -3,17 +3,20 @@ package com.example.guardnet_lite_gabrovo
 import Ai.Classifier
 import Common.SettingsUtils
 import Mail.GMailSender
-import NotificationSettings.NotificationsUtils
 import Notifications.Notifications
 import OddBehavior.OddBehavior
 import android.app.Application
 import android.graphics.Bitmap
+import android.os.Environment
 import android.os.SystemClock
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,6 +41,12 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
             // cancelled when the ViewModel is cleared
             while (true) {
                 delay(100)
+                val bmp: Bitmap = bitmap.copy(bitmap.getConfig(), true)
+                if(!test){
+                    test = true
+                    sendNotifications(bmp)
+                }
+
                 // do something every 100 ms
                 //     doDetection(bitmap)
 //                if(doDetection(bitmap)){
@@ -61,8 +70,15 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
         saveBitmap(bitmap, fileName)
 
 
-        if(settings.notificationsSendGet())
-            sender?.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), settings.notificationsGetMails(), fileName);
+        if(settings.notificationsSendGet()){
+            Thread {
+                // do the async Stuff
+                var Mails : String = settings.notificationsGetMails()
+                sender?.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), Mails, fileName);
+                // maybe do some more stuff
+            }.start()
+        }
+
         if(settings.notificationsNotifyGet())
             notification?.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), context) // OK
 
@@ -97,24 +113,24 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
     }
 
     private fun saveBitmap(bm: Bitmap?, filename: String?) {
-//        if (bm != null) {
-//            try {
-//                val path = String.format("%s%s%s",
-//                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
-//                        File.separator,
-//                        resources.getString(R.string.app_name))
-//
-//           //     val file = File(path, "/aaaa.png")
-//               val file = File(path, ("/" + filename))
-//                val fOut: OutputStream = FileOutputStream(file)
-//                bm.compress(Bitmap.CompressFormat.PNG, 50, fOut)
-//                fOut.flush()
-//                fOut.close()
-//                bm.recycle()
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
+        if (bm != null) {
+            try {
+                val path = String.format("%s%s%s",
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+                        File.separator,
+                        context.resources.getString(R.string.app_name))
+
+           //     val file = File(path, "/aaaa.png")
+               val file = File(path, ("/" + filename))
+                val fOut: OutputStream = FileOutputStream(file)
+                bm.compress(Bitmap.CompressFormat.PNG, 100, fOut)
+                fOut.flush()
+                fOut.close()
+                bm.recycle()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
 }
