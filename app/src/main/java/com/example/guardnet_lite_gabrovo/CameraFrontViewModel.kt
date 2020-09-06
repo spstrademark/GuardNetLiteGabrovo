@@ -42,18 +42,18 @@ class CameraFrontViewModel(
             while (true) {
                 delay(100)
 //                val bmp: Bitmap = bitmap.copy(bitmap.getConfig(), true)
-//                if (!test) {
-//                    test = true
-//                var fileName: String = getCurrentDateAndTime().plus(".png")
-//                saveBitmap(bmp,fileName)
-//                    sendNotifications(bmp)
-//                }
+                if (!test) {
+                    test = true
+                var fileName: String = getCurrentDateAndTime().plus(".png")
+                saveBitmap(bitmap,fileName)
+                    sendNotifications(bitmap)
+                }
 
                 // do something every 100 ms
                 //     doDetection(bitmap)
-                if (doDetection(bitmap)) {
-                    sendNotifications(bitmap)
-                }
+//                if (doDetection(bitmap)) {
+//                    sendNotifications(bitmap)
+//                }
 
 //                if(test==false){
 //                    test = true
@@ -94,6 +94,7 @@ class CameraFrontViewModel(
         if (bitmap == null) return false
         val startTime = SystemClock.elapsedRealtimeNanos()
         val kp = classifier.get_positions(bitmap)
+        if(kp==null) return false;
         val bodyPos = classifier.getBodyPartsPosition(bitmap, kp)
 //    classifier.drawPoints(bitmap,bodyPos);
         val endTime = SystemClock.elapsedRealtimeNanos() - startTime
