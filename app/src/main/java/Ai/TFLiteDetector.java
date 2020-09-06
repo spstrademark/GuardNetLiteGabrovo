@@ -342,6 +342,7 @@ public class TFLiteDetector implements Classifier {
                 if (keypoints.containsKey(sourceKeypointId) && !keypoints.containsKey(targetKeypointId)) {
                     keypoint = traverseToTargetKeypoint(edge, keypoints.get(sourceKeypointId),
                             targetKeypointId, scores, offsets, outputStride, displacementsBwd);
+                    if(keypoint==null) return null;
                     keypoints.put(targetKeypointId, keypoint);
                 }
             }
@@ -352,6 +353,7 @@ public class TFLiteDetector implements Classifier {
                 if (keypoints.containsKey(sourceKeypointId) && !keypoints.containsKey(targetKeypointId)) {
                     keypoint = traverseToTargetKeypoint(edge, keypoints.get(sourceKeypointId),
                             targetKeypointId, scores, offsets, outputStride, displacementsFwd);
+                    if(keypoint==null) return null;
                     keypoints.put(targetKeypointId, keypoint);
                 }
             }
@@ -481,6 +483,8 @@ public class TFLiteDetector implements Classifier {
 
         float[] displacement = getDisplacement(edgeId, sourceKeypointIndices, displacements);
 
+        if(displacement==null) return null;
+
         float[] displacedPoint = new float[]{
                 sourceKeypointY + displacement[0],
                 sourceKeypointX + displacement[1]
@@ -528,10 +532,17 @@ public class TFLiteDetector implements Classifier {
     }
 
     float[] getDisplacement(int edgeId, int[] keypoint, float[][][] displacements) {
-        int numEdges = displacements[0][0].length / 2;
-        int y = keypoint[0];
-        int x = keypoint[1];
-        return new float[]{displacements[y][x][edgeId], displacements[y][x][edgeId + numEdges]};
+
+        try{
+            int numEdges = displacements[0][0].length / 2;
+            int y = keypoint[0];
+            int x = keypoint[1];
+
+            return new float[]{displacements[y][x][edgeId], displacements[y][x][edgeId + numEdges]};
+        }catch(Exception e){
+            return null;
+        }
+
     }
 
     float getInstanceScore(Map<Integer, Map<String, Object>> keypoints, int numKeypoints) {

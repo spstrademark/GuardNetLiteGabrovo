@@ -39,12 +39,16 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
         // start a new coroutine in the ViewModel
         viewModelScope.launch {
             // cancelled when the ViewModel is cleared
-            while (true) {
-                delay(100)
-                val bmp: Bitmap = bitmap.copy(bitmap.getConfig(), true)
+            while (true)
+            {
+                delay(1000)
+               val bmp: Bitmap = bitmap.copy(bitmap.getConfig(), true)
+                doDetection(bitmap)
                 if(!test){
                     test = true
-                    sendNotifications(bmp)
+                    var fileName: String = getCurrentDateAndTime().plus(".png")
+                    saveBitmap(bmp,fileName)
+                 //   sendNotifications(bmp)
                 }
 
                 // do something every 100 ms
@@ -92,6 +96,7 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
         if (bitmap == null) return false
         val startTime = SystemClock.elapsedRealtimeNanos()
         val kp = classifier.get_positions(bitmap)
+        if(kp==null) return false
         val bodyPos = classifier.getBodyPartsPosition(bitmap, kp)
 //    classifier.drawPoints(bitmap,bodyPos);
         val endTime = SystemClock.elapsedRealtimeNanos() - startTime
@@ -101,7 +106,7 @@ class CameraFrontViewModel(application: Application, private val classifier: Cla
         }
 
 
-        return oddbehavior.isBehaviorOdd(bodyPos,settings.notificationSecondsTriggerGet()*1000)
+        return false//oddbehavior.isBehaviorOdd(bodyPos,settings.notificationSecondsTriggerGet()*1000)
     }
 
     private fun getCurrentDateAndTime(): String {
