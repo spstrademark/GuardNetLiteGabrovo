@@ -41,19 +41,24 @@ class CameraFrontViewModel(
             // cancelled when the ViewModel is cleared
             while (true) {
                 delay(100)
-//                val bmp: Bitmap = bitmap.copy(bitmap.getConfig(), true)
-                if (!test) {
-                    test = true
-                var fileName: String = getCurrentDateAndTime().plus(".png")
-                saveBitmap(bitmap,fileName)
-                    sendNotifications(bitmap)
+
+                val bmp: Bitmap = bitmap.copy(bitmap.getConfig(), true)
+                if(bmp!=null){
+                    doDetection(bitmap)
+
+                    if (!test) {
+                        test = true
+                        sendNotifications(bmp)
+                    }
                 }
+
+
 
                 // do something every 100 ms
                 //     doDetection(bitmap)
-//                if (doDetection(bitmap)) {
-//                    sendNotifications(bitmap)
-//                }
+////                if (doDetection(bitmap)) {
+////                    sendNotifications(bitmap)
+////                }
 
 //                if(test==false){
 //                    test = true
@@ -70,16 +75,19 @@ class CameraFrontViewModel(
     private fun sendNotifications(bitmap: Bitmap) {
         var fileName: String = getCurrentDateAndTime().plus(".png")
         saveBitmap(bitmap, fileName)
+        val Mails: String = settings.notificationsGetMails()
 
+        if(Mails!=null){
+            if (settings.notificationsSendGet()) {
+                Thread {
+                    // do the async Stuff
 
-        if (settings.notificationsSendGet()) {
-            Thread {
-                // do the async Stuff
-                var Mails: String = settings.notificationsGetMails()
-                sender.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), Mails, fileName);
-                // maybe do some more stuff
-            }.start()
+                    sender.sendMail(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), "spstrademark@outlook.com", fileName);
+                    // maybe do some more stuff
+                }.start()
+            }
         }
+
 
         if (settings.notificationsNotifyGet())
             notification.createNotification(context.resources.getString(R.string.Title), context.resources.getString(R.string.Body), context) // OK
