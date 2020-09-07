@@ -1,6 +1,5 @@
 package com.example.guardnet_lite_gabrovo
 
-import Ai.Classifier
 import Ai.TFLiteDetector
 import Common.SettingsUtils
 import Common.UserDevice
@@ -9,14 +8,13 @@ import Notifications.Notifications
 import OddBehavior.OddBehavior
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Notification
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -38,28 +36,24 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
-import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
-import com.google.android.exoplayer2.util.Util
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
-import java.text.DateFormat
-import java.text.SimpleDateFormat
+import java.lang.Runnable
 import java.util.*
 import kotlin.jvm.internal.Intrinsics
 import kotlin.math.abs
@@ -179,10 +173,19 @@ class CameraFrontLayerFragment : Fragment() {
         initCamerasURL()
         setupCameraSpinner()
 
-        playerStart(selected)
+     //   playerStart(selected)
+        viewerStart(selected)
+
+//        AsyncTask.execute(Runnable {
+//            val bmp = bitmap
+//            if(bmp!=null){
+//                doInfiniteTask(bmp)
+//            }
+//        })
 
         return view
     }
+
 
     private fun initVars(view: View) {
         settings = SettingsUtils.getInstance()
@@ -199,6 +202,7 @@ class CameraFrontLayerFragment : Fragment() {
         Log.d("CameraFrontLayer", "temp, userDevicesList: $userDevicesList")
         //  val test = settings.getCamera()
         selected = settings.getCamera()
+        initWebView()
     }
 
     override fun onDestroy() {
@@ -209,14 +213,14 @@ class CameraFrontLayerFragment : Fragment() {
 
     override fun onResume() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            playerStart(selected)
+     //       playerStart(selected)
         }
         super.onResume()
     }
 
     override fun onStart() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            playerStart(selected)
+        //    playerStart(selected)
         }
         super.onStart()
     }
@@ -273,7 +277,7 @@ class CameraFrontLayerFragment : Fragment() {
             val uri = Uri.parse(videoUrl)
             val mediaSource = buildHlsMediaSource(uri) ?: return
 //        val mediaSource = buildHttpMediaSource(uri) ?: return
-            //       val mediaSource = buildLocalMediaSource()
+ //           val mediaSource = buildLocalMediaSource()
             playerView.useController = false
 
             player = SimpleExoPlayer.Builder(requireContext()).build()
@@ -283,6 +287,7 @@ class CameraFrontLayerFragment : Fragment() {
             player.playWhenReady = playWhenReady
 
             player.seekTo(currentWindow, playbackPosition)
+
             player.prepare(mediaSource, false, false)
             player.addListener(eventListener)
             player.playWhenReady = true //run file/link when ready to play.
@@ -377,13 +382,13 @@ class CameraFrontLayerFragment : Fragment() {
         dropdown?.selectedIndex = selected
         dropdown?.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener { view: MaterialSpinner?, position: Int, id: Long, item: String? ->
             settings.saveSelectedCamera(position)
-
-            val playList: String? = getM3u8Playlist(getCameraURL(position))
-            val uri = Uri.parse(playList)
-            val mediaSource = buildHlsMediaSource(uri)
-            if (mediaSource != null) {
-                player.prepare(mediaSource, false, false)
-            }
+            viewerStart(position)
+//            val playList: String? = getM3u8Playlist(getCameraURL(position))
+//            val uri = Uri.parse(playList)
+//            val mediaSource = buildHlsMediaSource(uri)
+//            if (mediaSource != null) {
+//                player.prepare(mediaSource, false, false)
+//            }
 
         })
     }
@@ -420,8 +425,8 @@ class CameraFrontLayerFragment : Fragment() {
                 "<meta name=\\\"viewport\\\" content=\\\"width=device-width, initial-scale=1\\\"> <link rel=\\\"stylesheet\\\" " +
                 "media=\\\"screen and (-webkit-device-pixel-ratio:1.5)\\\" href=\\\"hdpi.css\\\" />" +
                 "</head> " +
-                "<body onload=\"ClickFrame()\" style=\"background:black;margin:0 0 0 0; padding:0 0 0 0;width:450px;height:254;\">" +
-                "<iframe id=\"view\" type=type=\"text/html\" width=\"450\" height=\"254\" src=\"%s\" ></iframe>" +
+                "<body onload=\"ClickFrame()\" style=\"background:black;margin:0 0 0 0; padding:0 0 0 0;width:508px;height:254;\">" +
+                "<iframe id=\"view\" type=type=\"text/html\" width=\"508\" height=\"254\" src=\"%s\" ></iframe>" +
                 "<script type=\"text/javascript\">" +
                 "function ClickFrame(){" +
                 "setTimeout(function(){ document.getElementById('view').click(); }, 3000);" +  //      "document.getElementById('view').click();" +
