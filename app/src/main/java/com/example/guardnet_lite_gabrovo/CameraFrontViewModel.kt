@@ -44,7 +44,9 @@ class CameraFrontViewModel(
 
                 val bmp: Bitmap = bitmap.copy(bitmap.getConfig(), true)
                 if(bmp!=null){
-                    doDetection(bitmap)
+                    if(doDetection(bitmap)){
+                        sendNotifications(bmp)
+                    }
 
                     if (!test) {
                         test = true

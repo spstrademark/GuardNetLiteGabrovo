@@ -1,4 +1,4 @@
-package Device;
+package Common;
 
 public enum DevicePushResultTypes {
     OK,

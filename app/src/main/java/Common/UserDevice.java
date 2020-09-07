@@ -1,4 +1,4 @@
-package Device;
+package Common;
 
 public class UserDevice {
     private int ID;

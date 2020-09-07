@@ -18,8 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import Common.SettingsUtils;
-import Device.DeviceHandler;
-import Device.DevicePushResultTypes;
+import Common.DevicePushResultTypes;
 
 public class AddFragment extends Fragment {
 
@@ -99,8 +98,7 @@ public class AddFragment extends Fragment {
         username = newUsername.getText().toString().trim();
         password = newPassword.getText().toString().trim();
 
-        DeviceHandler device = new DeviceHandler(settings);
-        DevicePushResultTypes result = device.Add(url, name, isAuthEnabled, username, password);
+        DevicePushResultTypes result = settings.Add(url, name, isAuthEnabled, username, password);
         printAddMessage(result);
         return result;
     }

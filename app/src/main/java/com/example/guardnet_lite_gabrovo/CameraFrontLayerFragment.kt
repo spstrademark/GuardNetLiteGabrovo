@@ -3,8 +3,7 @@ package com.example.guardnet_lite_gabrovo
 import Ai.Classifier
 import Ai.TFLiteDetector
 import Common.SettingsUtils
-import Device.DeviceHandler
-import Device.UserDevice
+import Common.UserDevice
 import Mail.GMailSender
 import Notifications.Notifications
 import OddBehavior.OddBehavior
@@ -196,7 +195,7 @@ class CameraFrontLayerFragment : Fragment() {
 
         settings.initAppFolder(resources.getString(R.string.app_name))
         settings.getLanguage()
-        userDevicesList = DeviceHandler(settings).allDevices//devhandler.allDevices
+        userDevicesList = settings.allDevices//devhandler.allDevices
         Log.d("CameraFrontLayer", "temp, userDevicesList: $userDevicesList")
         //  val test = settings.getCamera()
         selected = settings.getCamera()

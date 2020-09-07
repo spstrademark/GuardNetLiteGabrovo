@@ -18,10 +18,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.guardnet_lite_gabrovo.HomeActivity;
 import com.example.guardnet_lite_gabrovo.MainActivity;
 import com.example.guardnet_lite_gabrovo.R;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import Common.SettingsUtils;
-import Device.DevicePushResultTypes;
 
 
 public class NotificationFragment extends Fragment {
