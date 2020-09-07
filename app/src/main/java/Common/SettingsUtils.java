@@ -179,7 +179,7 @@ public class SettingsUtils {
     }
 
     public String notificationsGetMails() {
-        String val =  sharedPreferences.getString(GetNotificationEmailsKey(),"spstrademark@outlook.com");
+        String val =  sharedPreferences.getString(GetNotificationEmailsKey(),context.getResources().getString(R.string.default_notification_email));
         return val;
     }
 
