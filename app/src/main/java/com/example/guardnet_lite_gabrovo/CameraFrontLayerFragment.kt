@@ -176,6 +176,7 @@ class CameraFrontLayerFragment : Fragment() {
      //   playerStart(selected)
         viewerStart(selected)
 
+
 //        AsyncTask.execute(Runnable {
 //            val bmp = bitmap
 //            if(bmp!=null){
@@ -421,17 +422,12 @@ class CameraFrontLayerFragment : Fragment() {
         val webContent = "<!DOCTYPE html>" +
                 "<html> " +
                 "<head> " +
-                "<meta charset=\\\"UTF-8\\\"><meta name=\\\"viewport\\\" content=\\\"target-densitydpi=high-dpi\\\" /> " +
-                "<meta name=\\\"viewport\\\" content=\\\"width=device-width, initial-scale=1\\\"> <link rel=\\\"stylesheet\\\" " +
-                "media=\\\"screen and (-webkit-device-pixel-ratio:1.5)\\\" href=\\\"hdpi.css\\\" />" +
+//                "<meta charset=\\\"UTF-8\\\"><meta name=\\\"viewport\\\" content=\\\"target-densitydpi=high-dpi\\\" /> " +
+//                "<meta name=\\\"viewport\\\" content=\\\"width=device-width, initial-scale=1\\\"> <link rel=\\\"stylesheet\\\" " +
+//                "media=\\\"screen and (-webkit-device-pixel-ratio:1.5)\\\" href=\\\"hdpi.css\\\" />" +
                 "</head> " +
-                "<body onload=\"ClickFrame()\" style=\"background:black;margin:0 0 0 0; padding:0 0 0 0;width:508px;height:254;\">" +
+                "<body  style=\"background:black;margin:0 0 0 0; padding:0 0 0 0;width:508px;height:254;\">" +
                 "<iframe id=\"view\" type=type=\"text/html\" width=\"508\" height=\"254\" src=\"%s\" ></iframe>" +
-                "<script type=\"text/javascript\">" +
-                "function ClickFrame(){" +
-                "setTimeout(function(){ document.getElementById('view').click(); }, 3000);" +  //      "document.getElementById('view').click();" +
-                "}" +
-                "</script>" +
                 "</body" +
                 "></html>"
         val playVideo = String.format(webContent, getCameraURL(position))
