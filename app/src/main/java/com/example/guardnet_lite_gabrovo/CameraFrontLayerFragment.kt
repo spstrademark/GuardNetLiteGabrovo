@@ -105,23 +105,6 @@ class CameraFrontLayerFragment : Fragment() {
         }
     }
 
-//    private val mMuestraMensaje = Runnable {
-//        try {
-//            val inferenceStartTimeNanos = SystemClock.elapsedRealtimeNanos()
-//            val bmp : Bitmap? = bitmap
-//            if(bmp!=null){
-//                cameraFrontViewModel.runForever(bmp)
-//            }
-//
-//            // DO SHIT HERE
-//            val lastInferenceTimeNanos = SystemClock.elapsedRealtimeNanos() - inferenceStartTimeNanos
-//            Log.e("Runnable:", "Runnable:" + 1.0f * lastInferenceTimeNanos / 1000000 + " ms")
-//        } catch (e: java.lang.Exception) {
-//            e.printStackTrace()
-//        }
-//    }
-
-    var executor = Executors.newScheduledThreadPool(1)
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -160,7 +143,7 @@ class CameraFrontLayerFragment : Fragment() {
         val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
         TabLayoutMediator(tabLayout, viewPager) { tab: TabLayout.Tab, position: Int ->
             when (position) {
-                0 -> tab.setIcon(R.drawable.ic_bo_alarm_24px)
+                0 -> tab.setIcon(R.drawable.ic_bo_final_query_builder_24px)
                 1 -> tab.setIcon(R.drawable.ic_bo_event_24px)
                 2 -> tab.setIcon(R.drawable.ic_bo_gallery_24px)
             }

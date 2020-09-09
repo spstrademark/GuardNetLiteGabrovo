@@ -16,11 +16,10 @@
         <item>https://rtsp.me/embed/BZsffinY/</item>
         <item>https://rtsp.me/embed/iheyDBzQ/</item>
         <item>https://rtsp.me/embed/ABiQSGrk/</item>
-<!--        <item>https://rtsp.me/embed/2bahRDFG/</item>-->
-<!--        <item>https://rtsp.me/embed/2bahRDFG/</item>-->
-<!--        <item>https://rtsp.me/embed/n2t6hQdd/</item>-->
-<!--        <item>https://rtsp.me/embed/EbraNShY/</item>-->
-<!--        <item>https://rtsp.me/embed/85S8e2ht/</item>-->
+        <item>https://rtsp.me/embed/2bahRDFG/</item>
+        <item>https://rtsp.me/embed/n2t6hQdd/</item>
+        <item>https://rtsp.me/embed/EbraNShY/</item>
+        <item>https://rtsp.me/embed/85S8e2ht/</item>
     </string-array>
     <!-- ^^^ SYSTEM ^^^ -->
 
@@ -34,11 +33,10 @@
         <item>Balkan</item>
         <item>DHS</item>
         <item>The wheel</item>
-<!--        <item>St.Karadja</item>-->
-<!--        <item>Bryanska</item>-->
-<!--        <item>LIDL</item>-->
-<!--        <item>Shavara</item>-->
-<!--        <item>Center</item>-->
+        <item>St.Karadja</item>
+        <item>LIDL</item>
+        <item>Shavara</item>
+        <item>Center</item>
     </string-array>
 
 

@@ -24,7 +24,7 @@ public class OddBehavior {
     private static List<List<Coords>> positioning;
     private long startTime = 0;
 
-    private double THRESHOLD = 25.0; // 20 percent
+    private double THRESHOLD = 50.0; // 20 percent
     private long oddBehaviorInFrame = 0;
     private static final Object LOCK = new Object();
 
