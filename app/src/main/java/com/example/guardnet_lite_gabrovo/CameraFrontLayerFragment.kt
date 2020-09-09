@@ -10,16 +10,15 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.PorterDuff
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
@@ -32,29 +31,26 @@ import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
-import java.lang.Runnable
+import org.tensorflow.lite.examples.posenet.lib.Device
+import org.tensorflow.lite.examples.posenet.lib.Posenet
 import java.util.*
+import java.util.concurrent.Executors
 import kotlin.jvm.internal.Intrinsics
 import kotlin.math.abs
 
@@ -83,7 +79,8 @@ class CameraFrontLayerFragment : Fragment() {
     private var selected = 0
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
-    private val TF_LITE_SIZE = 337
+  //  private val TF_LITE_SIZE = 337
+    private val TF_LITE_SIZE = 257
     private val eventListener = object : Player.EventListener {
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
             if (playWhenReady && playbackState == Player.STATE_READY) { // media playing
@@ -108,6 +105,24 @@ class CameraFrontLayerFragment : Fragment() {
         }
     }
 
+//    private val mMuestraMensaje = Runnable {
+//        try {
+//            val inferenceStartTimeNanos = SystemClock.elapsedRealtimeNanos()
+//            val bmp : Bitmap? = bitmap
+//            if(bmp!=null){
+//                cameraFrontViewModel.runForever(bmp)
+//            }
+//
+//            // DO SHIT HERE
+//            val lastInferenceTimeNanos = SystemClock.elapsedRealtimeNanos() - inferenceStartTimeNanos
+//            Log.e("Runnable:", "Runnable:" + 1.0f * lastInferenceTimeNanos / 1000000 + " ms")
+//        } catch (e: java.lang.Exception) {
+//            e.printStackTrace()
+//        }
+//    }
+
+    var executor = Executors.newScheduledThreadPool(1)
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -126,16 +141,20 @@ class CameraFrontLayerFragment : Fragment() {
                 requireActivity().application,
                 TFLiteDetector.create(requireContext(),
                         null,
-                        R.raw.posenet_trademark_v1,
+                        R.raw.posenet_model,
                         TF_LITE_SIZE,
                         TF_LITE_SIZE),
                 OddBehavior.getInstance(),
                 notification,
-                sender
+                sender,
+                 Posenet(requireContext(),
+                        "posenet_model.tflite",
+                        Device.CPU),
+                ::getBitmap
         )
 
         cameraFrontViewModel = ViewModelProvider(viewModelStore, viewModelFactory).get(CameraFrontViewModel::class.java)
-
+        cameraFrontViewModel.runForever(null)
         val viewPagerAdapter = ViewPagerAdapter(this)
         viewPager.adapter = viewPagerAdapter
         val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
@@ -204,6 +223,19 @@ class CameraFrontLayerFragment : Fragment() {
         //  val test = settings.getCamera()
         selected = settings.getCamera()
         initWebView()
+
+
+////        val uiHandler = Handler(Looper.getMainLooper())
+////
+////        val runnable = Runnable() {
+////                   cameraFrontViewModel.runForever(bitmap)
+////            }
+////        uiHandler.post(runnable);
+//
+//        Handler(Looper.getMainLooper()).post(Runnable {
+//            val bmp = bitmap
+//            // things to do on the main thread
+//        })
     }
 
     override fun onDestroy() {
@@ -466,29 +498,76 @@ class CameraFrontLayerFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private val bitmap: Bitmap?
-        get() {
-            val bm = arrayOf<Bitmap?>(null)
-            webView?.webViewClient = object : WebViewClient() {
-                override fun onPageFinished(view: WebView, url: String) {
-                    webView?.measure(View.MeasureSpec.makeMeasureSpec(
-                            View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
-                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
-                    val measuredWidth = webView?.measuredWidth ?: 0
-                    val measuredHeight = webView?.measuredHeight ?: 0
-                    if (measuredWidth > 0 && measuredHeight > 0) {
-                        return
-                    }
-                    webView?.layout(0, 0, measuredWidth,
-                            measuredHeight)
-                    webView?.isDrawingCacheEnabled = true
-                    webView?.buildDrawingCache()
-                    bm[0] = Bitmap.createBitmap(measuredWidth,
-                            measuredHeight, Bitmap.Config.ARGB_8888)
-                }
-            }
-            return bm[0]
-        }
+     //   private val bitmap: Bitmap?
+     public fun getBitmap() : Bitmap? {
+         run {
+
+
+             try {
+                 val bitmap = Bitmap.createBitmap(webView!!.width, webView!!.measuredHeight,
+                         Bitmap.Config.ARGB_8888)
+                 val canvas = Canvas(bitmap)
+                 canvas.drawColor(-0x1)
+                 webView?.draw(canvas)
+                 val resizedBitmap = Bitmap.createScaledBitmap(bitmap, TF_LITE_SIZE, TF_LITE_SIZE, true)
+                 return resizedBitmap
+             } catch (e: Exception) {
+                 e.printStackTrace()
+             }
+             return null
+
+         }
+     }
+//        public fun getBitmap() : Bitmap?{
+//
+//            val bm = arrayOf<Bitmap?>(null)
+//            webView?.webViewClient = object : WebViewClient() {
+//                override fun onPageFinished(view: WebView, url: String) {
+//                    webView?.measure(View.MeasureSpec.makeMeasureSpec(
+//                            View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+//                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+//                    val measuredWidth = webView?.measuredWidth ?: 0
+//                    val measuredHeight = webView?.measuredHeight ?: 0
+//                    if (measuredWidth > 0 && measuredHeight > 0) {
+//                        return
+//                    }
+//                    webView?.layout(0, 0, measuredWidth,
+//                            measuredHeight)
+//                    webView?.isDrawingCacheEnabled = true
+//                    webView?.buildDrawingCache()
+//                    bm[0] = Bitmap.createBitmap(measuredWidth,
+//                            measuredHeight, Bitmap.Config.ARGB_8888)
+//                }
+//            }
+//            return bm[0]
+//
+//        }
+
+//    private val bitmap: Bitmap?
+//        get() {
+//
+//            val bm = arrayOf<Bitmap?>(null)
+//            webView?.webViewClient = object : WebViewClient() {
+//                override fun onPageFinished(view: WebView, url: String) {
+//                    webView?.measure(View.MeasureSpec.makeMeasureSpec(
+//                            View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+//                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+//                    val measuredWidth = webView?.measuredWidth ?: 0
+//                    val measuredHeight = webView?.measuredHeight ?: 0
+//                    if (measuredWidth > 0 && measuredHeight > 0) {
+//                        return
+//                    }
+//                    webView?.layout(0, 0, measuredWidth,
+//                            measuredHeight)
+//                    webView?.isDrawingCacheEnabled = true
+//                    webView?.buildDrawingCache()
+//                    bm[0] = Bitmap.createBitmap(measuredWidth,
+//                            measuredHeight, Bitmap.Config.ARGB_8888)
+//                }
+//            }
+//            return bm[0]
+//
+//        }
 
     private fun doInfiniteTask(bitmap: Bitmap) {
         cameraFrontViewModel.runForever(bitmap)
