@@ -37,8 +37,8 @@ public class ClockFragment extends Fragment {
 
         TextView start = (TextView)view.findViewById(R.id.clockStart);
         start.setText(time_now);
-        TextView end = (TextView)view.findViewById(R.id.clockEnd);
-        end.setText(time_now);
+//        TextView end = (TextView)view.findViewById(R.id.clockEnd);
+        //end.setText(time_now);
     }
 
     public static Fragment getInstance() {

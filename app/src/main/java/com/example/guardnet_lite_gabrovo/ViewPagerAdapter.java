@@ -21,7 +21,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 1:
-                return NotificationFragment.getInstance();
+                return CalendarFragment.getInstance();//NotificationFragment.getInstance();
             case 2:
                 return GalleryFragment.getInstance();
             case 0:

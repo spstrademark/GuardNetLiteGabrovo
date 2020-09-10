@@ -8,7 +8,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.example.guardnet_lite_gabrovo"
+        applicationId "test.guardnet_lite_gabrovo"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
