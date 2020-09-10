@@ -33,7 +33,7 @@ public class CalendarFragment extends Fragment {
         settings = SettingsUtils.getInstance();
         FragmentInit();
 
-        CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendarView);
+//        CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendarView);
 
 //
 //
@@ -48,16 +48,16 @@ public class CalendarFragment extends Fragment {
 //
 //        Log.d("marked dates:-",""+calendarView.getMarkedDates());//get all marked dates.
 
-        calendarView.setMinDate(System.currentTimeMillis() - 1000); // disable past dates
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month,
-                                            int dayOfMonth) {
-                NavHostFragment.findNavController(CalendarFragment.this)
-                        .navigate(R.id.action_CalendarFragment_to_ClockFragment);
-            }
-        });
+//        calendarView.setMinDate(System.currentTimeMillis() - 1000); // disable past dates
+//        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+//
+//            @Override
+//            public void onSelectedDayChange(CalendarView view, int year, int month,
+//                                            int dayOfMonth) {
+//                NavHostFragment.findNavController(CalendarFragment.this)
+//                        .navigate(R.id.action_CalendarFragment_to_ClockFragment);
+//            }
+//        });
 
 //        view.findViewById(R.id.language).setOnClickListener(new View.OnClickListener() {
 //            @Override
